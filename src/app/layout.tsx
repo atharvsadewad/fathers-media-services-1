@@ -1,78 +1,26 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fathersmedia.example.com"),
-  title: {
-    default: "Father’s Media – Building Brands Online",
-    template: "%s | Father’s Media",
-  },
-  description:
-    "Father’s Media is a modern social media and marketing agency helping brands grow through strategy, content, paid ads, and influencers.",
-  keywords: [
-    "Social Media Agency",
-    "Marketing Agency",
-    "Branding",
-    "Influencer Marketing",
-    "Paid Ads",
-    "Content Creation",
-    "Father’s Media",
-  ],
+  title: "Father’s Media | Digital Growth Partner",
+  description: "We help businesses grow online with social media management, branding, and digital marketing solutions.",
   openGraph: {
-    title: "Father’s Media – Building Brands Online",
-    description:
-      "Father’s Media helps businesses grow with social media management, branding, content, paid ads, and influencer marketing.",
-    url: "/",
+    title: "Father’s Media | Digital Growth Partner",
+    description: "Boost your brand presence with social media, marketing, and content strategies.",
+    url: "https://fathers-media-services-1.vercel.app",
     siteName: "Father’s Media",
     images: [
-      { url: "/vercel.svg", width: 1200, height: 630, alt: "Father’s Media" },
+      {
+        url: "/og.jpg", // put your og.jpg inside /public
+        width: 1200,
+        height: 630,
+        alt: "Father’s Media",
+      },
     ],
     locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Father’s Media – Building Brands Online",
-    description:
-      "Modern social media and marketing agency for ambitious brands.",
-    images: ["/vercel.svg"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "/",
+    title: "Father’s Media | Digital Growth Partner",
+    description: "Social media & marketing agency helping brands grow online.",
+    images: ["/og.jpg"],
   },
 };
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className="min-h-screen flex flex-col">
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
-      </body>
-    </html>
-  );
-}
