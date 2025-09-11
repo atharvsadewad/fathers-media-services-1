@@ -38,10 +38,10 @@ export default function Footer() {
         <div>
           <h5 className="font-semibold">Connect</h5>
           <ul className="mt-2 space-y-2 text-sm">
-            <li><a href="https://instagram.com/fathersmedia" target="_blank" rel="noreferrer">Instagram</a></li>
-            <li><a href="https://facebook.com/fathersmedia" target="_blank" rel="noreferrer">Facebook</a></li>
-            <li><a href="https://linkedin.com/company/fathersmedia" target="_blank" rel="noreferrer">LinkedIn</a></li>
-            <li><a href="https://x.com/fathersmedia" target="_blank" rel="noreferrer">X</a></li>
+            <li><a href="https://instagram.com/fathers_media" target="_blank" rel="noreferrer">Instagram</a></li>
+            <li><a href="https://facebook.com/fathers_media" target="_blank" rel="noreferrer">Facebook</a></li>
+            <li><a href="https://linkedin.com/company/fathers_media" target="_blank" rel="noreferrer">LinkedIn</a></li>
+            <li><a href="https://x.com/fathers_media" target="_blank" rel="noreferrer">X</a></li>
           </ul>
         </div>
 
@@ -49,8 +49,8 @@ export default function Footer() {
         <div>
           <h5 className="font-semibold">Contact</h5>
           <ul className="mt-2 space-y-2 text-sm">
-            <li><a href="mailto:hello@fathersmedia.com">hello@fathersmedia.com</a></li>
-            <li><a href="https://wa.me/1234567890" target="_blank" rel="noreferrer">WhatsApp</a></li>
+            <li><a href="mailto:contact@fathersmedia.com">contact@fathersmedia.com</a></li>
+            <li><a href="https://wa.me/9112059735" target="_blank" rel="noreferrer">WhatsApp</a></li>
           </ul>
         </div>
       </div>
@@ -59,10 +59,10 @@ export default function Footer() {
       <div className="border-t border-gray-200">
         <div className="container-responsive py-4 text-xs text-gray-600 flex items-center justify-between">
           <span>© 2025 Father’s Media. All rights reserved.</span>
-          <span>Built with Next.js</span>
         </div>
       </div>
     </footer>
   );
 }
+
 
