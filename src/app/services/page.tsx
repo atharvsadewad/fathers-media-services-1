@@ -1,7 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-
 export default function ServicesPage() {
   return (
     <main className="container-responsive section-padding">
@@ -33,17 +29,14 @@ export default function ServicesPage() {
             desc: "Creator partnerships that drive reach and credibility.",
           },
         ].map((s) => (
-          <motion.div
+          <div
             key={s.title}
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 cursor-pointer"
+            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                       transition-transform transform hover:scale-105"
           >
-            <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-              {s.title}
-            </h3>
+            <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{s.title}</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">{s.desc}</p>
-          </motion.div>
+          </div>
         ))}
       </div>
 
@@ -84,27 +77,23 @@ export default function ServicesPage() {
             ],
           },
         ].map((plan) => (
-          <motion.div
+          <div
             key={plan.name}
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 cursor-pointer"
+            className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                       transition-transform transform hover:scale-105"
           >
             <h3 className="font-semibold text-lg mb-4 text-gray-900 dark:text-white">
               {plan.name}
             </h3>
             <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
               {plan.features.map((f) => (
-                <li key={f} className="flex items-start gap-2">
-                  <span className="text-green-600 dark:text-green-400">✔</span>
-                  {f}
-                </li>
+                <li key={f}>✔ {f}</li>
               ))}
             </ul>
             <a href="/contact" className="btn-primary mt-6 text-center">
               Enquire Now
             </a>
-          </motion.div>
+          </div>
         ))}
       </div>
     </main>
