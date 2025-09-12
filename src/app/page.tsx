@@ -70,7 +70,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15 }}
-                className="card overflow-hidden hover:shadow-lg transition bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                className="card overflow-hidden hover:shadow-lg transition"
               >
                 <Image
                   src={s.img}
@@ -115,7 +115,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 10 }} 
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
-                className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                className="card p-6 flex flex-col"
               >
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
@@ -146,7 +146,7 @@ export default function Home() {
             initial={{ opacity: 0, x: 30 }} 
             whileInView={{ opacity: 1, x: 0 }} 
             viewport={{ once: true }} 
-            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
+            className="card p-6 shadow-lg"
           >
             <blockquote className="text-lg text-gray-700 dark:text-gray-200 italic">
               “Father’s Media helped us 2x our online leads within 90 days.”
