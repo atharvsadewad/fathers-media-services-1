@@ -65,44 +65,46 @@ export default function Home() {
 
           <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
-<motion.article
-  key={s.title}
-  initial={{ opacity: 0, y: 20 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true }}
-  transition={{ delay: i * 0.15 }}
-  className="card overflow-hidden hover:shadow-lg transition bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
->
-  <Image
-    src={s.img}
-    alt={s.title}
-    width={800}
-    height={500}
-    className="h-44 w-full object-cover"
-  />
-  <div className="p-6">
-    <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
-      {s.title}
-    </h3>
-    <p className="text-gray-600 dark:text-gray-300 mt-2">
-      {s.desc}
-    </p>
+          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+  {services.map((s, i) => (
+    <motion.article
+      key={s.title}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: i * 0.15 }}
+      className="card overflow-hidden hover:shadow-lg transition bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+    >
+      <Image
+        src={s.img}
+        alt={s.title}
+        width={800}
+        height={500}
+        className="h-44 w-full object-cover"
+      />
+      <div className="p-6">
+        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+          {s.title}
+        </h3>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          {s.desc}
+        </p>
+      </div>
+    </motion.article>   {/* ✅ now closed properly */}
+  ))}
+
+  {/* CTA button to Plans */}
+  <div className="text-center mt-12 sm:col-span-2 lg:col-span-3">
+    <a href="#plans" className="btn-primary">View Plans & Pricing</a>
   </div>
-</motion.article>
+</div>
 
-
-          {/* CTA button to Plans */}
-          <div className="text-center mt-12">
-            <a href="#plans" className="btn-primary">View Plans & Pricing</a>
-          </div>
-        </div>
-      </section>
-
+         
       {/* PLANS */}
       <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-950 transition-colors">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
-          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">No prices shown — enquire to get a custom quote.</p>
+          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300"> Enquire to get a custom quote.</p>
 
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
