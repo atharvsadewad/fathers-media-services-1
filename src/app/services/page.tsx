@@ -5,7 +5,7 @@ export default function ServicesPage() {
         Our Services
       </h1>
 
-      {/* Existing services grid */}
+      {/* Services Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
         {[
           {
@@ -34,13 +34,17 @@ export default function ServicesPage() {
             className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
                        transition-transform transform hover:scale-105"
           >
-            <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">{s.title}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-300">{s.desc}</p>
+            <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
+              {s.title}
+            </h3>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+              {s.desc}
+            </p>
           </div>
         ))}
       </div>
 
-      {/* Plans section */}
+      {/* Plans Section */}
       <h2 className="section-title text-center mb-12 text-gray-900 dark:text-white">
         Plans
       </h2>
@@ -85,7 +89,7 @@ export default function ServicesPage() {
             <h3 className="font-semibold text-lg mb-4 text-gray-900 dark:text-white">
               {plan.name}
             </h3>
-            <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
+            <ul className="text-sm text-gray-700 dark:text-gray-300 flex-1 space-y-2">
               {plan.features.map((f) => (
                 <li key={f}>✔ {f}</li>
               ))}
