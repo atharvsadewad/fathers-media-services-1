@@ -1,93 +1,111 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function ServicesPage() {
   return (
     <main className="container-responsive section-padding">
-      <h1 className="section-title text-center mb-12">Our Services</h1>
+      <h1 className="section-title text-center mb-12 text-gray-900 dark:text-white">
+        Our Services
+      </h1>
 
       {/* Existing services grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
-        <div className="card p-6">
-          <h3 className="font-semibold mb-2">Social Media Management</h3>
-          <p className="text-sm text-gray-600">
-            Strategy, content calendars, community management, and analytics.
-          </p>
-        </div>
-        <div className="card p-6">
-          <h3 className="font-semibold mb-2">Branding & Strategy</h3>
-          <p className="text-sm text-gray-600">
-            Positioning, brand voice, and cohesive visual identity.
-          </p>
-        </div>
-        <div className="card p-6">
-          <h3 className="font-semibold mb-2">Paid Ads & Promotions</h3>
-          <p className="text-sm text-gray-600">
-            ROI-focused campaigns across Meta, Google, and more.
-          </p>
-        </div>
-        <div className="card p-6">
-          <h3 className="font-semibold mb-2">Content Creation</h3>
-          <p className="text-sm text-gray-600">
-            Reels, shoots, and campaigns that convert attention into action.
-          </p>
-        </div>
-        <div className="card p-6">
-          <h3 className="font-semibold mb-2">Influencer Marketing</h3>
-          <p className="text-sm text-gray-600">
-            Creator partnerships that drive reach and credibility.
-          </p>
-        </div>
+        {[
+          {
+            title: "Social Media Management",
+            desc: "Strategy, content calendars, community management, and analytics.",
+          },
+          {
+            title: "Branding & Strategy",
+            desc: "Positioning, brand voice, and cohesive visual identity.",
+          },
+          {
+            title: "Paid Ads & Promotions",
+            desc: "ROI-focused campaigns across Meta, Google, and more.",
+          },
+          {
+            title: "Content Creation",
+            desc: "Reels, shoots, and campaigns that convert attention into action.",
+          },
+          {
+            title: "Influencer Marketing",
+            desc: "Creator partnerships that drive reach and credibility.",
+          },
+        ].map((s) => (
+          <motion.div
+            key={s.title}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 cursor-pointer"
+          >
+            <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
+              {s.title}
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300">{s.desc}</p>
+          </motion.div>
+        ))}
       </div>
 
       {/* Plans section */}
-      <h2 className="section-title text-center mb-12">Plans</h2>
+      <h2 className="section-title text-center mb-12 text-gray-900 dark:text-white">
+        Plans
+      </h2>
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="card p-6 flex flex-col">
-          <h3 className="font-semibold text-lg mb-4">Basic</h3>
-          <ul className="text-sm text-gray-600 flex-1 space-y-2">
-            <li>✔ Brand Building</li>
-            <li>✔ Website</li>
-            <li>✔ Google Business Listing</li>
-            <li>✔ SEO Optimization</li>
-          </ul>
-          <a
-            href="/contact"
-            className="btn-primary mt-6 text-center"
+        {[
+          {
+            name: "Basic",
+            features: [
+              "Brand Building",
+              "Website",
+              "Google Business Listing",
+              "SEO Optimization",
+            ],
+          },
+          {
+            name: "Standard",
+            features: [
+              "Includes Basic Plan",
+              "Graphic Posts",
+              "Editing",
+              "Photoshoot & Video Shoot",
+              "Posting Calendar",
+              "Content Creation & Writing",
+            ],
+          },
+          {
+            name: "Premium",
+            features: [
+              "Includes Standard Plan",
+              "Multi-Platform Media Handling",
+              "Paid Promotions",
+              "Data Analysis & Monthly Reports",
+              "Campaign Strategy Optimization",
+            ],
+          },
+        ].map((plan) => (
+          <motion.div
+            key={plan.name}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 cursor-pointer"
           >
-            Enquire Now
-          </a>
-        </div>
-        <div className="card p-6 flex flex-col">
-          <h3 className="font-semibold text-lg mb-4">Standard</h3>
-          <ul className="text-sm text-gray-600 flex-1 space-y-2">
-            <li>✔ Includes Basic Plan</li>
-            <li>✔ Graphic Posts</li>
-            <li>✔ Editing</li>
-            <li>✔ Photoshoot & Video Shoot</li>
-            <li>✔ Posting Calendar</li>
-            <li>✔ Content Creation & Writing</li>
-          </ul>
-          <a
-            href="/contact"
-            className="btn-primary mt-6 text-center"
-          >
-            Enquire Now
-          </a>
-        </div>
-        <div className="card p-6 flex flex-col">
-          <h3 className="font-semibold text-lg mb-4">Premium</h3>
-          <ul className="text-sm text-gray-600 flex-1 space-y-2">
-            <li>✔ Includes Standard Plan</li>
-            <li>✔ Multi-Platform Media Handling</li>
-            <li>✔ Paid Promotions</li>
-            <li>✔ Data Analysis & Monthly Reports</li>
-            <li>✔ Campaign Strategy Optimization</li>
-          </ul>
-          <a
-            href="/contact"
-            className="btn-primary mt-6 text-center"
-          >
-            Enquire Now
-          </a>
-        </div>
+            <h3 className="font-semibold text-lg mb-4 text-gray-900 dark:text-white">
+              {plan.name}
+            </h3>
+            <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
+              {plan.features.map((f) => (
+                <li key={f} className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400">✔</span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+            <a href="/contact" className="btn-primary mt-6 text-center">
+              Enquire Now
+            </a>
+          </motion.div>
+        ))}
       </div>
     </main>
   );
