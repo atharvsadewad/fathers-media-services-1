@@ -65,22 +65,31 @@ export default function Home() {
 
           <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
-              <motion.article
-                key={s.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="card overflow-hidden hover:shadow-lg transition bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-              >
-                <Image src={s.img} alt={s.title} width={800} height={500} className="h-44 w-full object-cover" />
-                <div className="p-6">
-                  <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{s.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mt-2">{s.desc}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
+<motion.article
+  key={s.title}
+  initial={{ opacity: 0, y: 20 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ delay: i * 0.15 }}
+  className="card overflow-hidden hover:shadow-lg transition bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+>
+  <Image
+    src={s.img}
+    alt={s.title}
+    width={800}
+    height={500}
+    className="h-44 w-full object-cover"
+  />
+  <div className="p-6">
+    <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+      {s.title}
+    </h3>
+    <p className="text-gray-600 dark:text-gray-300 mt-2">
+      {s.desc}
+    </p>
+  </div>
+</motion.article>
+
 
           {/* CTA button to Plans */}
           <div className="text-center mt-12">
