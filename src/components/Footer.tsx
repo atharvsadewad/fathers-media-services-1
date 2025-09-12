@@ -43,7 +43,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://facebook.com/fathers_media" target="_blank" rel="noreferrer"
+              <a href="https://facebook.com/fathersmedia" target="_blank" rel="noreferrer"
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-blue-600">
                 <Facebook size={16} /> Facebook
               </a>
@@ -90,3 +90,4 @@ export default function Footer() {
     </footer>
   );
 }
+
