@@ -15,47 +15,46 @@ export default function Home() {
 
   return (
     <div>
-     {/* HERO */}
-<section className="relative h-[85vh] flex items-center overflow-hidden">
-  <Image 
-    src="/hero.jpg" 
-    alt="Hero" 
-    fill 
-    className="object-cover -z-10 brightness-75" 
-  />
+      {/* HERO */}
+      <section className="relative h-[85vh] flex items-center overflow-hidden">
+        <Image 
+          src="/hero.jpg" 
+          alt="Hero" 
+          fill 
+          className="object-cover -z-10 brightness-75" 
+        />
 
-  {/* SVG moustache cut divider */}
-  <svg 
-    className="absolute bottom-0 left-0 w-full h-24 text-white" 
-    viewBox="0 0 1440 320" 
-    preserveAspectRatio="none"
-  >
-    <path 
-      fill="currentColor" 
-      d="M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z" 
-    />
-  </svg>
+        {/* SVG moustache cut divider */}
+        <svg 
+          className="absolute bottom-0 left-0 w-full h-24 text-white" 
+          viewBox="0 0 1440 320" 
+          preserveAspectRatio="none"
+        >
+          <path 
+            fill="currentColor" 
+            d="M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z" 
+          />
+        </svg>
 
-  {/* Text + CTA */}
-  <motion.div 
-    initial={{ opacity: 0, y: 20 }} 
-    animate={{ opacity: 1, y: 0 }} 
-    transition={{ duration: 0.8 }} 
-    className="container-responsive text-center text-white"
-  >
-    <h1 className="text-4xl sm:text-5xl font-bold">
-      Father’s Media — Building Brands Online
-    </h1>
-    <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200">
-      We help businesses stand out with strategy, creative and paid growth.
-    </p>
-    <div className="mt-6 flex gap-4 justify-center">
-      <Link href="/contact" className="btn-primary">Let’s Work Together</Link>
-      <Link href="/services" className="btn-outline">Our Services</Link>
-    </div>
-  </motion.div>
-</section>
-
+        {/* Text + CTA */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ duration: 0.8 }} 
+          className="container-responsive text-center text-white"
+        >
+          <h1 className="text-4xl sm:text-5xl font-bold">
+            Father’s Media — Building Brands Online
+          </h1>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200">
+            We help businesses stand out with strategy, creative and paid growth.
+          </p>
+          <div className="mt-6 flex gap-4 justify-center">
+            <Link href="/contact" className="btn-primary">Let’s Work Together</Link>
+            <Link href="/services" className="btn-outline">Our Services</Link>
+          </div>
+        </motion.div>
+      </section>
 
       {/* SERVICES */}
       <section className="section-padding bg-white dark:bg-gray-900 transition-colors">
@@ -65,46 +64,45 @@ export default function Home() {
 
           <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
-          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-  {services.map((s, i) => (
-    <motion.article
-      key={s.title}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: i * 0.15 }}
-      className="card overflow-hidden hover:shadow-lg transition bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-    >
-      <Image
-        src={s.img}
-        alt={s.title}
-        width={800}
-        height={500}
-        className="h-44 w-full object-cover"
-      />
-      <div className="p-6">
-        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
-          {s.title}
-        </h3>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">
-          {s.desc}
-        </p>
-      </div>
-    </motion.article>   {/* ✅ now closed properly */}
-  ))}
+              <motion.article
+                key={s.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.15 }}
+                className="card overflow-hidden hover:shadow-lg transition bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+              >
+                <Image
+                  src={s.img}
+                  alt={s.title}
+                  width={800}
+                  height={500}
+                  className="h-44 w-full object-cover"
+                />
+                <div className="p-6">
+                  <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
+                    {s.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 mt-2">
+                    {s.desc}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
 
-  {/* CTA button to Plans */}
-  <div className="text-center mt-12 sm:col-span-2 lg:col-span-3">
-    <a href="#plans" className="btn-primary">View Plans & Pricing</a>
-  </div>
-</div>
+          {/* CTA button to Plans */}
+          <div className="text-center mt-12">
+            <a href="#plans" className="btn-primary">View Plans & Pricing</a>
+          </div>
+        </div>
+      </section>
 
-         
       {/* PLANS */}
       <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-950 transition-colors">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
-          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300"> Enquire to get a custom quote.</p>
+          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
 
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
