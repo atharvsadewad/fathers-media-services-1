@@ -69,8 +69,8 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="card overflow-hidden hover:shadow-lg transition"
+                transition={{ delay: i * 0.15, duration: 0.5, ease: "easeInOut" }} // Animation duration
+                className="card overflow-hidden hover:shadow-lg transition-transform duration-500 ease-in-out"
               >
                 <Image
                   src={s.img}
@@ -99,7 +99,7 @@ export default function Home() {
       </section>
 
       {/* PLANS */}
-      <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-950 transition-colors">
+      <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
@@ -115,7 +115,8 @@ export default function Home() {
                 initial={{ opacity: 0, y: 10 }} 
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
-                className="card p-6 flex flex-col"
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="card p-6 flex flex-col hover:shadow-lg transition-transform duration-500 ease-in-out"
               >
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
