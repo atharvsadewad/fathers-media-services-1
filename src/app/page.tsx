@@ -17,91 +17,100 @@ export default function Home() {
     <div>
       {/* HERO */}
       <section className="relative h-[85vh] flex items-center">
-        <Image src="/hero.jpg" alt="Hero" fill className="object-cover -z-10 brightness-75" />
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="container-responsive text-white text-center">
-          <h1 className="text-4xl sm:text-5xl font-bold">Father’s Media — Building Brands Online</h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-100/90">We help businesses stand out with strategy, creative and paid growth.</p>
-          <div className="mt-6 flex gap-4 justify-center">
-            <Link href="/contact" className="btn-primary">Let’s Work Together</Link>
-            <Link href="/services" className="btn-outline">Our Services</Link>
-          </div>
-        </motion.div>
-      </section>
+  <Image 
+    src="/hero.jpg" 
+    alt="Hero" 
+    fill 
+    className="object-cover -z-10 brightness-75" 
+  />
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    transition={{ duration: 0.8 }} 
+    className="container-responsive text-center"
+  >
+    <h1 className="text-4xl sm:text-5xl font-bold text-white dark:text-white">
+      Father’s Media — Building Brands Online
+    </h1>
+    <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200 dark:text-gray-300">
+      We help businesses stand out with strategy, creative and paid growth.
+    </p>
+    <div className="mt-6 flex gap-4 justify-center">
+      <Link href="/contact" className="btn-primary">Let’s Work Together</Link>
+      <Link href="/services" className="btn-outline">Our Services</Link>
+    </div>
+  </motion.div>
+</section>
+
 
       {/* SERVICES */}
-      <section className="section-padding">
-        <div className="container-responsive">
-          <h2 className="section-title text-center">Our Services</h2>
-          <p className="section-subtitle text-center mt-2">Everything you need to grow online.</p>
+      <section className="section-padding bg-white dark:bg-gray-900 transition-colors">
+  <div className="container-responsive">
+    <h2 className="section-title text-gray-900 dark:text-white">Our Services</h2>
+    <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+      Everything you need to grow online.
+    </p>
 
-          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((s, i) => (
-              <motion.article
-                key={s.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="card overflow-hidden hover:shadow-lg transition"
-              >
-                <Image src={s.img} alt={s.title} width={800} height={500} className="h-44 w-full object-cover" />
-                <div className="p-6">
-                  <h3 className="font-semibold text-lg">{s.title}</h3>
-                  <p className="text-gray-600 mt-2">{s.desc}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
+    <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="card p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Social Media Management</h3>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Strategy, content calendars, community management, and analytics.
+        </p>
+      </div>
 
-          {/* CTA button to Plans on same page (anchor) */}
-          <div className="text-center mt-12">
-            <a href="#plans" className="btn-primary">View Plans & Pricing</a>
-          </div>
-        </div>
-      </section>
+      <div className="card p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Branding & Strategy</h3>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Positioning, brand voice, and cohesive visual identity.
+        </p>
+      </div>
 
-      {/* PLANS (anchor id so hero button scrolls here) */}
-      <section id="plans" className="section-padding bg-gray-50">
-        <div className="container-responsive">
-          <h2 className="section-title text-center">Plans & Pricing</h2>
-          <p className="section-subtitle text-center mt-2">No prices shown — enquire to get a custom quote.</p>
+      <div className="card p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Paid Ads & Promotions</h3>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          ROI-focused campaigns across Meta, Google, and more.
+        </p>
+      </div>
 
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {[
-              { name: "Basic", features: ["Brand Building", "Website", "Google Business Listing", "SEO Optimization"] },
-              { name: "Standard", features: ["Includes Basic", "Graphic Posts", "Editing", "Photoshoot & Video Shoot", "Posting Calendar"] },
-              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "Paid Promotions", "Data Analysis & Reports"] },
-            ].map((plan) => (
-              <motion.div key={plan.name} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="card p-6 flex flex-col">
-                <h3 className="text-xl font-semibold mb-4">{plan.name}</h3>
-                <ul className="text-sm text-gray-600 flex-1 space-y-2">
-                  {plan.features.map((f) => <li key={f} className="flex items-start gap-2"><span>✔</span>{f}</li>)}
-                </ul>
-                <Link href="/contact" className="btn-primary mt-6 text-center">Enquire Now</Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <div className="card p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Content Creation</h3>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Reels, shoots, and campaigns that convert attention into action.
+        </p>
+      </div>
+
+      <div className="card p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700">
+        <h3 className="font-semibold text-lg text-gray-900 dark:text-white">Influencer Marketing</h3>
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Creator partnerships that drive reach and credibility.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* WHY CHOOSE US + CTA */}
-      <section className="section-padding">
-        <div className="container-responsive grid lg:grid-cols-2 gap-8 items-center">
-          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
-            <h2 className="section-title">Why Choose Us</h2>
-            <ul className="mt-4 space-y-3 text-gray-700">
-              <li>Proven results with SMBs and growing brands</li>
-              <li>Full-funnel marketing — from strategy to creative</li>
-              <li>Transparent reporting & collaborative process</li>
-            </ul>
-          </motion.div>
-
-          <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="card p-6">
-            <blockquote className="text-lg text-gray-700 italic">“Father’s Media helped us 2x our online leads within 90 days.”</blockquote>
-            <p className="mt-2 text-sm text-gray-500">— Happy Client</p>
-          </motion.div>
-        </div>
-      </section>
+      <section className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
+  <div className="container-responsive grid gap-8 lg:grid-cols-2 lg:items-center">
+    {/* Left side */}
+    <div>
+      <h2 className="section-title text-gray-900 dark:text-white">Why Choose Us</h2>
+      <ul className="mt-4 grid gap-3 text-gray-700 dark:text-gray-300">
+        <li>✅ Proven results with SMBs and growing brands</li>
+        <li>✅ Full-funnel marketing from strategy to creative</li>
+        <li>✅ Transparent reporting and communication</li>
+        <li>✅ Fast, reliable, and collaborative</li>
+      </ul>
     </div>
-  );
-}
+
+    {/* Right side */}
+    <div className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+      <blockquote className="text-lg text-gray-700 dark:text-gray-200 italic">
+        “Father’s Media helped us 2x our online leads within 90 days.”
+      </blockquote>
+      <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">— Happy Client</p>
+    </div>
+  </div>
+</section>
