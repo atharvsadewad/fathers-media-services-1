@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-export default function Home() {
+export default function Page() {
   const services = [
     { title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", img: "/service1.jpg" },
     { title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", img: "/service2.jpg" },
@@ -38,9 +38,9 @@ export default function Home() {
 
         {/* Text + CTA */}
         <motion.div 
-          initial={{ opacity: 0, y: 40 }} 
+          initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 1.2, ease: "easeOut" }}
+          transition={{ duration: 0.8 }} 
           className="container-responsive text-center text-white"
         >
           <h1 className="text-4xl sm:text-5xl font-bold">
@@ -58,13 +58,7 @@ export default function Home() {
 
       {/* SERVICES */}
       <section className="section-padding bg-white dark:bg-gray-900 transition-colors">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="container-responsive"
-        >
+        <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Our Services</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Everything you need to grow online.</p>
 
@@ -75,8 +69,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.25, duration: 0.8, ease: "easeOut" }}
-                className="card overflow-hidden hover:shadow-lg transition-transform duration-500 ease-in-out"
+                transition={{ delay: i * 0.25, duration: 0.9, ease: "easeOut" }}
+                whileHover={{ scale: 1.05, y: -5, boxShadow: "0px 8px 20px rgba(0,0,0,0.15)" }}
+                className="card overflow-hidden transition-colors bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
               >
                 <Image
                   src={s.img}
@@ -98,27 +93,15 @@ export default function Home() {
           </div>
 
           {/* CTA button to Plans */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="text-center mt-12"
-          >
+          <div className="text-center mt-12">
             <a href="#plans" className="btn-primary">View Plans & Pricing</a>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </section>
 
       {/* PLANS */}
       <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="container-responsive"
-        >
+        <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
 
@@ -130,11 +113,12 @@ export default function Home() {
             ].map((plan, i) => (
               <motion.div 
                 key={plan.name} 
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 30 }} 
+                whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
                 transition={{ delay: i * 0.3, duration: 0.9, ease: "easeOut" }}
-                className="card p-6 flex flex-col hover:shadow-lg transition-transform duration-500 ease-in-out"
+                whileHover={{ scale: 1.05, y: -5, boxShadow: "0px 8px 20px rgba(0,0,0,0.15)" }}
+                className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
               >
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
@@ -146,23 +130,17 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* WHY CHOOSE US */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="container-responsive grid lg:grid-cols-2 gap-8 items-center"
-        >
+        <div className="container-responsive grid lg:grid-cols-2 gap-8 items-center">
           <motion.div 
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -30 }} 
+            whileInView={{ opacity: 1, x: 0 }} 
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 0.9, ease: "easeOut" }}
           >
             <h2 className="section-title text-gray-900 dark:text-white">Why Choose Us</h2>
             <ul className="mt-4 space-y-3 text-gray-700 dark:text-gray-300">
@@ -173,18 +151,19 @@ export default function Home() {
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="card p-6 shadow-lg"
+            initial={{ opacity: 0, x: 30 }} 
+            whileInView={{ opacity: 1, x: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.9, ease: "easeOut" }}
+            whileHover={{ scale: 1.03, y: -3, boxShadow: "0px 8px 20px rgba(0,0,0,0.12)" }}
+            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
           >
             <blockquote className="text-lg text-gray-700 dark:text-gray-200 italic">
               “Father’s Media helped us 2x our online leads within 90 days.”
             </blockquote>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">— Happy Client</p>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
     </div>
   );
