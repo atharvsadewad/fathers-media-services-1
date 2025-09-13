@@ -1,4 +1,64 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 export default function ServicesPage() {
+  const services = [
+    {
+      title: "Social Media Management",
+      desc: "Strategy, content calendars, community management, and analytics.",
+    },
+    {
+      title: "Branding & Strategy",
+      desc: "Positioning, brand voice, and cohesive visual identity.",
+    },
+    {
+      title: "Paid Ads & Promotions",
+      desc: "ROI-focused campaigns across Meta, Google, and more.",
+    },
+    {
+      title: "Content Creation",
+      desc: "Reels, shoots, and campaigns that convert attention into action.",
+    },
+    {
+      title: "Influencer Marketing",
+      desc: "Creator partnerships that drive reach and credibility.",
+    },
+  ];
+
+  const plans = [
+    {
+      name: "Basic",
+      features: [
+        "Brand Building",
+        "Website",
+        "Google Business Listing",
+        "SEO Optimization",
+      ],
+    },
+    {
+      name: "Standard",
+      features: [
+        "Includes Basic Plan",
+        "Graphic Posts",
+        "Editing",
+        "Photoshoot & Video Shoot",
+        "Posting Calendar",
+        "Content Creation & Writing",
+      ],
+    },
+    {
+      name: "Premium",
+      features: [
+        "Includes Standard Plan",
+        "Multi-Platform Media Handling",
+        "Paid Promotions",
+        "Data Analysis & Monthly Reports",
+        "Campaign Strategy Optimization",
+      ],
+    },
+  ];
+
   return (
     <main className="container-responsive section-padding">
       <h1 className="section-title text-center mb-12 text-gray-900 dark:text-white">
@@ -7,30 +67,13 @@ export default function ServicesPage() {
 
       {/* Services Grid */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
-        {[
-          {
-            title: "Social Media Management",
-            desc: "Strategy, content calendars, community management, and analytics.",
-          },
-          {
-            title: "Branding & Strategy",
-            desc: "Positioning, brand voice, and cohesive visual identity.",
-          },
-          {
-            title: "Paid Ads & Promotions",
-            desc: "ROI-focused campaigns across Meta, Google, and more.",
-          },
-          {
-            title: "Content Creation",
-            desc: "Reels, shoots, and campaigns that convert attention into action.",
-          },
-          {
-            title: "Influencer Marketing",
-            desc: "Creator partnerships that drive reach and credibility.",
-          },
-        ].map((s) => (
-          <div
+        {services.map((s, i) => (
+          <motion.div
             key={s.title}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: i * 0.25, ease: "easeOut" }}
             className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
                        transition-transform transform hover:scale-105"
           >
@@ -40,7 +83,7 @@ export default function ServicesPage() {
             <p className="text-sm text-gray-700 dark:text-gray-300">
               {s.desc}
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
 
@@ -49,40 +92,13 @@ export default function ServicesPage() {
         Plans
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
-        {[
-          {
-            name: "Basic",
-            features: [
-              "Brand Building",
-              "Website",
-              "Google Business Listing",
-              "SEO Optimization",
-            ],
-          },
-          {
-            name: "Standard",
-            features: [
-              "Includes Basic Plan",
-              "Graphic Posts",
-              "Editing",
-              "Photoshoot & Video Shoot",
-              "Posting Calendar",
-              "Content Creation & Writing",
-            ],
-          },
-          {
-            name: "Premium",
-            features: [
-              "Includes Standard Plan",
-              "Multi-Platform Media Handling",
-              "Paid Promotions",
-              "Data Analysis & Monthly Reports",
-              "Campaign Strategy Optimization",
-            ],
-          },
-        ].map((plan) => (
-          <div
+        {plans.map((plan, i) => (
+          <motion.div
             key={plan.name}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: i * 0.3, ease: "easeOut" }}
             className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
                        transition-transform transform hover:scale-105"
           >
@@ -97,7 +113,7 @@ export default function ServicesPage() {
             <a href="/contact" className="btn-primary mt-6 text-center">
               Enquire Now
             </a>
-          </div>
+          </motion.div>
         ))}
       </div>
     </main>
