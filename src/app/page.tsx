@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-export default function Page() {
+export default function Home() {
   const services = [
     { title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", img: "/service1.jpg" },
     { title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", img: "/service2.jpg" },
@@ -40,7 +40,7 @@ export default function Page() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8 }} 
+          transition={{ duration: 0.6, ease: "easeOut" }} 
           className="container-responsive text-center text-white"
         >
           <h1 className="text-4xl sm:text-5xl font-bold">
@@ -69,9 +69,9 @@ export default function Page() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.25, duration: 0.9, ease: "easeOut" }}
+                transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 whileHover={{ scale: 1.05, y: -5, boxShadow: "0px 8px 20px rgba(0,0,0,0.15)" }}
-                className="card overflow-hidden transition-colors bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                className="card overflow-hidden transition-transform duration-500"
               >
                 <Image
                   src={s.img}
@@ -116,9 +116,9 @@ export default function Page() {
                 initial={{ opacity: 0, y: 30 }} 
                 whileInView={{ opacity: 1, y: 0 }} 
                 viewport={{ once: true }} 
-                transition={{ delay: i * 0.3, duration: 0.9, ease: "easeOut" }}
+                transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 whileHover={{ scale: 1.05, y: -5, boxShadow: "0px 8px 20px rgba(0,0,0,0.15)" }}
-                className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                className="card p-6 flex flex-col"
               >
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
@@ -139,8 +139,8 @@ export default function Page() {
           <motion.div 
             initial={{ opacity: 0, x: -30 }} 
             whileInView={{ opacity: 1, x: 0 }} 
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, ease: "easeOut" }}
+            viewport={{ once: true }} 
+            transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <h2 className="section-title text-gray-900 dark:text-white">Why Choose Us</h2>
             <ul className="mt-4 space-y-3 text-gray-700 dark:text-gray-300">
@@ -154,9 +154,9 @@ export default function Page() {
             initial={{ opacity: 0, x: 30 }} 
             whileInView={{ opacity: 1, x: 0 }} 
             viewport={{ once: true }} 
-            transition={{ duration: 0.9, ease: "easeOut" }}
-            whileHover={{ scale: 1.03, y: -3, boxShadow: "0px 8px 20px rgba(0,0,0,0.12)" }}
-            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            whileHover={{ scale: 1.03, y: -5, boxShadow: "0px 6px 18px rgba(0,0,0,0.15)" }}
+            className="card p-6"
           >
             <blockquote className="text-lg text-gray-700 dark:text-gray-200 italic">
               “Father’s Media helped us 2x our online leads within 90 days.”
