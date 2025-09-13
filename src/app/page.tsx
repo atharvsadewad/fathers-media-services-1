@@ -38,9 +38,9 @@ export default function Home() {
 
         {/* Text + CTA */}
         <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
+          initial={{ opacity: 0, y: 40 }} 
           animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8 }} 
+          transition={{ duration: 1.2, ease: "easeOut" }}
           className="container-responsive text-center text-white"
         >
           <h1 className="text-4xl sm:text-5xl font-bold">
@@ -58,7 +58,13 @@ export default function Home() {
 
       {/* SERVICES */}
       <section className="section-padding bg-white dark:bg-gray-900 transition-colors">
-        <div className="container-responsive">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="container-responsive"
+        >
           <h2 className="section-title text-center text-gray-900 dark:text-white">Our Services</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Everything you need to grow online.</p>
 
@@ -66,10 +72,10 @@ export default function Home() {
             {services.map((s, i) => (
               <motion.article
                 key={s.title}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.15, duration: 0.5, ease: "easeInOut" }} // Animation duration
+                transition={{ delay: i * 0.25, duration: 0.8, ease: "easeOut" }}
                 className="card overflow-hidden hover:shadow-lg transition-transform duration-500 ease-in-out"
               >
                 <Image
@@ -92,15 +98,27 @@ export default function Home() {
           </div>
 
           {/* CTA button to Plans */}
-          <div className="text-center mt-12">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="text-center mt-12"
+          >
             <a href="#plans" className="btn-primary">View Plans & Pricing</a>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* PLANS */}
       <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
-        <div className="container-responsive">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="container-responsive"
+        >
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
 
@@ -109,13 +127,13 @@ export default function Home() {
               { name: "Basic", features: ["Brand Building", "Website", "Google Business Listing", "SEO Optimization"] },
               { name: "Standard", features: ["Includes Basic", "Graphic Posts", "Editing", "Photoshoot & Video Shoot", "Posting Calendar"] },
               { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "Paid Promotions", "Data Analysis & Reports"] },
-            ].map((plan) => (
+            ].map((plan, i) => (
               <motion.div 
                 key={plan.name} 
-                initial={{ opacity: 0, y: 10 }} 
-                whileInView={{ opacity: 1, y: 0 }} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }} 
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ delay: i * 0.3, duration: 0.9, ease: "easeOut" }}
                 className="card p-6 flex flex-col hover:shadow-lg transition-transform duration-500 ease-in-out"
               >
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
@@ -128,13 +146,24 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* WHY CHOOSE US */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
-        <div className="container-responsive grid lg:grid-cols-2 gap-8 items-center">
-          <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="container-responsive grid lg:grid-cols-2 gap-8 items-center"
+        >
+          <motion.div 
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, ease: "easeOut" }}
+          >
             <h2 className="section-title text-gray-900 dark:text-white">Why Choose Us</h2>
             <ul className="mt-4 space-y-3 text-gray-700 dark:text-gray-300">
               <li>Proven results with SMBs and growing brands</li>
@@ -144,9 +173,10 @@ export default function Home() {
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, x: 30 }} 
-            whileInView={{ opacity: 1, x: 0 }} 
-            viewport={{ once: true }} 
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
             className="card p-6 shadow-lg"
           >
             <blockquote className="text-lg text-gray-700 dark:text-gray-200 italic">
@@ -154,7 +184,7 @@ export default function Home() {
             </blockquote>
             <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">— Happy Client</p>
           </motion.div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
