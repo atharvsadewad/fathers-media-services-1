@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <div>
       {/* HERO */}
-      <section className="relative h-[85vh] flex items-center overflow-hidden clip-moustache">
+      <section className="relative h-[85vh] flex items-center overflow-hidden">
   <Image 
     src="/hero.jpg" 
     alt="Hero" 
@@ -42,6 +42,18 @@ export default function Home() {
       <Link href="/services" className="btn-outline">Our Services</Link>
     </div>
   </motion.div>
+
+  {/* Moustache bottom cut */}
+  <svg 
+    className="absolute bottom-0 left-0 w-full h-24 text-white" 
+    viewBox="0 0 1440 320" 
+    preserveAspectRatio="none"
+  >
+    <path 
+      fill="currentColor" 
+      d="M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z" 
+    />
+  </svg>
 </section>
 
 
