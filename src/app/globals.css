@@ -30,9 +30,11 @@ html, body {
 }
 
 body {
-  background: var(--background);
+  background: url("/background-texture.jpg") repeat fixed; /* your texture */
+  background-size: cover;
   color: var(--foreground);
 }
+
 
 /* ====== UTILITIES ====== */
 .container-responsive {
