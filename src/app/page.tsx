@@ -57,7 +57,7 @@ export default function Home() {
       </section>
 
       {/* SERVICES */}
-      <section className="section-padding bg-white dark:bg-gray-900 transition-colors">
+      <section className="section-padding transition-colors">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Our Services</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Everything you need to grow online.</p>
@@ -100,7 +100,7 @@ export default function Home() {
       </section>
 
       {/* PLANS */}
-      <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
+      <section id="plans" className="section-padding transition-colors">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
@@ -134,7 +134,7 @@ export default function Home() {
       </section>
 
       {/* WHY CHOOSE US */}
-      <section className="section-padding bg-gray-50 dark:bg-gray-900 transition-colors">
+      <section className="section-padding transition-colors">
         <div className="container-responsive grid lg:grid-cols-2 gap-8 items-center">
           <motion.div 
             initial={{ opacity: 0, x: -30 }} 
