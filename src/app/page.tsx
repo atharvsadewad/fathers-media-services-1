@@ -16,46 +16,34 @@ export default function Home() {
   return (
     <div>
       {/* HERO */}
-      <section className="relative h-[85vh] flex items-center overflow-hidden">
-        <Image 
-          src="/hero.jpg" 
-          alt="Hero" 
-          fill 
-          className="object-cover -z-10 brightness-75" 
-        />
+      <section className="relative h-[85vh] flex items-center overflow-hidden clip-moustache">
+  <Image 
+    src="/hero.jpg" 
+    alt="Hero" 
+    fill 
+    className="object-cover -z-10 brightness-75" 
+  />
 
-        {/* SVG moustache cut divider */}
-        <svg 
-          className="absolute bottom-0 left-0 w-full h-24" 
-          viewBox="0 0 1440 320" 
-          preserveAspectRatio="none"
-        >
-          <path 
-            fill="transparent" 
-            d="M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z" 
-          />
-         </svg>
+  {/* Text + CTA */}
+  <motion.div 
+    initial={{ opacity: 0, y: 20 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    transition={{ duration: 0.6, ease: "easeOut" }} 
+    className="container-responsive text-center text-white"
+  >
+    <h1 className="text-4xl sm:text-5xl font-bold">
+      Father’s Media — Building Brands Online
+    </h1>
+    <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200">
+      We help businesses stand out with strategy, creative and paid growth.
+    </p>
+    <div className="mt-6 flex gap-4 justify-center">
+      <Link href="/contact" className="btn-primary">Let’s Work Together</Link>
+      <Link href="/services" className="btn-outline">Our Services</Link>
+    </div>
+  </motion.div>
+</section>
 
-
-        {/* Text + CTA */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.6, ease: "easeOut" }} 
-          className="container-responsive text-center text-white"
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold">
-            Father’s Media — Building Brands Online
-          </h1>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200">
-            We help businesses stand out with strategy, creative and paid growth.
-          </p>
-          <div className="mt-6 flex gap-4 justify-center">
-            <Link href="/contact" className="btn-primary">Let’s Work Together</Link>
-            <Link href="/services" className="btn-outline">Our Services</Link>
-          </div>
-        </motion.div>
-      </section>
 
       {/* SERVICES */}
       <section className="section-padding transition-colors">
