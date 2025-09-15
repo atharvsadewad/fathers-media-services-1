@@ -26,15 +26,16 @@ export default function Home() {
 
         {/* SVG moustache cut divider */}
         <svg 
-          className="absolute bottom-0 left-0 w-full h-24 text-white" 
+          className="absolute bottom-0 left-0 w-full h-24" 
           viewBox="0 0 1440 320" 
           preserveAspectRatio="none"
         >
           <path 
-            fill="currentColor" 
+            fill="transparent" 
             d="M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z" 
           />
-        </svg>
+         </svg>
+
 
         {/* Text + CTA */}
         <motion.div 
