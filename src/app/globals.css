@@ -30,11 +30,10 @@ html, body {
 }
 
 body {
-  background: url("/background-texture.jpg") repeat fixed; /* your texture */
+  background: url("/background-texture.jpg") repeat fixed; /* subtle texture */
   background-size: cover;
   color: var(--foreground);
 }
-
 
 /* ====== UTILITIES ====== */
 .container-responsive {
@@ -112,4 +111,10 @@ body {
 }
 .dark .btn-outline:hover {
   background: #111827;    /* gray-900 */
+}
+
+/* ====== HERO IMAGE CLIP ====== */
+.clip-moustache {
+  -webkit-clip-path: path("M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z");
+  clip-path: path("M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z");
 }
