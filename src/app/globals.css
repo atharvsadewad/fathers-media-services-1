@@ -9,9 +9,9 @@ html {
   --background: #ffffff;
   --foreground: #111827;
 
-  --gold-light: #facc15;  /* yellow-400 */
-  --gold-mid: #eab308;    /* yellow-500 */
-  --gold-dark: #ca8a04;   /* yellow-600 */
+  --gold-light: #fef9c3;  /* soft pale gold */
+  --gold-mid: #facc15;    /* yellow-400 */
+  --gold-dark: #eab308;   /* yellow-500 */
 
   --font-display: "Playfair Display", serif;
   --font-sans: "Inter", sans-serif;
@@ -47,9 +47,7 @@ body {
   font-family: var(--font-display);
   font-size: 2.75rem;
   font-weight: 700;
-  background: linear-gradient(to right, var(--gold-light), var(--gold-mid), var(--gold-dark));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #111827; /* Black title */
   letter-spacing: -0.02em;
 }
 
@@ -93,14 +91,20 @@ body {
 /* ====== CARD ====== */
 .card {
   border-radius: 0.75rem;
-  border: 1px solid #e5e7eb; /* light border */
-  background: #ffffff;        /* light mode */
+  border: 1px solid #f3f4f6; /* light gray border */
+  background: #ffffff;       
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
   transition: background 0.3s, border-color 0.3s;
 }
+.card:hover {
+  border-color: var(--gold-mid); /* subtle golden hover */
+}
 .dark .card {
   background: #1f2937; /* gray-800 */
-  border-color: #374151; /* gray-700 */
+  border-color: #374151; 
+}
+.dark .card:hover {
+  border-color: var(--gold-dark);
 }
 
 /* ====== BUTTONS ====== */
@@ -109,14 +113,14 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  background: linear-gradient(to right, var(--gold-light), var(--gold-mid), var(--gold-dark));
+  background: linear-gradient(to right, var(--gold-light), var(--gold-mid));
   padding: 0.75rem 1.25rem;
-  color: #fff;
+  color: #111827; /* black text */
   font-weight: 600;
   transition: opacity 0.3s ease;
 }
 .btn-primary:hover {
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .btn-outline {
@@ -126,17 +130,19 @@ body {
   border-radius: 0.5rem;
   border: 1px solid #d1d5db;
   padding: 0.75rem 1.25rem;
-  color: var(--foreground);
+  color: #111827;
   font-weight: 500;
   transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 .btn-outline:hover {
-  background: #f9fafb;
+  background: var(--gold-light);
+  border-color: var(--gold-mid);
 }
 .dark .btn-outline {
-  border-color: #374151;  /* gray-700 */
-  color: #e5e7eb;         /* gray-200 */
+  border-color: #374151;  
+  color: #e5e7eb;         
 }
 .dark .btn-outline:hover {
-  background: #111827;    /* gray-900 */
+  background: var(--gold-dark);    
+  color: #111827; /* contrast text */
 }
