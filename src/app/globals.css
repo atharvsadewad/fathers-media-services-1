@@ -8,11 +8,6 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #111827;
-
-  /* GOLD BRANDING */
-  --gold-gradient: linear-gradient(135deg, #d4af37, #ffd700);
-  --gold-light: #ffd700;
-  --gold-dark: #b8860b;
 }
 
 @theme inline {
@@ -37,7 +32,6 @@ html, body {
 body {
   background: var(--background);
   color: var(--foreground);
-  transition: background 0.3s, color 0.3s;
 }
 
 /* ====== UTILITIES ====== */
@@ -57,42 +51,27 @@ body {
 .section-title {
   font-size: 1.875rem;
   line-height: 2.25rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .section-subtitle {
   color: #4b5563;
 }
 .dark .section-subtitle {
-  color: #d1d5db; /* gray-300 */
-}
-
-/* GOLDEN GRADIENT TEXT */
-.gradient-gold {
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* GOLD TINTED BACKGROUND */
-.bg-gold-tint {
-  background: rgba(212, 175, 55, 0.05);
-}
-.dark .bg-gold-tint {
-  background: rgba(212, 175, 55, 0.1);
+  color: #d1d5db;
 }
 
 /* ====== CARD ====== */
 .card {
   border-radius: 0.75rem;
   border: 1px solid #e5e7eb;
-  background: #ffffff;
+  background: #ffffff;  /* ✅ Light mode */
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-  transition: background 0.3s, border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  transition: background 0.3s, border-color 0.3s, transform 0.3s;
 }
 .dark .card {
-  background: #1f2937; /* gray-800 */
-  border-color: #374151; /* gray-700 */
+  background: #1f2937;  /* ✅ Dark mode */
+  border-color: #374151;
 }
 
 /* ====== BUTTONS ====== */
@@ -101,15 +80,15 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  background: var(--gold-gradient);
+  background: linear-gradient(135deg, #facc15, #eab308, #ca8a04); /* golden tint */
   padding: 0.75rem 1.25rem;
-  color: #111827;
-  font-weight: 600;
-  transition: transform 0.3s, box-shadow 0.3s;
+  color: #fff;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .btn-outline {
@@ -121,24 +100,15 @@ body {
   padding: 0.75rem 1.25rem;
   color: #111827;
   font-weight: 500;
-  transition: background 0.3s, color 0.3s, border-color 0.3s, transform 0.3s;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 .btn-outline:hover {
-  background: rgba(212, 175, 55, 0.1);
-  border-color: var(--gold-light);
-  color: var(--gold-dark);
+  background: #f9fafb;
 }
 .dark .btn-outline {
   border-color: #374151;
   color: #e5e7eb;
 }
 .dark .btn-outline:hover {
-  background: rgba(212, 175, 55, 0.15);
-  color: var(--gold-light);
-}
-
-/* ====== HERO IMAGE CLIP (MOUSTACHE) ====== */
-.clip-moustache {
-  -webkit-clip-path: path("M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z");
-  clip-path: path("M0,224 C360,400 1080,50 1440,224 L1440,320 L0,320 Z");
+  background: #111827;
 }
