@@ -8,19 +8,12 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #111827;
-
-  --gold-light: #fef9c3;  /* soft pale gold */
-  --gold-mid: #facc15;    /* yellow-400 */
-  --gold-dark: #eab308;   /* yellow-500 */
-
-  --font-display: "Playfair Display", serif;
-  --font-sans: "Inter", sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -37,41 +30,13 @@ html, body {
 }
 
 body {
-  background: var(--background);
+  background: radial-gradient(
+    circle at top left,
+    #ffffff 65%,
+    #fef9c3 95%
+  ); /* white with golden tint */
   color: var(--foreground);
   font-family: var(--font-sans);
-}
-
-/* ====== TYPOGRAPHY ====== */
-.hero-title {
-  font-family: var(--font-display);
-  font-size: 2.75rem;
-  font-weight: 700;
-  color: #111827; /* Black title */
-  letter-spacing: -0.02em;
-}
-
-.section-title {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.section-subtitle {
-  font-family: var(--font-sans);
-  font-size: 1.125rem;
-  color: #4b5563;
-}
-.dark .section-subtitle {
-  color: #d1d5db; /* gray-300 */
-}
-
-.quote-text {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
 }
 
 /* ====== UTILITIES ====== */
@@ -84,27 +49,31 @@ body {
 }
 
 .section-padding {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.section-title {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+
+.section-subtitle {
+  color: #4b5563;
 }
 
 /* ====== CARD ====== */
 .card {
-  border-radius: 0.75rem;
-  border: 1px solid #f3f4f6; /* light gray border */
-  background: #ffffff;       
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
-  transition: background 0.3s, border-color 0.3s;
-}
-.card:hover {
-  border-color: var(--gold-mid); /* subtle golden hover */
+  border-radius: 1rem;
+  border: 1px solid rgba(0,0,0,0.05);
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .dark .card {
-  background: #1f2937; /* gray-800 */
-  border-color: #374151; 
-}
-.dark .card:hover {
-  border-color: var(--gold-dark);
+  background: rgba(17,17,17,0.8);
+  border-color: rgba(255,255,255,0.1);
 }
 
 /* ====== BUTTONS ====== */
@@ -112,37 +81,30 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.5rem;
-  background: linear-gradient(to right, var(--gold-light), var(--gold-mid));
-  padding: 0.75rem 1.25rem;
-  color: #111827; /* black text */
-  font-weight: 600;
-  transition: opacity 0.3s ease;
+  border-radius: 9999px;
+  background: #111827;
+  padding: 0.75rem 1.5rem;
+  color: #fff;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }
 .btn-primary:hover {
-  opacity: 0.85;
+  background: #000000;
+  transform: translateY(-2px);
 }
 
 .btn-outline {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.5rem;
-  border: 1px solid #d1d5db;
-  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid #111827;
+  padding: 0.75rem 1.5rem;
   color: #111827;
   font-weight: 500;
-  transition: background 0.3s, color 0.3s, border-color 0.3s;
+  transition: all 0.3s ease;
 }
 .btn-outline:hover {
-  background: var(--gold-light);
-  border-color: var(--gold-mid);
-}
-.dark .btn-outline {
-  border-color: #374151;  
-  color: #e5e7eb;         
-}
-.dark .btn-outline:hover {
-  background: var(--gold-dark);    
-  color: #111827; /* contrast text */
+  background: #111827;
+  color: #fff;
 }
