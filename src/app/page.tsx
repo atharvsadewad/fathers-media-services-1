@@ -1,39 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { Briefcase, PenTool, Megaphone, Camera, Users } from "lucide-react"; // icons
 
 export default function Home() {
   const services = [
-    { title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", img: "/service1.jpg" },
-    { title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", img: "/service2.jpg" },
-    { title: "Paid Ads & Promotions", desc: "ROI focused campaigns across Meta, Google and more.", img: "/service3.jpg" },
-    { title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", img: "/service4.jpg" },
-    { title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", img: "/service5.jpg" },
+    { title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <Briefcase className="w-8 h-8 text-yellow-500" /> },
+    { title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <PenTool className="w-8 h-8 text-yellow-500" /> },
+    { title: "Paid Ads & Promotions", desc: "ROI focused campaigns across Meta, Google and more.", icon: <Megaphone className="w-8 h-8 text-yellow-500" /> },
+    { title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <Camera className="w-8 h-8 text-yellow-500" /> },
+    { title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <Users className="w-8 h-8 text-yellow-500" /> },
   ];
 
   return (
     <div>
       {/* HERO */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
-        <Image 
-          src="/hero.jpg" 
-          alt="Hero" 
-          fill 
-          className="object-cover -z-10 brightness-75" 
-        />
-
-        {/* Text + CTA */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.6, ease: "easeOut" }} 
-          className="container-responsive text-center text-white"
-        >
-          <h1 className="text-4xl sm:text-5xl font-bold">
+        <div className="absolute inset-0 bg-black/50 z-0" />
+        <div className="container-responsive relative z-10 text-center text-white">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.6, ease: "easeOut" }} 
+            className="text-4xl sm:text-5xl font-bold"
+          >
             Father’s Media — Building Brands Online
-          </h1>
+          </motion.h1>
           <p className="mt-4 max-w-2xl mx-auto text-lg text-gray-200">
             We help businesses stand out with strategy, creative and paid growth.
           </p>
@@ -41,7 +34,7 @@ export default function Home() {
             <Link href="/contact" className="btn-primary">Let’s Work Together</Link>
             <Link href="/services" className="btn-outline">Our Services</Link>
           </div>
-        </motion.div>
+        </div>
 
         {/* Moustache Divider */}
         <svg 
@@ -73,19 +66,13 @@ export default function Home() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 whileHover={{ scale: 1.05, y: -5, boxShadow: "0px 8px 20px rgba(0,0,0,0.15)" }}
-                className="card overflow-hidden transition-transform duration-500 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                className="card p-6 flex flex-col gap-4 transition-transform duration-500"
               >
-                <Image
-                  src={s.img}
-                  alt={s.title}
-                  width={800}
-                  height={500}
-                  className="h-44 w-full object-cover"
-                />
-                <div className="p-6">
+                <div className="flex items-center gap-3">
+                  {s.icon}
                   <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{s.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 mt-2">{s.desc}</p>
                 </div>
+                <p className="text-gray-600 dark:text-gray-300">{s.desc}</p>
               </motion.article>
             ))}
           </div>
@@ -118,7 +105,7 @@ export default function Home() {
                 viewport={{ once: true }} 
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 whileHover={{ scale: 1.05, y: -5, boxShadow: "0px 8px 20px rgba(0,0,0,0.15)" }}
-                className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                className="card p-6 flex flex-col"
               >
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
@@ -156,7 +143,7 @@ export default function Home() {
             viewport={{ once: true }} 
             transition={{ duration: 0.6, ease: "easeOut" }}
             whileHover={{ scale: 1.03, y: -5, boxShadow: "0px 6px 18px rgba(0,0,0,0.15)" }}
-            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg"
+            className="card p-6"
           >
             <blockquote className="text-lg text-gray-700 dark:text-gray-200 italic">
               “Father’s Media helped us 2x our online leads within 90 days.”
