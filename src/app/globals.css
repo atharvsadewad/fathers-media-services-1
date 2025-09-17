@@ -8,6 +8,7 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #111827;
+  --gold: #d4af37;
 }
 
 @theme inline {
@@ -30,50 +31,72 @@ html, body {
 }
 
 body {
-  background: radial-gradient(
-    circle at top left,
-    #ffffff 65%,
-    #fef9c3 95%
-  ); /* white with golden tint */
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ====== GOLDEN CURSOR SPOTLIGHT ====== */
+body::before {
+  content: "";
+  position: fixed;
+  top: var(--y, 50%);
+  left: var(--x, 50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212,175,55,0.12), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  transition: top 0.15s ease, left 0.15s ease;
 }
 
 /* ====== UTILITIES ====== */
 .container-responsive {
   max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
 }
 
 .section-padding {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .section-title {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
+  font-size: 2.5rem;
   font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .section-subtitle {
   color: #4b5563;
 }
+.dark .section-subtitle {
+  color: #d1d5db;
+}
 
-/* ====== CARD ====== */
+/* ====== CARDS ====== */
 .card {
   border-radius: 1rem;
-  border: 1px solid rgba(0,0,0,0.05);
-  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(229, 231, 235, 0.4);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
 }
 .dark .card {
-  background: rgba(17,17,17,0.8);
-  border-color: rgba(255,255,255,0.1);
+  background: rgba(31, 41, 55, 0.85);
+  border-color: rgba(55, 65, 81, 0.7);
 }
 
 /* ====== BUTTONS ====== */
@@ -81,11 +104,11 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  background: #111827;
+  border-radius: 9999px; /* pill */
+  background: #111111;
   padding: 0.75rem 1.5rem;
   color: #fff;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 .btn-primary:hover {
@@ -97,14 +120,22 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  border: 1px solid #111827;
+  border-radius: 9999px; /* pill */
+  border: 1px solid #111111;
   padding: 0.75rem 1.5rem;
-  color: #111827;
-  font-weight: 500;
+  color: #111111;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 .btn-outline:hover {
-  background: #111827;
-  color: #fff;
+  background: #111111;
+  color: #ffffff;
+}
+.dark .btn-outline {
+  border-color: #e5e7eb;
+  color: #e5e7eb;
+}
+.dark .btn-outline:hover {
+  background: #e5e7eb;
+  color: #111111;
 }
