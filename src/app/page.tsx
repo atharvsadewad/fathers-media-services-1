@@ -72,44 +72,45 @@ export default function Home() {
           Your Brand. <span className="text-yellow-500">Our Strategy.</span>
         </motion.h2>
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Driving growth through creativity, precision, and proven marketing systems. At Father’s Media, we go beyond trends to craft strategies that last.
+          Driving growth through creativity, precision, and proven marketing systems. 
+          At Father’s Media, we go beyond trends to craft strategies that last.
         </p>
       </section>
 
-{/* WHAT WE DO */}
-<section className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 transition-colors relative overflow-hidden">
-  <div className="container-responsive text-center">
-    <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
-    <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
-      Turning ideas into impacts.
-    </p>
+      {/* WHAT WE DO */}
+      <section id="services" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 transition-colors relative overflow-hidden">
+        <div className="container-responsive text-center">
+          <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
+          <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+            Turning ideas into impacts.
+          </p>
 
-    {/* Scrollable Cards */}
-    <div className="mt-12 space-y-16">
-      {services.map((s, i) => (
-        <motion.div
-          key={s.title}
-          initial={{ opacity: 0, y: 60, scale: 0.9 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: false, amount: 0.6 }}
-          transition={{ duration: 0.7, delay: i * 0.1, ease: "easeOut" }}
-          className="card flex flex-col md:flex-row items-center gap-8 p-8 rounded-xl shadow-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
-        >
-          {/* Icon (left) */}
-          <div className="text-5xl text-yellow-500">{s.icon}</div>
+          {/* Scrollable Cards */}
+          <div className="mt-12 space-y-16">
+            {services.map((s, i) => (
+              <motion.div
+                key={s.title}
+                initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: false, amount: 0.6 }}
+                transition={{ duration: 0.7, delay: i * 0.1, ease: "easeOut" }}
+                className="card flex flex-col md:flex-row items-center gap-8 p-8 rounded-xl shadow-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+              >
+                {/* Icon (left) */}
+                <div className="text-5xl text-yellow-500">{s.icon}</div>
 
-          {/* Text (right) */}
-          <div className="text-left">
-            <h3 className="font-semibold text-2xl text-gray-900 dark:text-white">
-              {s.title}
-            </h3>
-            <p className="mt-3 text-gray-600 dark:text-gray-300">{s.desc}</p>
+                {/* Text (right) */}
+                <div className="text-left">
+                  <h3 className="font-semibold text-2xl text-gray-900 dark:text-white">
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 text-gray-600 dark:text-gray-300">{s.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
+        </div>
+      </section>
 
       {/* PLANS */}
       <section id="plans" className="section-padding bg-gray-50 dark:bg-gray-950 transition-colors">
@@ -178,45 +179,36 @@ export default function Home() {
         </div>
       </section>
 
-{/* CONTACT */}
-<section id="contact" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black transition-colors">
-  <div className="container-responsive text-center">
-    <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
-    <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
-      Ready to grow your brand? Reach out and let’s talk strategy.
-    </p>
+      {/* CONTACT */}
+      <section id="contact" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black transition-colors">
+        <div className="container-responsive text-center">
+          <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
+          <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+            Ready to grow your brand? Reach out and let’s talk strategy.
+          </p>
 
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      viewport={{ amount: 0.5 }}
-      className="mt-8 flex flex-col sm:flex-row justify-center gap-6"
-    >
-      <a href="#contact-form" className="btn-primary">Contact Us</a>
-      <a href="#services" className="btn-outline">Explore Services</a>
-    </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ amount: 0.5 }}
+            className="mt-8 flex flex-col sm:flex-row justify-center gap-6"
+          >
+            <a href="#contact-form" className="btn-primary">Contact Us</a>
+            <a href="#services" className="btn-outline">Explore Services</a>
+          </motion.div>
 
-    {/* Enquiry Form */}
-    <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left">
-      <form className="space-y-4">
-        <input 
-          type="text" 
-          placeholder="Your Name" 
-          className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
-        />
-        <input 
-          type="email" 
-          placeholder="Your Email" 
-          className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
-        />
-        <textarea 
-          rows={4} 
-          placeholder="Your Message" 
-          className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
-        />
-        <button type="submit" className="btn-primary w-full">Send Message</button>
-      </form>
+          {/* Enquiry Form */}
+          <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left">
+            <form className="space-y-4">
+              <input type="text" placeholder="Your Name" className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <input type="email" placeholder="Your Email" className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <textarea rows={4} placeholder="Your Message" className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <button type="submit" className="btn-primary w-full">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
-</section>
+  );
+}
