@@ -178,26 +178,45 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT */}
-      <section id="contact" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black transition-colors">
-        <div className="container-responsive text-center">
-          <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
-          <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
-            Ready to grow your brand? Reach out and let’s talk strategy.
-          </p>
+{/* CONTACT */}
+<section id="contact" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black transition-colors">
+  <div className="container-responsive text-center">
+    <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
+    <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+      Ready to grow your brand? Reach out and let’s talk strategy.
+    </p>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            viewport={{ once: false, amount: 0.5 }}
-            className="mt-8 flex flex-col sm:flex-row justify-center gap-6"
-          >
-            <a href="#contact" className="btn-primary">Contact Us</a>
-            <a href="#services" className="btn-outline">Explore Services</a>
-          </motion.div>
-        </div>
-      </section>
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      viewport={{ amount: 0.5 }}
+      className="mt-8 flex flex-col sm:flex-row justify-center gap-6"
+    >
+      <a href="#contact-form" className="btn-primary">Contact Us</a>
+      <a href="#services" className="btn-outline">Explore Services</a>
+    </motion.div>
+
+    {/* Enquiry Form */}
+    <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left">
+      <form className="space-y-4">
+        <input 
+          type="text" 
+          placeholder="Your Name" 
+          className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
+        />
+        <input 
+          type="email" 
+          placeholder="Your Email" 
+          className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
+        />
+        <textarea 
+          rows={4} 
+          placeholder="Your Message" 
+          className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
+        />
+        <button type="submit" className="btn-primary w-full">Send Message</button>
+      </form>
     </div>
-  );
-}
+  </div>
+</section>
