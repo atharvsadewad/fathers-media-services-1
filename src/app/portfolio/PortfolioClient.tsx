@@ -32,6 +32,7 @@ export default function PortfolioClient() {
         From brand identities to web apps — a glimpse of our work.
       </p>
 
+      {/* Slideshow */}
       <div
         className="relative mt-12 h-[400px] w-full max-w-3xl mx-auto overflow-hidden rounded-xl shadow-lg"
         onMouseEnter={() => setPaused(true)}
@@ -54,6 +55,22 @@ export default function PortfolioClient() {
             />
           </motion.div>
         </AnimatePresence>
+      </div>
+
+      {/* Dot Navigation */}
+      <div className="flex justify-center mt-6 space-x-3">
+        {images.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setIndex(i)}
+            className={`w-3 h-3 rounded-full transition-all ${
+              i === index
+                ? "bg-yellow-500 scale-125"
+                : "bg-gray-400 dark:bg-gray-600 hover:bg-gray-500"
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
+          />
+        ))}
       </div>
     </section>
   );
