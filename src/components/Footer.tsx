@@ -4,7 +4,7 @@ import { Instagram, Facebook, Linkedin, Twitter, Mail, MessageCircle } from "luc
 
 export default function Footer() {
   return (
-    <footer className="relative bg-gradient-to-b from-gray-900 via-black to-gray-950 text-gray-300">
+    <footer className="relative bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-black dark:to-gray-950 border-t border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 transition-colors">
       <div className="container-responsive py-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
         
         {/* Logo + About */}
@@ -100,3 +100,4 @@ export default function Footer() {
     </footer>
   );
 }
+
