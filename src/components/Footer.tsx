@@ -4,83 +4,76 @@ import { Instagram, Facebook, Linkedin, Twitter, Mail, MessageCircle } from "luc
 
 export default function Footer() {
   return (
-    <footer className="relative bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:via-black dark:to-gray-950 border-t border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 transition-colors">
-      <div className="container-responsive py-12 grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gradient-to-b dark:from-gray-900 dark:to-black transition-colors">
+      <div className="container-responsive py-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         
         {/* Logo + About */}
         <div>
-          <Link href="/" className="flex items-center gap-3">
-            <Image src="/logo.png" alt="Father’s Media Logo" width={40} height={40} />
-            <span className="font-bold text-xl text-white">Father’s Media</span>
+          <Link href="/" className="flex items-center gap-2">
+            <Image src="/logo.png" alt="Father’s Media Logo" width={36} height={36} />
+            <span className="font-semibold text-lg text-gray-900 dark:text-white">
+              Father’s Media
+            </span>
           </Link>
-          <p className="text-sm mt-3 leading-relaxed max-w-xs text-gray-400">
-            Crafting impactful strategies, design, and media to help brands grow in the digital era.
+          <p className="text-sm text-gray-700 dark:text-gray-300 mt-2 max-w-xs">
+            Social media and marketing agency helping businesses grow online.
           </p>
         </div>
 
         {/* Quick Links */}
         <div>
-          <h5 className="font-semibold text-white">Quick Links</h5>
-          <ul className="mt-3 space-y-2 text-sm">
-            {[
-              { href: "/", label: "Home" },
-              { href: "/about", label: "About" },
-              { href: "/services", label: "Services" },
-              { href: "/portfolio", label: "Portfolio" },
-              { href: "/contact", label: "Contact" },
-            ].map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  className="hover:text-yellow-400 transition-colors"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
+          <h5 className="font-semibold text-gray-900 dark:text-white">Quick Links</h5>
+          <ul className="mt-2 space-y-2 text-sm">
+            <li><Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-yellow-600">Home</Link></li>
+            <li><Link href="/about" className="text-gray-700 dark:text-gray-300 hover:text-yellow-600">About</Link></li>
+            <li><Link href="/services" className="text-gray-700 dark:text-gray-300 hover:text-yellow-600">Services</Link></li>
+            <li><Link href="/portfolio" className="text-gray-700 dark:text-gray-300 hover:text-yellow-600">Portfolio</Link></li>
+            <li><Link href="/contact" className="text-gray-700 dark:text-gray-300 hover:text-yellow-600">Contact</Link></li>
           </ul>
         </div>
 
-        {/* Social Connect */}
+        {/* Connect */}
         <div>
-          <h5 className="font-semibold text-white">Connect</h5>
-          <div className="mt-3 flex gap-3">
-            {[
-              { href: "https://instagram.com/fathers_media", icon: Instagram, color: "hover:text-pink-500" },
-              { href: "https://facebook.com/fathersmedia", icon: Facebook, color: "hover:text-blue-500" },
-              { href: "https://linkedin.com/company/fathers_media", icon: Linkedin, color: "hover:text-blue-400" },
-              { href: "https://x.com/fathers_media", icon: Twitter, color: "hover:text-gray-400" },
-            ].map((item, i) => (
-              <a
-                key={i}
-                href={item.href}
-                target="_blank"
-                rel="noreferrer"
-                className={`w-9 h-9 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors ${item.color}`}
-              >
-                <item.icon size={18} />
+          <h5 className="font-semibold text-gray-900 dark:text-white">Connect</h5>
+          <ul className="mt-2 space-y-3 text-sm">
+            <li>
+              <a href="https://instagram.com/fathers_media" target="_blank" rel="noreferrer"
+                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-pink-500">
+                <Instagram size={16} /> Instagram
               </a>
-            ))}
-          </div>
+            </li>
+            <li>
+              <a href="https://facebook.com/fathersmedia" target="_blank" rel="noreferrer"
+                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-600">
+                <Facebook size={16} /> Facebook
+              </a>
+            </li>
+            <li>
+              <a href="https://linkedin.com/company/fathers_media" target="_blank" rel="noreferrer"
+                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-700">
+                <Linkedin size={16} /> LinkedIn
+              </a>
+            </li>
+            <li>
+              <a href="https://x.com/fathers_media" target="_blank" rel="noreferrer"
+                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-gray-400">
+                <Twitter size={16} /> X
+              </a>
+            </li>
+          </ul>
         </div>
 
         {/* Contact */}
         <div>
-          <h5 className="font-semibold text-white">Contact</h5>
-          <ul className="mt-3 space-y-3 text-sm">
-            <li className="flex items-center gap-2">
+          <h5 className="font-semibold text-gray-900 dark:text-white">Contact</h5>
+          <ul className="mt-2 space-y-3 text-sm">
+            <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
               <Mail size={16} />
-              <a href="mailto:contact@fathersmedia.in" className="hover:text-yellow-400 transition-colors">
-                contact@fathersmedia.in
-              </a>
+              <a href="mailto:contact@fathersmedia.in">contact@fathersmedia.in</a>
             </li>
             <li>
-              <a
-                href="https://wa.me/9112059735"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 hover:text-green-500 transition-colors"
-              >
+              <a href="https://wa.me/9112059735" target="_blank" rel="noreferrer"
+                className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-green-500">
                 <MessageCircle size={16} /> WhatsApp
               </a>
             </li>
@@ -89,16 +82,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="border-t border-gray-800 mt-10">
-        <div className="container-responsive py-6 text-xs flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span className="text-gray-400">
-            © 2025 Father’s Media. All rights reserved.
-          </span>
-          <span className="text-gray-500">Made with ❤️ in India</span>
+      <div className="border-t border-gray-200 dark:border-gray-700">
+        <div className="container-responsive py-4 text-xs text-gray-700 dark:text-gray-400 flex items-center justify-between">
+          <span>© 2025 Father’s Media. All rights reserved.</span>
+          <span className="text-gray-600 dark:text-gray-400">Built by Father’s Media</span>
         </div>
       </div>
     </footer>
   );
 }
-
-
