@@ -61,21 +61,29 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* TAGLINE SECTION */}
-      <section className="section-padding text-center">
-        <motion.h2 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white"
-        >
-          Your Brand. <span className="text-yellow-500">Our Strategy.</span>
-        </motion.h2>
-        <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Driving growth through creativity, precision, and proven marketing systems. 
-          At Father’s Media, we go beyond trends to craft strategies that last.
-        </p>
-      </section>
+{/* TAGLINE SECTION */}
+<section className="section-padding text-center">
+  <motion.h2 
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+    className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white"
+  >
+    Your Brand, <span className="text-yellow-500">Our Strategy.</span>
+  </motion.h2>
+
+  {/* Elaboration line */}
+  <motion.p
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+    className="mt-6 max-w-3xl mx-auto text-lg sm:text-xl text-gray-700 dark:text-gray-300 leading-relaxed"
+  >
+    Driving growth through creativity, precision, and proven marketing systems.  
+    At Father’s Media, we go beyond trends to craft strategies that last —  
+    blending design, content, and data to elevate your brand’s presence.
+  </motion.p>
+</section>
 
       {/* WHAT WE DO */}
       <section id="services" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 transition-colors relative overflow-hidden">
