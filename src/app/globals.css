@@ -148,3 +148,17 @@ body::before {
   background: #e5e7eb;
   color: #111111;
 }
+
+@keyframes scroll-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-scroll-x {
+  display: flex;
+  animation: scroll-x 25s linear infinite;
+}
+
+.animate-scroll-x.pause {
+  animation-play-state: paused;
+}
