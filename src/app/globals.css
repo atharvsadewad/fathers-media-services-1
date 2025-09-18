@@ -161,7 +161,7 @@ body::before {
 
 @media (max-width: 768px) {
   .animate-scroll-x {
-    animation-duration: 7s; /* faster on phones */
+    animation-duration: 4s; /* faster on phones */
   }
 }
 
