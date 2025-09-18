@@ -70,8 +70,8 @@ export default function Footer() {
           <ul className="mt-3 space-y-3 text-sm">
             <li className="flex items-center gap-2">
               <Mail size={16} />
-              <a href="mailto:contact@fathersmedia.com" className="hover:text-yellow-400 transition-colors">
-                contact@fathersmedia.com
+              <a href="mailto:contact@fathersmedia.in" className="hover:text-yellow-400 transition-colors">
+                contact@fathersmedia.in
               </a>
             </li>
             <li>
@@ -100,4 +100,5 @@ export default function Footer() {
     </footer>
   );
 }
+
 
