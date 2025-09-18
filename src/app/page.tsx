@@ -187,6 +187,38 @@ export default function Home() {
         </div>
       </section>
 
+            {/* PORTFOLIO SHOWCASE */}
+      <section className="section-padding bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black transition-colors">
+        <div className="container-responsive text-center">
+          <h2 className="section-title text-gray-900 dark:text-white">
+            Showcasing Creativity
+          </h2>
+          <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+            From brand identities to web apps — a glimpse of our work.
+          </p>
+        </div>
+
+        {/* Scrolling Images */}
+        <div className="relative overflow-hidden mt-12">
+          <div className="flex animate-scroll-x gap-6 px-4"
+               onMouseEnter={(e) => e.currentTarget.classList.add('pause')}
+               onMouseLeave={(e) => e.currentTarget.classList.remove('pause')}>
+            {[
+              "/portfolio/work1.png",
+              "/portfolio/work2.png",
+              "/portfolio/work3.png",
+              "/portfolio/work4.png",
+              "/portfolio/work5.png",
+              "/portfolio/chamber-screenshot.png"
+            ].map((src, i) => (
+              <div key={i} className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg">
+                <img src={src} alt={`Portfolio ${i+1}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section id="contact" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black transition-colors">
         <div className="container-responsive text-center">
