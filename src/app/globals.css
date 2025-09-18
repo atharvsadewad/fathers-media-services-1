@@ -156,12 +156,12 @@ body::before {
 
 .animate-scroll-x {
   display: flex;
-  animation: scroll-x 20s linear infinite; /* default desktop */
+  animation: scroll-x 15s linear infinite; /* default desktop */
 }
 
 @media (max-width: 768px) {
   .animate-scroll-x {
-    animation-duration: 12s; /* faster on phones */
+    animation-duration: 9s; /* faster on phones */
   }
 }
 
