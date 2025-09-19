@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Father’s Media",
     images: [
       {
-        url: "/og.jpg", // ✅ large preview image for link shares
+        url: "/op.jpg", // ✅ use your image
         width: 1200,
         height: 630,
         alt: "Father’s Media",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "Father’s Media – Building Brands Online",
     description:
       "Modern social media and marketing agency for ambitious brands.",
-    images: ["/og.jpg"], // ✅ same OG image for Twitter
+    images: ["/op.jpg"], // ✅ Twitter also uses op.jpg
   },
   robots: {
     index: true,
