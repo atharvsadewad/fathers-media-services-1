@@ -32,9 +32,16 @@ export const metadata: Metadata = {
     "Father’s Media",
   ],
   icons: {
-    icon: "/favicon.ico", // ✅ browser tab icon
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: ["/favicon.ico"],
+    other: [
+      { rel: "manifest", url: "/site.webmanifest" }, // optional manifest file
+    ],
   },
   openGraph: {
     title: "Father’s Media – Building Brands Online",
@@ -44,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "Father’s Media",
     images: [
       {
-        url: "/op.jpg", // ✅ use your image
+        url: "/web-app-manifest-512x512.png", // ✅ your large PWA image
         width: 1200,
         height: 630,
         alt: "Father’s Media",
@@ -58,7 +65,7 @@ export const metadata: Metadata = {
     title: "Father’s Media – Building Brands Online",
     description:
       "Modern social media and marketing agency for ambitious brands.",
-    images: ["/op.jpg"], // ✅ Twitter also uses op.jpg
+    images: ["/web-app-manifest-192x192.png"],
   },
   robots: {
     index: true,
