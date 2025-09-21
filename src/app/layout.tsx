@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://fathersmedia.in"), // ✅ your real domain
   title: {
-    default: "Father’s Media – Building Brands Online",
+    default: "Father’s Media",
     template: "%s | Father’s Media",
   },
   description:
