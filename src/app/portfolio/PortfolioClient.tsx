@@ -32,30 +32,28 @@ export default function PortfolioClient() {
         From brand identities to web apps — a glimpse of our work.
       </p>
 
-      {/* Slideshow */}
+{/* Scrolling Showcase */}
+<div
+  className="relative mt-12 w-full overflow-hidden"
+  onMouseEnter={() => setPaused(true)}
+  onMouseLeave={() => setPaused(false)}
+>
+  <div className={`flex gap-6 animate-scroll-x ${paused ? "pause" : ""}`}>
+    {[...images, ...images].map((src, i) => (
       <div
-        className="relative mt-12 h-[400px] w-full max-w-3xl mx-auto overflow-hidden rounded-xl shadow-lg"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        key={i}
+        className="relative h-[250px] w-[350px] flex-shrink-0 rounded-xl overflow-hidden shadow-lg"
       >
-        <AnimatePresence>
-          <motion.div
-            key={index}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.8 }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={images[index]}
-              alt={`Portfolio work ${index + 1}`}
-              fill
-              className="object-cover rounded-xl"
-            />
-          </motion.div>
-        </AnimatePresence>
+        <Image
+          src={src}
+          alt={`Portfolio work ${i + 1}`}
+          fill
+          className="object-cover"
+        />
       </div>
+    ))}
+  </div>
+</div>
 
       {/* Dot Navigation */}
       <div className="flex justify-center mt-6 space-x-3">
