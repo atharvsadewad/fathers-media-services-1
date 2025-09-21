@@ -30,21 +30,23 @@ export default function ServicesPage() {
     {
       name: "Basic",
       features: [
-        "Brand Building",
-        "Website",
+        "Strategy Consulting",
+        "Digital Marketing & Management",
+        "Content Writing",
+        "Photo & Video Shoot",
+        "Editing",
+        "Graphic Posts",
+        "4 Reels 8 Post 8 Stories/M",
         "Google Business Listing",
-        "SEO Optimization",
       ],
     },
     {
       name: "Standard",
       features: [
         "Includes Basic Plan",
-        "Graphic Posts",
-        "Editing",
-        "Photoshoot & Video Shoot",
-        "Posting Calendar",
-        "Content Creation & Writing",
+        "Brand Building - Complete",
+        "8 Reels 12 Posts 12 Stories/M",
+        "Paid Promotions (2 Ads)"
       ],
     },
     {
@@ -52,9 +54,10 @@ export default function ServicesPage() {
       features: [
         "Includes Standard Plan",
         "Multi-Platform Media Handling",
-        "Paid Promotions",
-        "Data Analysis & Monthly Reports",
-        "Campaign Strategy Optimization",
+        "12 Reels 16 Posts 16 Stories/M",
+        "Website Development",
+        "SEO",
+        "Paid Promotions(4 Ads)",
       ],
     },
   ];
@@ -119,3 +122,4 @@ export default function ServicesPage() {
     </main>
   );
 }
+
