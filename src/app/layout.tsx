@@ -15,6 +15,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  title: "Father’s Media",
+  description: "Father’s Media website",
+  other: {
+    "msvalidate.01": "585B5BF5E4A023F0F9AA46BCBA29EED7", // paste your code here
+  },
+};
+
+export const metadata: Metadata = {
   metadataBase: new URL("https://fathersmedia.in"), // ✅ your real domain
   title: {
     default: "Father’s Media",
