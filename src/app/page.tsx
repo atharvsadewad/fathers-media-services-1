@@ -169,6 +169,7 @@ export default function Home() {
               { title: "Proven Results", desc: "Track record of scaling SMBs and brands." },
               { title: "Full-Funnel Approach", desc: "From strategy to creative to paid growth." },
               { title: "Transparent Reporting", desc: "Clear insights and collaborative process." },
+              { title: "Custom Plans", desc: "You can get Customised plans as per your needs." },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
