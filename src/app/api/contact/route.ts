@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     // Send email via Resend
     const data = await resend.emails.send({
-      from: "Resend <onboarding@resend.dev>", // change later to your domain email after verification
+      from: "fathersmediaservices <onboarding@resend.dev>", // change later to your domain email after verification
       to: "fathersmediaservices@gmail.com", // 👉 Replace with the email you want to receive enquiries
       subject: `New Enquiry from ${name}`,
       replyTo: email,
@@ -37,4 +37,5 @@ export async function POST(request: Request) {
     );
   }
 }
+
 
