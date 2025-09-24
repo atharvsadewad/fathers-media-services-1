@@ -77,7 +77,7 @@ export default function Home() {
       </section>
 
       {/* TAGLINE SECTION */}
-      <section className="section-padding text-center">
+     <section className="section-padding text-center">
   <motion.h2 
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -87,37 +87,36 @@ export default function Home() {
     Your Brand, <span className="text-yellow-500">Our Strategy.</span>
   </motion.h2>
 
-  <div className="max-w-4xl mx-auto space-y-3 text-left">
-    <motion.p
-      initial={{ opacity: 0.3 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: false, amount: 0.7 }}
-      transition={{ duration: 0.8, delay: 0.3 }}
-      className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white"
-    >
-      At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
-    </motion.p>
-    <motion.p
-      initial={{ opacity: 0.3 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: false, amount: 0.7 }}
-      transition={{ duration: 0.8, delay: 0.6 }}
-      className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white"
-    >
-      By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
-    </motion.p>
-    <motion.p
-      initial={{ opacity: 0.3 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: false, amount: 0.7 }}
-      transition={{ duration: 0.8, delay: 0.9 }}
-      className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white"
-    >
-      Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
-    </motion.p>
+  <div className="max-w-4xl mx-auto text-left">
+    <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
+      <motion.span
+        initial={{ opacity: 0.3 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: false, amount: 0.7 }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      >
+        At Father’s Media, we understand how vital creativity and strategy are in building strong brands online. 
+      </motion.span>
+      <motion.span
+        initial={{ opacity: 0.3 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: false, amount: 0.7 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+      >
+        By combining design, content, and data-driven insights, we craft digital experiences that truly connect. 
+      </motion.span>
+      <motion.span
+        initial={{ opacity: 0.3 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: false, amount: 0.7 }}
+        transition={{ duration: 0.8, delay: 0.9 }}
+      >
+        Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
+      </motion.span>
+    </p>
   </div>
 </section>
-
+      
       {/* WHAT WE DO */}
       <section id="services" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-black dark:to-gray-900 transition-colors relative overflow-hidden">
         <div className="container-responsive text-center">
