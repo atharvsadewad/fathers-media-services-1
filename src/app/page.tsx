@@ -103,7 +103,7 @@ export default function Home() {
         viewport={{ once: false, amount: 0.7 }}
         transition={{ duration: 0.8, delay: 0.6 }}
       >
-        By combining design, content, and data-driven insights, we craft digital experiences that truly connect. 
+         By combining design, content, and data-driven insights, we craft digital experiences that truly connect. 
       </motion.span>
       <motion.span
         initial={{ opacity: 0.3 }}
@@ -111,7 +111,7 @@ export default function Home() {
         viewport={{ once: false, amount: 0.7 }}
         transition={{ duration: 0.8, delay: 0.9 }}
       >
-        Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
+         Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
       </motion.span>
     </p>
   </div>
