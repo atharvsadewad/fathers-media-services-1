@@ -227,13 +227,21 @@ export default function Home() {
               "/portfolio/work5.png",
               "/portfolio/chamber-screenshot.png"
             ].map((src, i) => (
-              <div key={i} className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg">
-                <img src={src} alt={`Portfolio ${i+1}`} className="w-full h-full object-cover" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+               <motion.div
+        key={i}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: false, amount: 0.4 }}
+        transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
+        className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg"
+               >
+          <img
+          src={src}
+          alt={`Portfolio ${i + 1}`}
+          className="w-full h-full object-cover"
+          />
+          </motion.div>
+  ))}
 
       {/* CONTACT */}
       <section id="contact" className="section-padding bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black transition-colors">
