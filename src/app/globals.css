@@ -161,10 +161,17 @@ body::before {
 
 @media (max-width: 768px) {
   .animate-scroll-x {
-    animation-duration: scroll-x 9s linear infinite;
+    animation: none; /* ❌ disable animation on mobile */
+    overflow-x: auto; /* ✅ allow manual scrolling */
+    scroll-snap-type: x mandatory; /* ✅ snap to each card */
+    -webkit-overflow-scrolling: touch; /* ✅ smooth iOS scroll */
+  }
+
+  .animate-scroll-x > div {
+    scroll-snap-align: start;
   }
 }
 
 .animate-scroll-x.pause {
   animation-play-state: paused;
-}
+} 
