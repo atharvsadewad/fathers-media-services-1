@@ -2,36 +2,51 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { FaBullhorn, FaChartLine, FaUsers, FaPaintBrush, FaVideo } from "react-icons/fa";
+import { FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, FaUsers, FaPaintBrush, FaVideo } from "react-icons/fa";
 
 export default function Home() {
   const services = [
+    { id: "01",
+      title: "Website Development", 
+      desc: "Modern, responsive websites designed to convert visitors into customers.", 
+      icon: <FaCode className="text-6xl text-yellow-500" /> 
+    },
+    { id: "02",
+      title: "Google Business Listing", 
+      desc: "Boost visibility and credibility with a verified Google Business profile.", 
+      icon: <FaGlobe className="text-6xl text-yellow-500" />
+    },
+    { id: "03",
+      title: "SEO Optimization", 
+      desc: "Improve your search rankings with tailored SEO strategies.", 
+      icon: <FaSearch className="text-6xl text-yellow-500" />  
+    },
     { 
-      id: "01",
+      id: "04",
       title: "Social Media Management", 
       desc: "Strategy, calendars, community management, and analytics.", 
       icon: <FaUsers className="text-6xl text-yellow-500" />
     },
     { 
-      id: "02",
+      id: "05",
       title: "Branding & Strategy", 
       desc: "Positioning, voice and cohesive visual identity.", 
       icon: <FaPaintBrush className="text-6xl text-yellow-500" />
     },
     { 
-      id: "03",
+      id: "06",
       title: "Paid Ads & Promotions", 
       desc: "ROI-focused campaigns across Meta, Google and more.", 
       icon: <FaChartLine className="text-6xl text-yellow-500" />
     },
     { 
-      id: "04",
+      id: "07",
       title: "Content Creation", 
       desc: "Reels, shoots, campaigns that convert attention into action.", 
       icon: <FaVideo className="text-6xl text-yellow-500" />
     },
     { 
-      id: "05",
+      id: "08",
       title: "Influencer Marketing", 
       desc: "Creator partnerships that drive reach and credibility.", 
       icon: <FaBullhorn className="text-6xl text-yellow-500" />
