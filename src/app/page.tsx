@@ -94,27 +94,22 @@ export default function Home() {
         whileInView={{ opacity: 1 }}
         viewport={{ once: false, amount: 0.7 }}
         transition={{ duration: 0.8, delay: 0.3 }}
-        className="block"
       >
-        At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
+        At Father’s Media, we understand how vital creativity and strategy are in building strong brands online. 
       </motion.span>
-      <br />
       <motion.span
         initial={{ opacity: 0.3 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: false, amount: 0.7 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="block"
       >
-        By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
+        By combining design, content, and data-driven insights, we craft digital experiences that truly connect. 
       </motion.span>
-      <br />
       <motion.span
         initial={{ opacity: 0.3 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: false, amount: 0.7 }}
         transition={{ duration: 0.8, delay: 0.9 }}
-        className="block"
       >
         Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
       </motion.span>
