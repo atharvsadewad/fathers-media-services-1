@@ -77,7 +77,7 @@ export default function Home() {
       </section>
 
       {/* TAGLINE SECTION */}
-<section className="section-padding text-center">
+      <section className="section-padding text-center">
   <motion.h2 
     initial={{ opacity: 0, y: 30 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -87,24 +87,38 @@ export default function Home() {
     Your Brand, <span className="text-yellow-500">Our Strategy.</span>
   </motion.h2>
 
-  {/* Interactive Lines */}
-  <div className="max-w-4xl mx-auto space-y-10 text-left">
-    {[
-      "At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.",
-      "By combining design, content, and data-driven insights, we craft digital experiences that truly connect.",
-      "Our mission is simple: to grow your brand, engage your audience, and deliver results that last."
-    ].map((line, i) => (
-      <motion.p
-        key={i}
+  <div className="max-w-4xl mx-auto text-left">
+    <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
+      <motion.span
         initial={{ opacity: 0.3 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: false, amount: 0.7 }}
-        transition={{ duration: 0.8, delay: i * 0.3 }}
-        className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white"
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="block"
       >
-        {line}
-      </motion.p>
-    ))}
+        At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
+      </motion.span>
+      <br />
+      <motion.span
+        initial={{ opacity: 0.3 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: false, amount: 0.7 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="block"
+      >
+        By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
+      </motion.span>
+      <br />
+      <motion.span
+        initial={{ opacity: 0.3 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: false, amount: 0.7 }}
+        transition={{ duration: 0.8, delay: 0.9 }}
+        className="block"
+      >
+        Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
+      </motion.span>
+    </p>
   </div>
 </section>
 
