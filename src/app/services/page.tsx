@@ -4,6 +4,15 @@ import { motion } from "framer-motion";
 
 export default function ServicesPage() {
   const services = [
+    { title: "Website Development",
+      desc: "Modern, responsive websites designed to convert visitors into customers.", 
+    },
+    { title: "Google Business Listing",
+      desc: "Boost visibility and credibility with a verified Google Business profile.",
+    },
+    { title: "SEO Optimization", 
+      desc: "Improve your search rankings with tailored SEO strategies.",
+    },
     {
       title: "Social Media Management",
       desc: "Strategy, content calendars, community management, and analytics.",
@@ -57,7 +66,7 @@ export default function ServicesPage() {
         "12 Reels 16 Posts 16 Stories/M",
         "Website Development",
         "SEO",
-        "Paid Promotions(4 Ads)",
+        "Paid Promotions (4 Ads)",
       ],
     },
   ];
@@ -122,4 +131,5 @@ export default function ServicesPage() {
     </main>
   );
 }
+
 
