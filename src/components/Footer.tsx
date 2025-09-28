@@ -49,7 +49,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="https://linkedin.com/company/fathers_media" target="_blank" rel="noreferrer"
+              <a href="https://linkedin.com/company/fathersmedia" target="_blank" rel="noreferrer"
                 className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-blue-700">
                 <Linkedin size={16} /> LinkedIn
               </a>
@@ -91,3 +91,4 @@ export default function Footer() {
     </footer>
   );
 }
+
