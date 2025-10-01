@@ -136,16 +136,15 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  background: rgba(17,17,17,0.9); /* slightly transparent black */
+  border-radius: 9999px; /* pill */
+  background: #111111;
   padding: 0.75rem 1.5rem;
-  color: #ffffff;
+  color: #fff;
   font-weight: 600;
   transition: all 0.3s ease;
-  backdrop-filter: blur(2px); /* optional: subtle blur to improve contrast */
 }
 .btn-primary:hover {
-  background: rgba(0,0,0,0.95);
+  background: #000000;
   transform: translateY(-2px);
 }
 
@@ -153,24 +152,20 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: 9999px; /* pill */
   border: 1px solid #111111;
   padding: 0.75rem 1.5rem;
-  color: #111827; /* dark text for light mode */
+  color: #111111;
   font-weight: 600;
   transition: all 0.3s ease;
-  background: rgba(255,255,255,0.85); /* semi-transparent white overlay */
-  backdrop-filter: blur(2px);
 }
 .btn-outline:hover {
   background: #111111;
   color: #ffffff;
 }
-
 .dark .btn-outline {
   border-color: #e5e7eb;
   color: #e5e7eb;
-  background: rgba(31,41,55,0.85);
 }
 .dark .btn-outline:hover {
   background: #e5e7eb;
