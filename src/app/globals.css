@@ -172,6 +172,23 @@ body::before {
   color: #111111;
 } 
 
+/* ====== LIGHT MODE SPECIAL BUTTON FIX (Hardcore) ====== */
+body:not(.dark) .btn-primary {
+  background: rgba(31, 41, 55, 0.95); /* very opaque dark background */
+  color: #fef3c7; /* pale yellow for high contrast */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* subtle border for pop */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* improves readability */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* adds depth */
+  transition: all 0.3s ease, box-shadow 0.3s ease;
+}
+
+body:not(.dark) .btn-primary:hover {
+  background: rgba(31, 41, 55, 1);
+  color: #fffbeb; /* slightly brighter on hover */
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5); /* stronger hover shadow */
+  transform: translateY(-2px);
+}
+
 /* ====== PORTFOLIO SCROLL ====== */
 @keyframes scroll-x {
   0% { transform: translateX(0); }
