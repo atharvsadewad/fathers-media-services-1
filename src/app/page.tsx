@@ -56,17 +56,17 @@ export default function Home() {
   return (
     <div>
       {/* HERO */}
-      <section className="relative h-[85vh] flex items-center overflow-hidden hero-gradient-1">
+    <section className="relative h-[85vh] flex items-center overflow-hidden">
   <motion.div 
     initial={{ opacity: 0, y: 20 }} 
     animate={{ opacity: 1, y: 0 }} 
     transition={{ duration: 0.8, ease: "easeOut" }} 
     className="container-responsive text-center"
   >
-    <h1 className="text-4xl sm:text-6xl font-extrabold text-white">
+    <h1 className="text-4xl sm:text-6xl font-extrabold text-black dark:text-white">
       Father’s Media — Building Brands Online
     </h1>
-    <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-200">
+    <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
       We help businesses stand out with strategy, creativity, and growth.
     </p>
     <div className="mt-8 flex gap-4 justify-center">
@@ -75,6 +75,7 @@ export default function Home() {
     </div>
   </motion.div>
 </section>
+
 
 
       {/* TAGLINE SECTION */}
