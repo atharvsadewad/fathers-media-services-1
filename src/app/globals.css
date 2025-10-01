@@ -132,23 +132,21 @@ body::before {
 }
 
 /* ====== BUTTONS ====== */
-/* ====== BUTTONS ====== */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background: #111111;
+  background: rgba(17,17,17,0.9); /* slightly transparent black */
   padding: 0.75rem 1.5rem;
   color: #ffffff;
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.25); /* subtle shadow for contrast */
+  backdrop-filter: blur(2px); /* optional: subtle blur to improve contrast */
 }
 .btn-primary:hover {
-  background: #000000;
+  background: rgba(0,0,0,0.95);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
 }
 
 .btn-outline {
@@ -158,10 +156,11 @@ body::before {
   border-radius: 9999px;
   border: 1px solid #111111;
   padding: 0.75rem 1.5rem;
-  color: #f9f9f9; /* visible on orange bg */
+  color: #111827; /* dark text for light mode */
   font-weight: 600;
   transition: all 0.3s ease;
-  background: rgba(0,0,0,0.15); /* subtle overlay for grainy bg */
+  background: rgba(255,255,255,0.85); /* semi-transparent white overlay */
+  backdrop-filter: blur(2px);
 }
 .btn-outline:hover {
   background: #111111;
@@ -171,12 +170,12 @@ body::before {
 .dark .btn-outline {
   border-color: #e5e7eb;
   color: #e5e7eb;
+  background: rgba(31,41,55,0.85);
 }
 .dark .btn-outline:hover {
   background: #e5e7eb;
   color: #111111;
 }
-
 
 /* ====== PORTFOLIO SCROLL ====== */
 @keyframes scroll-x {
