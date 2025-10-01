@@ -8,18 +8,26 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #111827;
-  --gold: #d4af37;
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Menlo', monospace;
-  --bg-image: url('/background.jpg'); /* 🔑 Add your image here */
+  --bg-image: url('/images/background.jpg'); /* light mode background */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ffffff;
-    --bg-image: url('/background-dark.jpg'); /* optional: darker version of image */
+    --bg-image: url('/images/darkbg.jpg'); /* dark mode background */
   }
+}
+
+body {
+  background: var(--background) no-repeat center center fixed;
+  background-image: var(--bg-image);
+  background-size: cover;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  position: relative;
+  overflow-x: hidden;
+}
 
   body {
     background: var(--background) var(--bg-image) no-repeat center center fixed;
