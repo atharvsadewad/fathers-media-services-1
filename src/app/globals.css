@@ -11,16 +11,19 @@ html {
   --gold: #d4af37;
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'Menlo', monospace;
+  --bg-image: url('/background.jpg'); /* 🔑 Add your image here */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a; /* dark background */
-    --foreground: #ffffff; /* light text */
+    --background: #0a0a0a;
+    --foreground: #ffffff;
+    --bg-image: url('/background-dark.jpg'); /* optional: darker version of image */
   }
 
   body {
-    background: var(--background);
+    background: var(--background) var(--bg-image) no-repeat center center fixed;
+    background-size: cover;
     color: var(--foreground);
   }
 
@@ -29,7 +32,7 @@ html {
   }
 
   .card {
-    background: rgba(31, 41, 55, 0.9); /* dark card */
+    background: rgba(31, 41, 55, 0.9);
     border-color: rgba(55, 65, 81, 0.7);
   }
 }
@@ -40,11 +43,13 @@ html, body {
 }
 
 body {
-  background: var(--background);
+  background: var(--background) var(--bg-image) no-repeat center center fixed;
+  background-size: cover;
   color: var(--foreground);
   font-family: var(--font-sans);
   position: relative;
   overflow-x: hidden;
+  z-index: 0;
 }
 
 /* ====== GOLDEN CURSOR SPOTLIGHT ====== */
@@ -59,7 +64,7 @@ body::before {
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  z-index: 0;
+  z-index: 1; /* put it above bg but below content */
   transition: top 0.15s ease, left 0.15s ease;
 }
 
@@ -69,7 +74,7 @@ body::before {
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
-  z-index: 1;
+  z-index: 2; /* above spotlight */
 }
 
 .section-padding {
@@ -113,7 +118,7 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px; /* pill */
+  border-radius: 9999px;
   background: #111111;
   padding: 0.75rem 1.5rem;
   color: #fff;
@@ -129,7 +134,7 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px; /* pill */
+  border-radius: 9999px;
   border: 1px solid #111111;
   padding: 0.75rem 1.5rem;
   color: #111111;
@@ -149,6 +154,7 @@ body::before {
   color: #111111;
 }
 
+/* ====== PORTFOLIO SCROLL ====== */
 @keyframes scroll-x {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -161,10 +167,10 @@ body::before {
 
 @media (max-width: 768px) {
   .animate-scroll-x {
-    animation: none; /* ❌ disable animation on mobile */
-    overflow-x: auto; /* ✅ allow manual scrolling */
-    scroll-snap-type: x mandatory; /* ✅ snap to each card */
-    -webkit-overflow-scrolling: touch; /* ✅ smooth iOS scroll */
+    animation: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
   }
 
   .animate-scroll-x > div {
@@ -174,14 +180,4 @@ body::before {
 
 .animate-scroll-x.pause {
   animation-play-state: paused;
-} 
-.hero-gradient-1 {
-  background: radial-gradient(circle at 20% 30%, rgba(255, 165, 130, 0.6), transparent 60%),
-              radial-gradient(circle at 80% 40%, rgba(120, 90, 255, 0.5), transparent 70%),
-              radial-gradient(circle at 30% 70%, rgba(180, 255, 150, 0.5), transparent 60%),
-              radial-gradient(circle at 70% 80%, rgba(100, 180, 255, 0.4), transparent 70%),
-              #0f0f0f; /* base dark background */
-  background-blend-mode: screen;
-  background-size: cover;
-  background-repeat: no-repeat;
 }
