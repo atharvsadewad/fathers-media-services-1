@@ -175,3 +175,8 @@ body::before {
 .animate-scroll-x.pause {
   animation-play-state: paused;
 } 
+.hero-gradient {
+  background: radial-gradient(circle at 30% 30%, #111 0%, #000 100%);
+  background-size: cover;
+  background-repeat: no-repeat;
+}
