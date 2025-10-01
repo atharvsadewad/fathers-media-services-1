@@ -136,15 +136,15 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  background: rgba(17, 17, 17, 0.85); /* same as dark mode style */
+  border-radius: 9999px; /* pill */
+  background: #111111;
   padding: 0.75rem 1.5rem;
-  color: #ffffff;
+  color: #fff;
   font-weight: 600;
   transition: all 0.3s ease;
 }
 .btn-primary:hover {
-  background: rgba(17, 17, 17, 0.95);
+  background: #000000;
   transform: translateY(-2px);
 }
 
@@ -152,28 +152,35 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
-  border: 1px solid rgba(229, 231, 235, 0.4); /* same as dark mode */
+  border-radius: 9999px; /* pill */
+  border: 1px solid #111111;
   padding: 0.75rem 1.5rem;
-  color: #e5e7eb; /* same as dark mode text */
+  color: #111111;
   font-weight: 600;
   transition: all 0.3s ease;
-  background: rgba(31, 41, 55, 0.85); /* same as dark mode */
 }
 .btn-outline:hover {
-  background: #e5e7eb;
-  color: #111111;
+  background: #111111;
+  color: #ffffff;
 }
-
-/* dark mode remains unchanged */
 .dark .btn-outline {
   border-color: #e5e7eb;
   color: #e5e7eb;
-  background: rgba(31, 41, 55, 0.85);
 }
 .dark .btn-outline:hover {
   background: #e5e7eb;
   color: #111111;
+}
+
+/* ====== LIGHT MODE BUTTON FIX ====== */
+body:not(.dark) .btn-primary {
+  background: rgba(31, 41, 55, 0.85); /* same as dark mode card background for visibility */
+  color: #e5e7eb; /* light text for contrast */
+}
+
+body:not(.dark) .btn-primary:hover {
+  background: #1f2937; /* slightly darker for hover */
+  color: #ffffff;
 }
 
 /* ====== PORTFOLIO SCROLL ====== */
