@@ -139,7 +139,7 @@ body::before {
   border-radius: 9999px;
   background: #111111;
   padding: 0.75rem 1.5rem;
-  color: #fff;
+  color: #ffffff; /* ensure visible on light bg */
   font-weight: 600;
   transition: all 0.3s ease;
 }
@@ -155,14 +155,16 @@ body::before {
   border-radius: 9999px;
   border: 1px solid #111111;
   padding: 0.75rem 1.5rem;
-  color: #111111;
+  color: #f9f9f9; /* changed to light text for visibility on orange bg */
   font-weight: 600;
   transition: all 0.3s ease;
+  background: rgba(0,0,0,0.15); /* optional: adds slight contrast for grainy bg */
 }
 .btn-outline:hover {
   background: #111111;
   color: #ffffff;
 }
+
 .dark .btn-outline {
   border-color: #e5e7eb;
   color: #e5e7eb;
