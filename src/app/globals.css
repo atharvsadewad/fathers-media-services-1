@@ -8,15 +8,25 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #111827;
-  --bg-image: url('/images/background.jpg'); /* light mode background */
+  --bg-image: url('/images/light-bg.jpg'); /* light mode background */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ffffff;
-    --bg-image: url('/images/darkbg.jpg'); /* dark mode background */
+    --bg-image: url('/images/dark-bg.jpg'); /* dark mode background */
   }
+}
+
+body {
+  background: var(--background) no-repeat center center fixed;
+  background-image: var(--bg-image);
+  background-size: cover;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  position: relative;
+  overflow-x: hidden;
 }
 
 body {
