@@ -170,18 +170,7 @@ body::before {
 .dark .btn-outline:hover {
   background: #e5e7eb;
   color: #111111;
-}
-
-/* ====== LIGHT MODE BUTTON FIX ====== */
-body:not(.dark) .btn-primary {
-  background: rgba(31, 41, 55, 0.85); /* same as dark mode card background for visibility */
-  color: #e5e7eb; /* light text for contrast */
-}
-
-body:not(.dark) .btn-primary:hover {
-  background: #1f2937; /* slightly darker for hover */
-  color: #ffffff;
-}
+} 
 
 /* ====== PORTFOLIO SCROLL ====== */
 @keyframes scroll-x {
