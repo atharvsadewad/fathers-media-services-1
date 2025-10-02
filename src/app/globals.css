@@ -8,36 +8,18 @@ html {
 :root {
   --background: #ffffff;
   --foreground: #111827;
-  --bg-image: url('/images/light-bg.jpg'); /* light mode background */
+  --gold: #d4af37;
+  --font-sans: 'Inter', sans-serif;
+  --font-mono: 'Menlo', monospace;
+  --bg-image: url('/background.jpg'); /* 🔑 Add your image here */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ffffff;
-    --bg-image: url('/images/dark-bg.jpg'); /* dark mode background */
+    --bg-image: url('/background-dark.jpg'); /* optional: darker version of image */
   }
-}
-
-body {
-  background: var(--background) no-repeat center center fixed;
-  background-image: var(--bg-image);
-  background-size: cover;
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  position: relative;
-  overflow-x: hidden;
-}
-
-body {
-  background: var(--background) no-repeat center center fixed;
-  background-image: var(--bg-image);
-  background-size: cover;
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  position: relative;
-  overflow-x: hidden;
-}
 
   body {
     background: var(--background) var(--bg-image) no-repeat center center fixed;
@@ -53,7 +35,7 @@ body {
     background: rgba(31, 41, 55, 0.9);
     border-color: rgba(55, 65, 81, 0.7);
   }
-
+}
 
 /* ====== BASE LAYOUT ====== */
 html, body {
@@ -136,7 +118,7 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px; /* pill */
+  border-radius: 9999px;
   background: #111111;
   padding: 0.75rem 1.5rem;
   color: #fff;
@@ -152,7 +134,7 @@ body::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px; /* pill */
+  border-radius: 9999px;
   border: 1px solid #111111;
   padding: 0.75rem 1.5rem;
   color: #111111;
@@ -170,23 +152,6 @@ body::before {
 .dark .btn-outline:hover {
   background: #e5e7eb;
   color: #111111;
-} 
-
-/* ====== LIGHT MODE SPECIAL BUTTON FIX (Hardcore) ====== */
-body:not(.dark) .btn-primary {
-  background: rgba(31, 41, 55, 0.95); /* very opaque dark background */
-  color: #fef3c7; /* pale yellow for high contrast */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* subtle border for pop */
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5); /* improves readability */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3); /* adds depth */
-  transition: all 0.3s ease, box-shadow 0.3s ease;
-}
-
-body:not(.dark) .btn-primary:hover {
-  background: rgba(31, 41, 55, 1);
-  color: #fffbeb; /* slightly brighter on hover */
-  box-shadow: 0 6px 20px rgba(0,0,0,0.5); /* stronger hover shadow */
-  transform: translateY(-2px);
 }
 
 /* ====== PORTFOLIO SCROLL ====== */
