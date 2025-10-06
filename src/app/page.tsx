@@ -221,33 +221,8 @@ export default function Home() {
   <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
   <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
   <button type="submit" className="btn-primary w-full">Send Message</button>
-</form>
-<form
-  onSubmit={async (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (res.ok) {
-      alert("✅ Your message has been sent successfully!");
-      form.reset();
-    } else {
-      alert("❌ Failed to send message. Please try again.");
-    }
-  }}
-  className="space-y-4"
->
-            <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-            <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-            <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-            <button type="submit" className="btn-primary w-full">Send Message</button>
-             </form>
-             </div>
+        </form>
+         </div>
         </div>
       </section>
     </div>
