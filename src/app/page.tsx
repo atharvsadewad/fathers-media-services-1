@@ -232,3 +232,7 @@ export default function Home() {
     </div>
   </div>
 </section>
+      // This closes the JSX returned by the component
+); 
+// This closes the functional component (e.g., HomePage or default export)
+}
