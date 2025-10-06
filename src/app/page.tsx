@@ -197,15 +197,31 @@ export default function Home() {
           </motion.div>
 
           <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left">
-            <form className="space-y-4">
-              <input type="text" placeholder="Your Name" className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-              <input type="email" placeholder="Your Email" className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-              <textarea rows={4} placeholder="Your Message" className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+            <form // This is the corrected line: only one <form tag here
+              onSubmit={async (e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const formData = new FormData(form);
+
+                const res = await fetch("/api/contact", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                if (res.ok) {
+                  alert("✅ Your message has been sent successfully! Our team will reach you in next 24hrs");
+                  form.reset();
+                } else {
+                  alert("❌ Failed to send message. Please try again.");
+                }
+              }}
+              className="space-y-4"
+            >
+              <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
               <button type="submit" className="btn-primary w-full">Send Message</button>
             </form>
           </div>
         </div>
       </section>
-    </div>
-  );
-}
