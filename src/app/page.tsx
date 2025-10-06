@@ -184,55 +184,72 @@ export default function Home() {
       </section>
 
       {/* CONTACT */}
-<section id="contact" className="section-padding">
-  <div className="container-responsive text-center">
-    <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
-    <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
-      Ready to grow your brand? Reach out and let’s talk strategy.
-    </p>
+      <section id="contact" className="section-padding">
+        <div className="container-responsive text-center">
+          <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
+          <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+            Ready to grow your brand? Reach out and let’s talk strategy.
+          </p>
 
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }} 
-      whileInView={{ opacity: 1, y: 0 }} 
-      transition={{ duration: 0.6, ease: "easeOut" }} 
-      viewport={{ amount: 0.5 }} 
-      className="mt-8 flex flex-col sm:flex-row justify-center gap-6"
-    >
-      <a href="#contact-form" className="btn-primary">Contact Us</a>
-      <a href="#services" className="btn-outline">Explore Services</a>
-    </motion.div>
+          <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} viewport={{ amount: 0.5 }} className="mt-8 flex flex-col sm:flex-row justify-center gap-6">
+            <a href="#contact-form" className="btn-primary">Contact Us</a>
+            <a href="#services" className="btn-outline">Explore Services</a>
+          </motion.div>
 
-    <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left">
-      <form 
-        onSubmit={async (e) => {
-          e.preventDefault();
-          const form = e.currentTarget;
-          const formData = new FormData(form);
+          <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left">
+      <form
+  onSubmit={async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
 
-          const res = await fetch("/api/contact", {
-            method: "POST",
-            body: formData,
-          });
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      body: formData,
+    });
 
-          if (res.ok) {
-            alert("✅ Your message has been sent successfully! Our team will reach you in 24hrs");
-            form.reset();
-          } else {
-            alert("❌ Failed to send message. Please try again.");
-          }
-        }}
-        className="space-y-4"
-      >
-        {/* Your form fields are correctly nested here: */}
-        <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-        <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-        <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-        <button type="submit" className="btn-primary w-full">Send Message</button>
-      </form>
+    if (res.ok) {
+      alert("✅ Your message has been sent successfully!");
+      form.reset();
+    } else {
+      alert("❌ Failed to send message. Please try again.");
+    }
+  }}
+  className="space-y-4"
+>
+  <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+  <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+  <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+  <button type="submit" className="btn-primary w-full">Send Message</button>
+</form>
+<form
+  onSubmit={async (e) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (res.ok) {
+      alert("✅ Your message has been sent successfully!");
+      form.reset();
+    } else {
+      alert("❌ Failed to send message. Please try again.");
+    }
+  }}
+  className="space-y-4"
+>
+            <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+            <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+            <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+            <button type="submit" className="btn-primary w-full">Send Message</button>
+             </form>
+             </div>
+        </div>
+      </section>
     </div>
-  </div>
-</section>
-      // This closes the JSX returned by the component
-); 
-// This closes the functional component (e.g., HomePage or default export)
-}
+  );
+} 
