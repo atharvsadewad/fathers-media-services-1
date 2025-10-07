@@ -51,9 +51,9 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* TAGLINE */}
+       {/* TAGLINE */}
       <section className="section-padding text-center">
-        <motion.h2
+        <motion.h2 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -64,7 +64,15 @@ export default function Home() {
 
         <div className="max-w-4xl mx-auto text-left">
           <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
-            At Father’s Media, we understand how vital creativity and strategy are in building strong brands online. By combining design, content, and data-driven insights, we craft digital experiences that truly connect. Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.3 }}>
+              At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
+            </motion.span>{" "}
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.6 }}>
+              By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
+            </motion.span>{" "}
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.9 }}>
+              Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
+            </motion.span>
           </p>
         </div>
       </section>
@@ -123,8 +131,39 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PLANS SECTION (Unchanged) */}
-      {/* Keep your existing plans section here */}
+            {/* PLANS */}
+      <section id="plans" className="section-padding">
+        <div className="container-responsive">
+          <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
+          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
+
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {[
+              { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
+              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions(2 Ads)"] },
+              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions(4 Ads)"] },
+            ].map((plan, i) => (
+              <motion.div 
+                key={plan.name} 
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
+                viewport={{ once: false, amount: 0.5 }}
+                whileHover={{ scale: 1.05, y: -5 }}
+                className="card p-6 flex flex-col"
+              >
+                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
+                <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2"><span>✔</span>{f}</li>
+                  ))}
+                </ul>
+                <a href="#contact" className="btn-primary mt-6 text-center">Enquire Now</a>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* WHY CHOOSE US - Updated layout with images */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
@@ -178,6 +217,33 @@ export default function Home() {
                     className="rounded-3xl shadow-lg object-cover w-full h-72"
                   />
                 </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+           {/* PORTFOLIO */}
+      <section className="section-padding">
+        <div className="container-responsive text-center">
+          <h2 className="section-title text-gray-900 dark:text-white">Showcasing Creativity</h2>
+          <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+            From brand identities to web apps — a glimpse of our work.
+          </p>
+        </div>
+
+        <div className="relative overflow-hidden mt-12" onMouseEnter={(e) => e.currentTarget.classList.add("pause")} onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}>
+          <div className="flex animate-scroll-x gap-6 px-4">
+            {["/portfolio/work1.png","/portfolio/work2.png","/portfolio/work3.png","/portfolio/work4.png","/portfolio/work5.png","/portfolio/chamber-screenshot.png"].map((src, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: false, amount: 0.4 }}
+                transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
+                className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg"
+              >
+                <img src={src} alt={`Portfolio ${i + 1}`} className="w-full h-full object-cover" />
               </motion.div>
             ))}
           </div>
