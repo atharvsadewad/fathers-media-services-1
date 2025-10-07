@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, AnimatePresence, Variants } from "framer-motion"; // Import Variants type
-import { useState } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+// FIX APPLIED HERE: Add useRef
+import { useState, useRef } from "react";
 import {
   FaCode,
   FaGlobe,
@@ -15,7 +16,6 @@ import {
 
 // Data (services array remains the same)
 const services = [
-  // ... (Your services array here) ...
   {
     id: "01",
     title: "Website Development",
@@ -68,11 +68,10 @@ const services = [
   },
 ];
 
-// Animation variants for the individual cards (FIXED TYPE ERROR HERE)
+// Animation variants for the individual cards
 const cardVariants: Variants = {
   enter: (direction: number) => ({
     opacity: 0,
-    // Note: Framer Motion infers 'spring' or 'tween' based on transition object if not specified
     y: direction > 0 ? 50 : -50,
     scale: 0.9,
   }),
@@ -126,7 +125,7 @@ export default function Home() {
 
   return (
     <div>
-      {/* HERO SECTION (unchanged) */}
+      {/* HERO SECTION */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -151,7 +150,7 @@ export default function Home() {
         </motion.div>
       </section>
       
-      {/* TAGLINE (unchanged) */}
+      {/* TAGLINE */}
       <section className="section-padding text-center">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -194,7 +193,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* WHAT WE DO - VERTICAL CAROUSEL (Revised) */}
+      {/* WHAT WE DO - VERTICAL CAROUSEL */}
       <section
         id="services"
         className="section-padding relative overflow-hidden font-['DM_Sans'] min-h-screen flex items-center justify-center"
@@ -286,7 +285,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* PLANS (unchanged) */}
+      {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">
@@ -360,7 +359,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* WHY CHOOSE US (unchanged) */}
+      {/* WHY CHOOSE US */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">
@@ -420,7 +419,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* PORTFOLIO (unchanged) */}
+      {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">
@@ -463,7 +462,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* CONTACT SECTION (unchanged) */}
+      {/* CONTACT SECTION */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">
