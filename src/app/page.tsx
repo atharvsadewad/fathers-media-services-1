@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import {
   FaCode,
   FaGlobe,
@@ -81,15 +82,22 @@ const services = [
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [locked, setLocked] = useState(true);
-  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [locked, setLocked] = useState(false);
+  const { ref: sectionRef, inView } = useInView({ threshold: 0.5 });
 
   useScrollLock(locked);
 
   // Handle scroll for the WHAT WE DO section container
   function handleSectionScroll(e: React.UIEvent<HTMLDivElement>) {
     const target = e.currentTarget;
-    // Unlock whole page scroll only when scrolled to bottom of container
+
+    // Lock whole page scroll only when section is in view
+    if (!inView) {
+      setLocked(false);
+      return;
+    }
+
+    // Unlock page scroll if scrolled to bottom of the section container
     if (target.scrollTop + target.clientHeight >= target.scrollHeight - 2) {
       setLocked(false);
     } else {
@@ -133,6 +141,7 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
+
       {/* TAGLINE */}
       <section className="section-padding text-center">
         <motion.h2
@@ -175,6 +184,7 @@ export default function Home() {
           </p>
         </div>
       </section>
+
       {/* WHAT WE DO - scroll-lock section */}
       <section
         id="services"
@@ -212,7 +222,7 @@ export default function Home() {
                       duration: 0.7,
                       ease: [0.25, 0.1, 0.25, 1],
                     }}
-                    className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${cardSpacing}`}
+                    className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 mb-10`}
                     style={{
                       position: "absolute",
                       top: 0,
@@ -221,6 +231,10 @@ export default function Home() {
                     }}
                   >
                     <div className="w-2/3">
+                      {/* Added numeric index line */}
+                      <p className="text-yellow-500 font-mono text-xl font-bold tracking-widest mb-1">
+                        {String(i + 1).padStart(2, "0")}
+                      </p>
                       <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                         {s.title}
                       </h3>
@@ -238,53 +252,20 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* PLANS */}
+
+         {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
-          <h2 className="section-title text-center text-gray-900 dark:text-white">
-            Plans & Pricing
-          </h2>
-          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">
-            Enquire to get a custom quote.
-          </p>
+          <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
+          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
-              {
-                name: "Basic",
-                features: [
-                  "Strategy Consulting",
-                  "Digital Marketing & Management ",
-                  "Content Writing",
-                  "Photo & Video Shoot",
-                  "Editing",
-                  "Graphic Posts",
-                  "4 Reels 8 Post 8 Stories/M",
-                  "Google Business Listing",
-                ],
-              },
-              {
-                name: "Standard",
-                features: [
-                  "Includes Basic",
-                  "Brand Building - Complete",
-                  "8 Reels 12 Posts 12 Stories/M ",
-                  "Paid Promotions(2 Ads)",
-                ],
-              },
-              {
-                name: "Premium",
-                features: [
-                  "Includes Standard",
-                  "Multi-platform Media Handling",
-                  "12 Reels 16 Posts 16 Stories/M",
-                  "Website Development",
-                  "SEO",
-                  "Paid Promotions(4 Ads)",
-                ],
-              },
+              { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
+              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions(2 Ads)"] },
+              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions(4 Ads)"] },
             ].map((plan, i) => (
-              <motion.div
-                key={plan.name}
+              <motion.div 
+                key={plan.name} 
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
@@ -292,20 +273,13 @@ export default function Home() {
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="card p-6 flex flex-col"
               >
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  {plan.name}
-                </h3>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <span>✔</span>
-                      {f}
-                    </li>
+                    <li key={f} className="flex items-start gap-2"><span>✔</span>{f}</li>
                   ))}
                 </ul>
-                <a href="#contact" className="btn-primary mt-6 text-center">
-                  Enquire Now
-                </a>
+                <a href="#contact" className="btn-primary mt-6 text-center">Enquire Now</a>
               </motion.div>
             ))}
           </div>
@@ -324,20 +298,17 @@ export default function Home() {
             {[
               {
                 title: "Proven Results",
-                desc:
-                  "Track record of scaling SMBs and brands with measurable outcomes.",
+                desc: "Track record of scaling SMBs and brands with measurable outcomes.",
                 img: "/images/results.jpg",
               },
               {
                 title: "Full-Funnel Approach",
-                desc:
-                  "From strategy to creative to paid growth — we handle it all.",
+                desc: "From strategy to creative to paid growth — we handle it all.",
                 img: "/images/funnel.jpg",
               },
               {
                 title: "Transparent Reporting",
-                desc:
-                  "We believe in clarity — expect transparent reports and real progress.",
+                desc: "We believe in clarity — expect transparent reports and real progress.",
                 img: "/images/reporting.jpg",
               },
             ].map((item, i) => (
@@ -373,27 +344,14 @@ export default function Home() {
       {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
-          <h2 className="section-title text-gray-900 dark:text-white">
-            Showcasing Creativity
-          </h2>
+          <h2 className="section-title text-gray-900 dark:text-white">Showcasing Creativity</h2>
           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
             From brand identities to web apps — a glimpse of our work.
           </p>
         </div>
-        <div
-          className="relative overflow-hidden mt-12"
-          onMouseEnter={(e) => e.currentTarget.classList.add("pause")}
-          onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}
-        >
+        <div className="relative overflow-hidden mt-12" onMouseEnter={(e) => e.currentTarget.classList.add("pause")} onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}>
           <div className="flex animate-scroll-x gap-6 px-4">
-            {[
-              "/portfolio/work1.png",
-              "/portfolio/work2.png",
-              "/portfolio/work3.png",
-              "/portfolio/work4.png",
-              "/portfolio/work5.png",
-              "/portfolio/chamber-screenshot.png",
-            ].map((src, i) => (
+            {["/portfolio/work1.png","/portfolio/work2.png","/portfolio/work3.png","/portfolio/work4.png","/portfolio/work5.png","/portfolio/chamber-screenshot.png"].map((src, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -402,11 +360,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
                 className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg"
               >
-                <img
-                  src={src}
-                  alt={`Portfolio ${i + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                <img src={src} alt={`Portfolio ${i + 1}`} className="w-full h-full object-cover" />
               </motion.div>
             ))}
           </div>
@@ -421,7 +375,10 @@ export default function Home() {
           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
             Ready to grow your brand? Reach out and let’s talk strategy.
           </p>
-          <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left space-y-4">
+          <div
+            id="contact-form"
+            className="mt-10 max-w-xl mx-auto text-left space-y-4"
+          >
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
