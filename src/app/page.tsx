@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import {
   FaCode,
   FaGlobe,
@@ -14,64 +15,42 @@ import {
 } from "react-icons/fa";
 
 const services = [
-  {
-    id: "01",
-    title: "Website Development",
-    desc: "Modern, responsive websites designed to convert visitors into customers.",
-    icon: <FaCode className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "02",
-    title: "Google Business Listing",
-    desc: "Boost visibility and credibility with a verified Google Business profile.",
-    icon: <FaGlobe className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "03",
-    title: "SEO Optimization",
-    desc: "Improve your search rankings with tailored SEO strategies.",
-    icon: <FaSearch className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "04",
-    title: "Social Media Management",
-    desc: "Strategy, calendars, community management, and analytics.",
-    icon: <FaUsers className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "05",
-    title: "Branding & Strategy",
-    desc: "Positioning, voice and cohesive visual identity.",
-    icon: <FaPaintBrush className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "06",
-    title: "Paid Ads & Promotions",
-    desc: "ROI-focused campaigns across Meta, Google and more.",
-    icon: <FaChartLine className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "07",
-    title: "Content Creation",
-    desc:
-      "Reels, shoots, campaigns that convert attention into action.",
-    icon: <FaVideo className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "08",
-    title: "Influencer Marketing",
-    desc:
-      "Creator partnerships that drive reach and credibility.",
-    icon: <FaBullhorn className="text-6xl text-yellow-500" />,
-  },
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
 ];
 
 export default function Home() {
-  // Track the index currently animating in view based on scroll (simple logic here)
-  const [activeIndex, setActiveIndex] = useState(0);
+  // --- HERO & TAGLINE remain unchanged ---
 
-  // Card bottom spacing class for less space between cards
-  const cardSpacing = "mb-10";
+  // --- WHAT WE DO (Stacked Animation Section) ---
+  // Card spacing (reduced)
+  const cardSpacing = "mb-10"; // was gap-24 → mb-10 for tighter stacking
+  // For animation, activeIndex used to display one card at a time
+  const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+
+  // Calculate which card to show based on scroll position
+  useEffect(() => {
+    function onScroll() {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const scrollY = window.scrollY + window.innerHeight/2; // Center trigger
+      const sectionTop = rect.top + window.scrollY;
+      const cardHeight = 400; // adjust for card size, including margin
+      let idx = Math.floor((scrollY - sectionTop) / cardHeight);
+      if (idx < 0) idx = 0;
+      if (idx > services.length - 1) idx = services.length - 1;
+      setActiveIndex(idx);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div>
@@ -99,10 +78,9 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-
       {/* TAGLINE */}
       <section className="section-padding text-center">
-        <motion.h2
+        <motion.h2 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -112,40 +90,21 @@ export default function Home() {
         </motion.h2>
         <div className="max-w-4xl mx-auto text-left">
           <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
-            <motion.span
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.7 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              At Father’s Media, we understand how vital creativity and
-              strategy are in building strong brands online.
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.3 }}>
+              At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
             </motion.span>{" "}
-            <motion.span
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.7 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              By combining design, content, and data-driven insights, we craft
-              digital experiences that truly connect.
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.6 }}>
+              By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
             </motion.span>{" "}
-            <motion.span
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.7 }}
-              transition={{ duration: 0.8, delay: 0.9 }}
-            >
-              Our mission is simple: to grow your brand, engage your audience,
-              and deliver results that last.
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.9 }}>
+              Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
             </motion.span>
           </p>
         </div>
       </section>
-
-      {/* WHAT WE DO - All cards fade in on scroll with less spacing, indexed */}
-      <section id="services" className="section-padding relative font-['DM_Sans']">
-        <div className="container-responsive text-left">
+      {/* WHAT WE DO (Stacked card animation inspired by Leo9 Studio) */}
+      <section id="services" className="section-padding relative overflow-hidden font-['DM_Sans']">
+        <div className="container-responsive text-left" ref={sectionRef}>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -158,42 +117,43 @@ export default function Home() {
           <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-8">
             Turning ideas into impact.
           </p>
-          <div className={`flex flex-col gap-12`}>
-            {services.map((s, i) => (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, y: 80, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.15,
-                  ease: [0.25, 0.1, 0.25, 1],
-                }}
-                viewport={{ once: false, amount: 0.5 }}
-                className={`flex flex-row items-center justify-between gap-10 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${cardSpacing}`}
-              >
-                <div className="w-2/3">
-                  {/* Numeric index line */}
-                  <p className="text-yellow-500 font-mono text-xl font-bold tracking-widest mb-1">
-                    {String(i + 1).padStart(2, "0")}
-                  </p>
-                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    {s.title}
-                  </h3>
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {s.desc}
-                  </p>
-                </div>
-                <div className="text-7xl md:w-1/3 flex justify-center items-center">
-                  {s.icon}
-                </div>
-              </motion.div>
-            ))}
+          <div className="relative flex flex-col items-center" style={{ minHeight: "420px" }}>
+            <AnimatePresence initial={false}>
+              {services.map((s, i) =>
+                i === activeIndex ? (
+                  <motion.div
+                    key={s.id}
+                    initial={{ opacity: 0, y: 80, scale: 0.92 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -80, scale: 0.92 }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                    className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${cardSpacing}`}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                    }}
+                  >
+                    <div className="w-2/3">
+                      <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        {s.title}
+                      </h3>
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {s.desc}
+                      </p>
+                    </div>
+                    <div className="text-7xl md:w-1/3 flex justify-center items-center">
+                      {s.icon}
+                    </div>
+                  </motion.div>
+                ) : null
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
-
-         {/* PLANS */}
+      {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
