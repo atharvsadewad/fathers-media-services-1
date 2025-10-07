@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect, UIEvent } from "react";
+import { motion } from "framer-motion";
 import {
   FaCode,
   FaGlobe,
@@ -13,159 +12,21 @@ import {
   FaVideo,
 } from "react-icons/fa";
 
-// Data
-const services = [
-  {
-    id: "01",
-    title: "Website Development",
-    desc: "Modern, responsive websites designed to convert visitors into customers.",
-    icon: <FaCode className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "02",
-    title: "Google Business Listing",
-    desc: "Boost visibility and credibility with a verified Google Business profile.",
-    icon: <FaGlobe className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "03",
-    title: "SEO Optimization",
-    desc: "Improve your search rankings with tailored SEO strategies.",
-    icon: <FaSearch className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "04",
-    title: "Social Media Management",
-    desc: "Strategy, calendars, community management, and analytics.",
-    icon: <FaUsers className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "05",
-    title: "Branding & Strategy",
-    desc: "Positioning, voice and cohesive visual identity.",
-    icon: <FaPaintBrush className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "06",
-    title: "Paid Ads & Promotions",
-    desc: "ROI-focused campaigns across Meta, Google and more.",
-    icon: <FaChartLine className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "07",
-    title: "Content Creation",
-    desc:
-      "Reels, shoots, campaigns that convert attention into action.",
-    icon: <FaVideo className="text-6xl text-yellow-500" />,
-  },
-  {
-    id: "08",
-    title: "Influencer Marketing",
-    desc:
-      "Creator partnerships that drive reach and credibility.",
-    icon: <FaBullhorn className="text-6xl text-yellow-500" />,
-  },
-];
-
-// Custom Hook to manage body scroll lock and prevent page jump
-function useScrollLock(locked: boolean) {
-  useEffect(() => {
-    if (locked) {
-      // Store current scroll position to restore it later and prevent jump
-      const scrollY = window.scrollY; 
-      document.body.style.overflow = "hidden";
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.setAttribute('data-scroll-y', scrollY.toString());
-    } else {
-      const scrollY = document.body.getAttribute('data-scroll-y');
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.top = "";
-      if (scrollY) {
-        // Restore scroll position
-        window.scrollTo(0, parseInt(scrollY, 10));
-        document.body.removeAttribute('data-scroll-y');
-      }
-    }
-    return () => {
-      // Cleanup on component unmount
-      const scrollY = document.body.getAttribute('data-scroll-y');
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.top = "";
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY, 10));
-        document.body.removeAttribute('data-scroll-y');
-      }
-    };
-  }, [locked]);
-}
-
 export default function Home() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  // Initialize 'locked' to false so the page scrolls normally at first.
-  const [locked, setLocked] = useState(false);
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-
-  useScrollLock(locked);
-
-  // Intersection Observer to lock the scroll when the section is in view.
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Lock when 80% or more of the section is visible
-        if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
-            setLocked(true);
-        }
-      },
-      {
-        root: null, // viewport
-        rootMargin: "0px",
-        threshold: 0.8, // Trigger when 80% of the section is visible
-      }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-
-  // Handle scroll for the WHAT WE DO section container
-  function handleSectionScroll(e: React.UIEvent<HTMLDivElement>) {
-    const target = e.currentTarget;
-    const isAtBottom = target.scrollTop + target.clientHeight >= target.scrollHeight - 2;
-
-    // Set locked to FALSE ONLY when at the very bottom, unlocking the body scroll
-    if (isAtBottom) {
-      setLocked(false);
-    } else {
-      // Re-lock the body scroll if scrolling internally
-      setLocked(true);
-    }
-
-    // Calculate active card index (approximate)
-    const cardHeight = 420; 
-    let idx = Math.floor(target.scrollTop / cardHeight);
-    if (idx < 0) idx = 0;
-    if (idx > services.length - 1) idx = services.length - 1;
-    setActiveIndex(idx);
-  }
-
-  // Card bottom spacing
-  const cardSpacing = "mb-10";
+  const services = [
+    { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
+    { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
+    { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
+    { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
+    { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
+    { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
+    { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
+    { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+  ];
 
   return (
     <div>
+      
       {/* HERO SECTION */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
         <motion.div
@@ -190,7 +51,7 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-      
+
       {/* TAGLINE */}
       <section className="section-padding text-center">
         <motion.h2
@@ -201,47 +62,16 @@ export default function Home() {
         >
           Your Brand, <span className="text-yellow-500">Our Strategy.</span>
         </motion.h2>
+
         <div className="max-w-4xl mx-auto text-left">
           <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
-            <motion.span
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.7 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              At Father’s Media, we understand how vital creativity and
-              strategy are in building strong brands online.
-            </motion.span>{" "}
-            <motion.span
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.7 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              By combining design, content, and data-driven insights, we craft
-              digital experiences that truly connect.
-            </motion.span>{" "}
-            <motion.span
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: false, amount: 0.7 }}
-              transition={{ duration: 0.8, delay: 0.9 }}
-            >
-              Our mission is simple: to grow your brand, engage your audience,
-              and deliver results that last.
-            </motion.span>
+            At Father’s Media, we understand how vital creativity and strategy are in building strong brands online. By combining design, content, and data-driven insights, we craft digital experiences that truly connect. Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
           </p>
         </div>
       </section>
-      
-      {/* WHAT WE DO - scroll-lock section (FIXED) */}
-      <section
-        id="services"
-        ref={sectionRef}
-        onScroll={handleSectionScroll}
-        style={{ height: "100vh", overflowY: "scroll", position: "relative" }}
-        className="section-padding relative overflow-hidden font-['DM_Sans']"
-      >
+
+      {/* WHAT WE DO - Updated with DM Sans */}
+      <section id="services" className="section-padding relative overflow-hidden font-['DM_Sans']">
         <div className="container-responsive text-left">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -252,111 +82,61 @@ export default function Home() {
           >
             What We Do
           </motion.h2>
-          <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-8">
+          <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-12">
             Turning ideas into impact.
           </p>
-          <div
-            className="relative flex flex-col items-center"
-            style={{ 
-              minHeight: "420px", 
-              // ❌ Removed: paddingBottom: `${services.length * 420}px` 
-              // The scroll anchors below now provide the necessary height.
-            }}
-          >
-            <AnimatePresence initial={false}>
-              {services.map((s, i) =>
-                i === activeIndex ? (
-                  <motion.div
-                    key={s.id}
-                    initial={{ opacity: 0, y: 80, scale: 0.92 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -80, scale: 0.92 }}
-                    transition={{
-                      duration: 0.7,
-                      ease: [0.25, 0.1, 0.25, 1],
-                    }}
-                    className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${cardSpacing}`}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                    }}
-                  >
-                    <div className="w-2/3">
-                      <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                        {s.title}
-                      </h3>
-                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                        {s.desc}
-                      </p>
-                    </div>
-                    <div className="text-7xl md:w-1/3 flex justify-center items-center">
-                      {s.icon}
-                    </div>
-                  </motion.div>
-                ) : null
-              )}
-            </AnimatePresence>
-            {/* Scroll Anchors: These create the vertical space to allow scrolling through the absolute-positioned cards */}
+
+          <div className="relative flex flex-col gap-24">
             {services.map((s, i) => (
-              <div 
-                key={`scroll-anchor-${s.id}`} 
-                style={{ height: "420px" }} // Must match card height
-                className="w-full relative" 
-              />
+              <motion.div
+                key={s.id}
+                initial={{ opacity: 0, y: 80, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.8,
+                  delay: i * 0.1,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                viewport={{ once: false, amount: 0.5 }}
+                className={`relative flex flex-col md:flex-row items-center justify-between gap-10 md:gap-20 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${
+                  i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                }`}
+              >
+                <div className="md:w-2/3">
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    {s.title}
+                  </h3>
+                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    {s.desc}
+                  </p>
+                </div>
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                  whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                  className="text-7xl text-yellow-500 md:w-1/3 flex justify-center"
+                >
+                  {s.icon}
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
       
-      {/* PLANS */}
+         {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
-          <h2 className="section-title text-center text-gray-900 dark:text-white">
-            Plans & Pricing
-          </h2>
-          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">
-            Enquire to get a custom quote.
-          </p>
+          <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
+          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
-              {
-                name: "Basic",
-                features: [
-                  "Strategy Consulting",
-                  "Digital Marketing & Management ",
-                  "Content Writing",
-                  "Photo & Video Shoot",
-                  "Editing",
-                  "Graphic Posts",
-                  "4 Reels 8 Post 8 Stories/M",
-                  "Google Business Listing",
-                ],
-              },
-              {
-                name: "Standard",
-                features: [
-                  "Includes Basic",
-                  "Brand Building - Complete",
-                  "8 Reels 12 Posts 12 Stories/M ",
-                  "Paid Promotions(2 Ads)",
-                ],
-              },
-              {
-                name: "Premium",
-                features: [
-                  "Includes Standard",
-                  "Multi-platform Media Handling",
-                  "12 Reels 16 Posts 16 Stories/M",
-                  "Website Development",
-                  "SEO",
-                  "Paid Promotions(4 Ads)",
-                ],
-              },
+              { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
+              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions(2 Ads)"] },
+              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions(4 Ads)"] },
             ].map((plan, i) => (
-              <motion.div
-                key={plan.name}
+              <motion.div 
+                key={plan.name} 
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
@@ -364,27 +144,20 @@ export default function Home() {
                 whileHover={{ scale: 1.05, y: -5 }}
                 className="card p-6 flex flex-col"
               >
-                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
-                  {plan.name}
-                </h3>
+                <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
                   {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2">
-                      <span>✔</span>
-                      {f}
-                    </li>
+                    <li key={f} className="flex items-start gap-2"><span>✔</span>{f}</li>
                   ))}
                 </ul>
-                <a href="#contact" className="btn-primary mt-6 text-center">
-                  Enquire Now
-                </a>
+                <a href="#contact" className="btn-primary mt-6 text-center">Enquire Now</a>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
       
-      {/* WHY CHOOSE US */}
+      {/* WHY CHOOSE US - Updated layout with images */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">
@@ -393,24 +166,22 @@ export default function Home() {
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">
             The Father’s Media Advantage.
           </p>
+
           <div className="mt-16 flex flex-col gap-20">
             {[
               {
                 title: "Proven Results",
-                desc:
-                  "Track record of scaling SMBs and brands with measurable outcomes.",
+                desc: "Track record of scaling SMBs and brands with measurable outcomes.",
                 img: "/images/results.jpg",
               },
               {
                 title: "Full-Funnel Approach",
-                desc:
-                  "From strategy to creative to paid growth — we handle it all.",
+                desc: "From strategy to creative to paid growth — we handle it all.",
                 img: "/images/funnel.jpg",
               },
               {
                 title: "Transparent Reporting",
-                desc:
-                  "We believe in clarity — expect transparent reports and real progress.",
+                desc: "We believe in clarity — expect transparent reports and real progress.",
                 img: "/images/reporting.jpg",
               },
             ].map((item, i) => (
@@ -443,31 +214,19 @@ export default function Home() {
           </div>
         </div>
       </section>
-      
-      {/* PORTFOLIO */}
+
+            {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
-          <h2 className="section-title text-gray-900 dark:text-white">
-            Showcasing Creativity
-          </h2>
+          <h2 className="section-title text-gray-900 dark:text-white">Showcasing Creativity</h2>
           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
             From brand identities to web apps — a glimpse of our work.
           </p>
         </div>
-        <div
-          className="relative overflow-hidden mt-12"
-          onMouseEnter={(e) => e.currentTarget.classList.add("pause")}
-          onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}
-        >
+
+        <div className="relative overflow-hidden mt-12" onMouseEnter={(e) => e.currentTarget.classList.add("pause")} onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}>
           <div className="flex animate-scroll-x gap-6 px-4">
-            {[
-              "/portfolio/work1.png",
-              "/portfolio/work2.png",
-              "/portfolio/work3.png",
-              "/portfolio/work4.png",
-              "/portfolio/work5.png",
-              "/portfolio/chamber-screenshot.png",
-            ].map((src, i) => (
+            {["/portfolio/work1.png","/portfolio/work2.png","/portfolio/work3.png","/portfolio/work4.png","/portfolio/work5.png","/portfolio/chamber-screenshot.png"].map((src, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -476,18 +235,14 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
                 className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg"
               >
-                <img
-                  src={src}
-                  alt={`Portfolio ${i + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                <img src={src} alt={`Portfolio ${i + 1}`} className="w-full h-full object-cover" />
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-      
-      {/* CONTACT SECTION */}
+
+      {/* CONTACT SECTION (Updated with inline success message) */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">
@@ -496,7 +251,11 @@ export default function Home() {
           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
             Ready to grow your brand? Reach out and let’s talk strategy.
           </p>
-          <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left space-y-4">
+
+          <div
+            id="contact-form"
+            className="mt-10 max-w-xl mx-auto text-left space-y-4"
+          >
             <form
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -506,6 +265,7 @@ export default function Home() {
                   method: "POST",
                   body: formData,
                 });
+
                 const msgBox = document.getElementById("submitMessage");
                 if (res.ok) {
                   msgBox!.textContent =
