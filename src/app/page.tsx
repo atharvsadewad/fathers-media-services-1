@@ -1,8 +1,7 @@
 "use client";
 
-
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect, UIEvent } from "react"; // Added UIEvent for proper type
+import { useState, useRef, useEffect, UIEvent } from "react";
 import {
   FaCode,
   FaGlobe,
@@ -14,48 +13,8 @@ import {
   FaVideo,
 } from "react-icons/fa";
 
-// ... (services array and useScrollLock hook remain the same) ...
-// The useScrollLock hook is correct for locking the body scroll
-function useScrollLock(locked: boolean) {
-  useEffect(() => {
-    if (locked) {
-      document.body.style.overflow = "hidden";
-      // Optional: Prevent main scroll from jumping when lock is applied
-      document.body.style.position = "fixed";
-      document.body.style.width = "100%";
-      // Store current scroll position to restore it later
-      const scrollY = window.scrollY; 
-      document.body.style.top = `-${scrollY}px`;
-      document.body.setAttribute('data-scroll-y', scrollY.toString());
-      
-    } else {
-      const scrollY = document.body.getAttribute('data-scroll-y');
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.top = "";
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY, 10));
-        document.body.removeAttribute('data-scroll-y');
-      }
-    }
-    return () => {
-      // Cleanup for when component unmounts
-      const scrollY = document.body.getAttribute('data-scroll-y');
-      document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.top = "";
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY, 10));
-        document.body.removeAttribute('data-scroll-y');
-      }
-    };
-  }, [locked]);
-}
-
+// Data
 const services = [
-  // ... (Your services array here) ...
   {
     id: "01",
     title: "Website Development",
@@ -108,29 +67,59 @@ const services = [
   },
 ];
 
+// Custom Hook to manage body scroll lock and prevent page jump
+function useScrollLock(locked: boolean) {
+  useEffect(() => {
+    if (locked) {
+      // Store current scroll position to restore it later and prevent jump
+      const scrollY = window.scrollY; 
+      document.body.style.overflow = "hidden";
+      document.body.style.position = "fixed";
+      document.body.style.width = "100%";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.setAttribute('data-scroll-y', scrollY.toString());
+    } else {
+      const scrollY = document.body.getAttribute('data-scroll-y');
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      if (scrollY) {
+        // Restore scroll position
+        window.scrollTo(0, parseInt(scrollY, 10));
+        document.body.removeAttribute('data-scroll-y');
+      }
+    }
+    return () => {
+      // Cleanup on component unmount
+      const scrollY = document.body.getAttribute('data-scroll-y');
+      document.body.style.overflow = "";
+      document.body.style.position = "";
+      document.body.style.width = "";
+      document.body.style.top = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY, 10));
+        document.body.removeAttribute('data-scroll-y');
+      }
+    };
+  }, [locked]);
+}
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
-  // 1. CHANGE: Initialize 'locked' to false so the page scrolls normally at first.
+  // Initialize 'locked' to false so the page scrolls normally at first.
   const [locked, setLocked] = useState(false);
   const sectionRef = useRef<HTMLDivElement | null>(null);
 
   useScrollLock(locked);
 
-  // 2. NEW LOGIC: Use Intersection Observer to lock the scroll when the section is in view.
+  // Intersection Observer to lock the scroll when the section is in view.
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        // Only lock when the entire section is fully in the viewport (intersectionRatio 1)
-        // and when the user is scrolling DOWN (which is harder to determine with IO)
-        // A simpler approach is to lock when it enters view (entry.isIntersecting)
-        if (entry.isIntersecting) {
-            // Check if section is *mostly* visible (e.g., more than 80%)
-            // This is more reliable than checking for exact 1.0, and helps trigger the scroll-lock effect
-            if (entry.intersectionRatio > 0.8) {
-                // User has scrolled down to this section, now lock the body scroll
-                setLocked(true);
-            }
+        // Lock when 80% or more of the section is visible
+        if (entry.isIntersecting && entry.intersectionRatio > 0.8) {
+            setLocked(true);
         }
       },
       {
@@ -149,28 +138,22 @@ export default function Home() {
         observer.unobserve(sectionRef.current);
       }
     };
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
   // Handle scroll for the WHAT WE DO section container
-  // This logic is mostly correct for internal section scroll-locking
   function handleSectionScroll(e: React.UIEvent<HTMLDivElement>) {
     const target = e.currentTarget;
     const isAtBottom = target.scrollTop + target.clientHeight >= target.scrollHeight - 2;
 
-    // 3. MODIFICATION: Set locked to FALSE ONLY when at the very bottom
-    // and if the user scrolls back up, the body scroll should NOT re-lock immediately.
-    // However, for the desired effect (scroll-to-unlock), the existing logic is often used:
+    // Set locked to FALSE ONLY when at the very bottom, unlocking the body scroll
     if (isAtBottom) {
       setLocked(false);
-      // Optional: Scroll to the next section or adjust main window scroll slightly to indicate unlock
-      // window.scrollTo({ top: window.scrollY + 10, behavior: 'smooth' }); 
     } else {
-      // Re-lock the body scroll if the user is scrolling the section internally,
-      // ensuring the section's scroll is prioritized.
+      // Re-lock the body scroll if scrolling internally
       setLocked(true);
     }
 
-    // Calculate active card index (Keep as is)
+    // Calculate active card index (approximate)
     const cardHeight = 420; 
     let idx = Math.floor(target.scrollTop / cardHeight);
     if (idx < 0) idx = 0;
@@ -183,37 +166,101 @@ export default function Home() {
 
   return (
     <div>
-      {/* ... (Your HERO and TAGLINE sections are fine) ... */}
-      
+      {/* HERO SECTION */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
-        {/* ... HERO content ... */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="container-responsive text-center"
+        >
+          <h1 className="text-4xl sm:text-6xl font-extrabold text-black dark:text-white">
+            Father’s Media — Building Brands Online
+          </h1>
+          <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
+            We help businesses stand out with strategy, creativity, and growth.
+          </p>
+          <div className="mt-8 flex gap-4 justify-center">
+            <a href="#contact" className="btn-primary">
+              Let’s Work Together
+            </a>
+            <a href="#services" className="btn-outline">
+              Our Services
+            </a>
+          </div>
+        </motion.div>
       </section>
       
+      {/* TAGLINE */}
       <section className="section-padding text-center">
-        {/* ... TAGLINE content ... */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-4xl sm:text-6xl font-extrabold text-gray-900 dark:text-white mb-12"
+        >
+          Your Brand, <span className="text-yellow-500">Our Strategy.</span>
+        </motion.h2>
+        <div className="max-w-4xl mx-auto text-left">
+          <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
+            <motion.span
+              initial={{ opacity: 0.3 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.7 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              At Father’s Media, we understand how vital creativity and
+              strategy are in building strong brands online.
+            </motion.span>{" "}
+            <motion.span
+              initial={{ opacity: 0.3 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.7 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+            >
+              By combining design, content, and data-driven insights, we craft
+              digital experiences that truly connect.
+            </motion.span>{" "}
+            <motion.span
+              initial={{ opacity: 0.3 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false, amount: 0.7 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+            >
+              Our mission is simple: to grow your brand, engage your audience,
+              and deliver results that last.
+            </motion.span>
+          </p>
+        </div>
       </section>
-
-      {/* WHAT WE DO - scroll-lock section */}
+      
+      {/* WHAT WE DO - scroll-lock section (FIXED) */}
       <section
         id="services"
-        ref={sectionRef} // The Intersection Observer watches this ref
+        ref={sectionRef}
         onScroll={handleSectionScroll}
-        // This style is crucial for the internal scroll of this section
         style={{ height: "100vh", overflowY: "scroll", position: "relative" }}
         className="section-padding relative overflow-hidden font-['DM_Sans']"
       >
-        {/* ... Content remains the same ... */}
         <div className="container-responsive text-left">
-          {/* ... Headings ... */}
-          
-          {/* IMPORTANT: Add padding to the bottom of the content to allow scrolling to the end card */}
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="section-title text-gray-900 dark:text-white text-center mb-2"
+          >
+            What We Do
+          </motion.h2>
+          <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-8">
+            Turning ideas into impact.
+          </p>
           <div
             className="relative flex flex-col items-center"
-            // The minHeight needs to be adjusted to accommodate the cards and spacing
             style={{ 
               minHeight: "420px", 
-              // Add enough bottom padding to allow scrolling past the last card
-              paddingBottom: `${services.length * 420}px` 
+              // ❌ Removed: paddingBottom: `${services.length * 420}px` 
+              // The scroll anchors below now provide the necessary height.
             }}
           >
             <AnimatePresence initial={false}>
@@ -221,7 +268,13 @@ export default function Home() {
                 i === activeIndex ? (
                   <motion.div
                     key={s.id}
-                    // ... (motion props) ...
+                    initial={{ opacity: 0, y: 80, scale: 0.92 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -80, scale: 0.92 }}
+                    transition={{
+                      duration: 0.7,
+                      ease: [0.25, 0.1, 0.25, 1],
+                    }}
                     className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${cardSpacing}`}
                     style={{
                       position: "absolute",
@@ -230,25 +283,33 @@ export default function Home() {
                       right: 0,
                     }}
                   >
-                    {/* ... Card Content ... */}
+                    <div className="w-2/3">
+                      <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        {s.title}
+                      </h3>
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {s.desc}
+                      </p>
+                    </div>
+                    <div className="text-7xl md:w-1/3 flex justify-center items-center">
+                      {s.icon}
+                    </div>
                   </motion.div>
                 ) : null
               )}
             </AnimatePresence>
-            {/* Create invisible anchor elements to make the section scrollable */}
+            {/* Scroll Anchors: These create the vertical space to allow scrolling through the absolute-positioned cards */}
             {services.map((s, i) => (
-              // This acts as a scroll target to make the total scroll height larger
-              // without relying on the absolute positioned card to provide the height.
               <div 
                 key={`scroll-anchor-${s.id}`} 
-                style={{ height: "420px" }} // Same as card height
+                style={{ height: "420px" }} // Must match card height
                 className="w-full relative" 
               />
             ))}
           </div>
         </div>
       </section>
-
+      
       {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
@@ -322,6 +383,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
       {/* WHY CHOOSE US */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
@@ -381,6 +443,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
       {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
@@ -423,6 +486,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      
       {/* CONTACT SECTION */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
