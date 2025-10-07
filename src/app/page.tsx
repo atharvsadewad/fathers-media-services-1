@@ -1,8 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
-import { useInView } from "react-intersection-observer";
+import { useState } from "react";
 import {
   FaCode,
   FaGlobe,
@@ -13,19 +12,6 @@ import {
   FaPaintBrush,
   FaVideo,
 } from "react-icons/fa";
-
-function useScrollLock(locked: boolean) {
-  useEffect(() => {
-    if (locked) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [locked]);
-}
 
 const services = [
   {
@@ -81,38 +67,10 @@ const services = [
 ];
 
 export default function Home() {
+  // Track the index currently animating in view based on scroll (simple logic here)
   const [activeIndex, setActiveIndex] = useState(0);
-  const [locked, setLocked] = useState(false);
-  const { ref: sectionRef, inView } = useInView({ threshold: 0.5 });
 
-  useScrollLock(locked);
-
-  // Handle scroll for the WHAT WE DO section container
-  function handleSectionScroll(e: React.UIEvent<HTMLDivElement>) {
-    const target = e.currentTarget;
-
-    // Lock whole page scroll only when section is in view
-    if (!inView) {
-      setLocked(false);
-      return;
-    }
-
-    // Unlock page scroll if scrolled to bottom of the section container
-    if (target.scrollTop + target.clientHeight >= target.scrollHeight - 2) {
-      setLocked(false);
-    } else {
-      setLocked(true);
-    }
-
-    // Calculate active card index within the section scroll (approximate)
-    const cardHeight = 420; // Approximate card height plus margin
-    let idx = Math.floor(target.scrollTop / cardHeight);
-    if (idx < 0) idx = 0;
-    if (idx > services.length - 1) idx = services.length - 1;
-    setActiveIndex(idx);
-  }
-
-  // Card bottom spacing
+  // Card bottom spacing class for less space between cards
   const cardSpacing = "mb-10";
 
   return (
@@ -185,14 +143,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT WE DO - scroll-lock section */}
-      <section
-        id="services"
-        ref={sectionRef}
-        onScroll={handleSectionScroll}
-        style={{ height: "100vh", overflowY: "scroll", position: "relative" }}
-        className="section-padding relative overflow-hidden font-['DM_Sans']"
-      >
+      {/* WHAT WE DO - All cards fade in on scroll with less spacing, indexed */}
+      <section id="services" className="section-padding relative font-['DM_Sans']">
         <div className="container-responsive text-left">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
@@ -206,49 +158,37 @@ export default function Home() {
           <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-8">
             Turning ideas into impact.
           </p>
-          <div
-            className="relative flex flex-col items-center"
-            style={{ minHeight: "420px" }}
-          >
-            <AnimatePresence initial={false}>
-              {services.map((s, i) =>
-                i === activeIndex ? (
-                  <motion.div
-                    key={s.id}
-                    initial={{ opacity: 0, y: 80, scale: 0.92 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -80, scale: 0.92 }}
-                    transition={{
-                      duration: 0.7,
-                      ease: [0.25, 0.1, 0.25, 1],
-                    }}
-                    className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 mb-10`}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                    }}
-                  >
-                    <div className="w-2/3">
-                      {/* Added numeric index line */}
-                      <p className="text-yellow-500 font-mono text-xl font-bold tracking-widest mb-1">
-                        {String(i + 1).padStart(2, "0")}
-                      </p>
-                      <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                        {s.title}
-                      </h3>
-                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                        {s.desc}
-                      </p>
-                    </div>
-                    <div className="text-7xl md:w-1/3 flex justify-center items-center">
-                      {s.icon}
-                    </div>
-                  </motion.div>
-                ) : null
-              )}
-            </AnimatePresence>
+          <div className={`flex flex-col gap-12`}>
+            {services.map((s, i) => (
+              <motion.div
+                key={s.id}
+                initial={{ opacity: 0, y: 80, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.8,
+                  delay: i * 0.15,
+                  ease: [0.25, 0.1, 0.25, 1],
+                }}
+                viewport={{ once: false, amount: 0.5 }}
+                className={`flex flex-row items-center justify-between gap-10 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${cardSpacing}`}
+              >
+                <div className="w-2/3">
+                  {/* Numeric index line */}
+                  <p className="text-yellow-500 font-mono text-xl font-bold tracking-widest mb-1">
+                    {String(i + 1).padStart(2, "0")}
+                  </p>
+                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                    {s.title}
+                  </h3>
+                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                    {s.desc}
+                  </p>
+                </div>
+                <div className="text-7xl md:w-1/3 flex justify-center items-center">
+                  {s.icon}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
