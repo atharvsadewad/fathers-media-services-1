@@ -67,7 +67,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-     {/* TAGLINE (FIXED: Added break-words to prevent mobile overflow) */}
+      {/* TAGLINE (FIXED: Mobile Overflow) */}
       <section className="section-padding text-center bg-gray-50 dark:bg-gray-900">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
@@ -78,8 +78,7 @@ export default function Home() {
           Your Brand, <span className="text-yellow-500">Our Strategy.</span>
         </motion.h2>
 
-        <div className="max-w-4xl mx-auto text-left">
-          {/* FIX APPLIED: Added break-words to ensure text wraps correctly on small screens */}
+        <div className="max-w-4xl mx-auto text-left w-full overflow-hidden">
           <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white break-words"> 
             <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.3 }}>
               At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
@@ -93,8 +92,8 @@ export default function Home() {
           </p>
         </div>
       </section>
-      
-      {/* WHAT WE DO (Animation Restored) */}
+
+      {/* WHAT WE DO (FIXED: Repetitive Animation) */}
       <section id="services" className="section-padding relative overflow-hidden">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
@@ -104,11 +103,11 @@ export default function Home() {
             {services.map((s, i) => (
               <motion.div
                 key={s.id}
-                // FIXED: Simplified initial state for reliable trigger
                 initial={{ opacity: 0, y: 50 }} 
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }} // Added stagger delay
+                // FIX APPLIED: Set once: false and lower amount for repeatable animation
+                viewport={{ once: false, amount: 0.1 }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }} 
                 whileHover={{ scale: 1.01, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
                 className="p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-all duration-300 flex flex-col w-full mx-auto"
                 style={{ height: 'auto', minHeight: '180px' }}
@@ -146,8 +145,8 @@ export default function Home() {
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
               { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
-              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions (2 Ads)"] },
-              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions (4 Ads)"] },
+              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions(2 Ads)"] },
+              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions(4 Ads)"] },
             ].map((plan, i) => (
               <motion.div 
                 key={plan.name} 
@@ -171,18 +170,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHY CHOOSE US (ENHANCED: Wider 2-Column layout with richer content) */}
+      {/* WHY CHOOSE US */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Why Choose Us</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">The Father’s Media Advantage.</p>
 
-          {/* 2-column grid to create wider blocks */}
           <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-5xl mx-auto">
             {whyChooseUsData.map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }} // Alternating side entrance
+                initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }} 
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 viewport={{ once: false, amount: 0.5 }}
