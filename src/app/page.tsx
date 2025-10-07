@@ -1,6 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import {
   FaCode,
   FaGlobe,
@@ -12,17 +14,43 @@ import {
   FaVideo,
 } from "react-icons/fa";
 
+const services = [
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+];
+
 export default function Home() {
-  const services = [
-    { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
-    { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
-    { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
-    { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
-    { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
-    { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
-    { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
-    { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
-  ];
+  // --- HERO & TAGLINE remain unchanged ---
+
+  // --- WHAT WE DO (Stacked Animation Section) ---
+  // Card spacing (reduced)
+  const cardSpacing = "mb-10"; // was gap-24 → mb-10 for tighter stacking
+  // For animation, activeIndex used to display one card at a time
+  const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+
+  // Calculate which card to show based on scroll position
+  useEffect(() => {
+    function onScroll() {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const scrollY = window.scrollY + window.innerHeight/2; // Center trigger
+      const sectionTop = rect.top + window.scrollY;
+      const cardHeight = 400; // adjust for card size, including margin
+      let idx = Math.floor((scrollY - sectionTop) / cardHeight);
+      if (idx < 0) idx = 0;
+      if (idx > services.length - 1) idx = services.length - 1;
+      setActiveIndex(idx);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div>
@@ -50,8 +78,7 @@ export default function Home() {
           </div>
         </motion.div>
       </section>
-
-       {/* TAGLINE */}
+      {/* TAGLINE */}
       <section className="section-padding text-center">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
@@ -61,7 +88,6 @@ export default function Home() {
         >
           Your Brand, <span className="text-yellow-500">Our Strategy.</span>
         </motion.h2>
-
         <div className="max-w-4xl mx-auto text-left">
           <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
             <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.3 }}>
@@ -76,10 +102,9 @@ export default function Home() {
           </p>
         </div>
       </section>
-
-      {/* WHAT WE DO - Updated with DM Sans */}
+      {/* WHAT WE DO (Stacked card animation inspired by Leo9 Studio) */}
       <section id="services" className="section-padding relative overflow-hidden font-['DM_Sans']">
-        <div className="container-responsive text-left">
+        <div className="container-responsive text-left" ref={sectionRef}>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -89,54 +114,50 @@ export default function Home() {
           >
             What We Do
           </motion.h2>
-          <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-12">
+          <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-8">
             Turning ideas into impact.
           </p>
-
-          <div className="relative flex flex-col gap-24">
-            {services.map((s, i) => (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, y: 80, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.1,
-                  ease: [0.25, 0.1, 0.25, 1],
-                }}
-                viewport={{ once: false, amount: 0.5 }}
-                className={`relative flex flex-col md:flex-row items-center justify-between gap-10 md:gap-20 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${
-                  i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
-              >
-                <div className="md:w-2/3">
-                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    {s.title}
-                  </h3>
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {s.desc}
-                  </p>
-                </div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                  whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                  transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-7xl text-yellow-500 md:w-1/3 flex justify-center"
-                >
-                  {s.icon}
-                </motion.div>
-              </motion.div>
-            ))}
+          <div className="relative flex flex-col items-center" style={{ minHeight: "420px" }}>
+            <AnimatePresence initial={false}>
+              {services.map((s, i) =>
+                i === activeIndex ? (
+                  <motion.div
+                    key={s.id}
+                    initial={{ opacity: 0, y: 80, scale: 0.92 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -80, scale: 0.92 }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                    className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${cardSpacing}`}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                    }}
+                  >
+                    <div className="w-2/3">
+                      <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        {s.title}
+                      </h3>
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {s.desc}
+                      </p>
+                    </div>
+                    <div className="text-7xl md:w-1/3 flex justify-center items-center">
+                      {s.icon}
+                    </div>
+                  </motion.div>
+                ) : null
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
-
-            {/* PLANS */}
+      {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
-
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
               { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
@@ -164,8 +185,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* WHY CHOOSE US - Updated layout with images */}
+      {/* WHY CHOOSE US */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">
@@ -174,7 +194,6 @@ export default function Home() {
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">
             The Father’s Media Advantage.
           </p>
-
           <div className="mt-16 flex flex-col gap-20">
             {[
               {
@@ -222,8 +241,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-           {/* PORTFOLIO */}
+      {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Showcasing Creativity</h2>
@@ -231,7 +249,6 @@ export default function Home() {
             From brand identities to web apps — a glimpse of our work.
           </p>
         </div>
-
         <div className="relative overflow-hidden mt-12" onMouseEnter={(e) => e.currentTarget.classList.add("pause")} onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}>
           <div className="flex animate-scroll-x gap-6 px-4">
             {["/portfolio/work1.png","/portfolio/work2.png","/portfolio/work3.png","/portfolio/work4.png","/portfolio/work5.png","/portfolio/chamber-screenshot.png"].map((src, i) => (
@@ -249,8 +266,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* CONTACT SECTION (Updated with inline success message) */}
+      {/* CONTACT SECTION */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">
@@ -259,7 +275,6 @@ export default function Home() {
           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
             Ready to grow your brand? Reach out and let’s talk strategy.
           </p>
-
           <div
             id="contact-form"
             className="mt-10 max-w-xl mx-auto text-left space-y-4"
@@ -273,7 +288,6 @@ export default function Home() {
                   method: "POST",
                   body: formData,
                 });
-
                 const msgBox = document.getElementById("submitMessage");
                 if (res.ok) {
                   msgBox!.textContent =
