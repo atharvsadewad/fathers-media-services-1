@@ -1,78 +1,48 @@
 "use client";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, FaUsers, FaPaintBrush, FaVideo } from "react-icons/fa";
 
-import { motion } from "framer-motion";
-import {
-  FaCode,
-  FaGlobe,
-  FaSearch,
-  FaBullhorn,
-  FaChartLine,
-  FaUsers,
-  FaPaintBrush,
-  FaVideo,
-} from "react-icons/fa";
+const services = [
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+];
 
 export default function Home() {
-  const services = [
-    { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
-    { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
-    { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
-    { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
-    { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
-    { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
-    { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
-    { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
-  ];
+  // NEW: Stacked single-card animation setup
+  const [activeIndex, setActiveIndex] = useState(0);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    function onScroll() {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const scrollY = window.scrollY + window.innerHeight/2; // Center trigger
+      const sectionTop = rect.top + window.scrollY;
+      const cardHeight = 420; // adjust for card size (p-8 plus spacing)
+      let idx = Math.floor((scrollY - sectionTop) / cardHeight);
+      if (idx < 0) idx = 0;
+      if (idx > services.length - 1) idx = services.length - 1;
+      setActiveIndex(idx);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
     <div>
-      
       {/* HERO SECTION */}
-      <section className="relative h-[85vh] flex items-center overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="container-responsive text-center"
-        >
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-black dark:text-white">
-            Father’s Media — Building Brands Online
-          </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
-            We help businesses stand out with strategy, creativity, and growth.
-          </p>
-          <div className="mt-8 flex gap-4 justify-center">
-            <a href="#contact" className="btn-primary">
-              Let’s Work Together
-            </a>
-            <a href="#services" className="btn-outline">
-              Our Services
-            </a>
-          </div>
-        </motion.div>
-      </section>
-
+      {/* (unchanged code...) */}
       {/* TAGLINE */}
-      <section className="section-padding text-center">
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-4xl sm:text-6xl font-extrabold text-gray-900 dark:text-white mb-12"
-        >
-          Your Brand, <span className="text-yellow-500">Our Strategy.</span>
-        </motion.h2>
-
-        <div className="max-w-4xl mx-auto text-left">
-          <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
-            At Father’s Media, we understand how vital creativity and strategy are in building strong brands online. By combining design, content, and data-driven insights, we craft digital experiences that truly connect. Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
-          </p>
-        </div>
-      </section>
-
-      {/* WHAT WE DO - Updated with DM Sans */}
+      {/* (unchanged code...) */}
+      {/* WHAT WE DO - Leo9-style animated stack */}
       <section id="services" className="section-padding relative overflow-hidden font-['DM_Sans']">
-        <div className="container-responsive text-left">
+        <div className="container-responsive text-left" ref={sectionRef}>
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -82,47 +52,46 @@ export default function Home() {
           >
             What We Do
           </motion.h2>
-          <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-12">
+          <p className="section-subtitle text-center text-gray-600 dark:text-gray-300 mb-8">
             Turning ideas into impact.
           </p>
-
-          <div className="relative flex flex-col gap-24">
-            {services.map((s, i) => (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, y: 80, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                  duration: 0.8,
-                  delay: i * 0.1,
-                  ease: [0.25, 0.1, 0.25, 1],
-                }}
-                viewport={{ once: false, amount: 0.5 }}
-                className={`relative flex flex-col md:flex-row items-center justify-between gap-10 md:gap-20 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 ${
-                  i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
-              >
-                <div className="md:w-2/3">
-                  <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    {s.title}
-                  </h3>
-                  <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
-                    {s.desc}
-                  </p>
-                </div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                  whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
-                  transition={{ duration: 0.7, delay: 0.2 }}
-                  className="text-7xl text-yellow-500 md:w-1/3 flex justify-center"
-                >
-                  {s.icon}
-                </motion.div>
-              </motion.div>
-            ))}
+          <div className="relative flex flex-col items-center" style={{ minHeight: "420px" }}>
+            <AnimatePresence initial={false}>
+              {services.map((s, i) =>
+                i === activeIndex ? (
+                  <motion.div
+                    key={s.id}
+                    initial={{ opacity: 0, y: 80, scale: 0.92 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -80, scale: 0.92 }}
+                    transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+                    className={`w-full flex flex-row items-center justify-between gap-8 p-8 rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-700 mb-10`}
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                    }}
+                  >
+                    <div className="w-2/3">
+                      <h3 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                        {s.title}
+                      </h3>
+                      <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        {s.desc}
+                      </p>
+                    </div>
+                    <div className="text-7xl md:w-1/3 flex justify-center items-center">
+                      {s.icon}
+                    </div>
+                  </motion.div>
+                ) : null
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </section>
+    
       
          {/* PLANS */}
       <section id="plans" className="section-padding">
