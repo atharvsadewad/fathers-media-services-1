@@ -67,7 +67,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* TAGLINE (ENHANCED: Added background color for visual break) */}
+     {/* TAGLINE (FIXED: Added break-words to prevent mobile overflow) */}
       <section className="section-padding text-center bg-gray-50 dark:bg-gray-900">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
@@ -79,7 +79,8 @@ export default function Home() {
         </motion.h2>
 
         <div className="max-w-4xl mx-auto text-left">
-          <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white">
+          {/* FIX APPLIED: Added break-words to ensure text wraps correctly on small screens */}
+          <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white break-words"> 
             <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.3 }}>
               At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
             </motion.span>{" "}
@@ -92,7 +93,7 @@ export default function Home() {
           </p>
         </div>
       </section>
-
+      
       {/* WHAT WE DO (Animation Restored) */}
       <section id="services" className="section-padding relative overflow-hidden">
         <div className="container-responsive text-center">
