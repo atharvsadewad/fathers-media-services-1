@@ -1,0 +1,22 @@
+{
+    "Iron Man": {
+        "director": "RDJ",
+        "year": 2008
+    },
+    "Avengers: Endgame": {
+        "director": "Anthony and Joe Russo",
+        "year": 2019
+    },
+    "Thor: Ragnarok": {
+        "director": "Taika Waititi",
+        "year": 2017
+    },
+    "Captain America: The First Avenger": {
+        "director": "Joe Johnston",
+        "year": 2011
+    },
+    "Black Panther": {
+        "director": "Ryan Coogler",
+        "year": 2018
+    }
+}
