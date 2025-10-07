@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+/* ===== FONT CONFIGURATION ===== */
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -14,9 +15,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+});
 
+/* ===== SITE METADATA ===== */
 export const metadata: Metadata = {
-  metadataBase: new URL("https://fathersmedia.in"), // ✅ your real domain
+  metadataBase: new URL("https://fathersmedia.in"),
   title: {
     default: "Father’s Media",
     template: "%s | Father’s Media",
@@ -40,9 +47,7 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
     shortcut: ["/favicon.ico"],
-    other: [
-      { rel: "manifest", url: "/site.webmanifest" }, // optional manifest file
-    ],
+    other: [{ rel: "manifest", url: "/site.webmanifest" }],
   },
   openGraph: {
     title: "Father’s Media – Building Brands Online",
@@ -52,7 +57,7 @@ export const metadata: Metadata = {
     siteName: "Father’s Media",
     images: [
       {
-        url: "/web-app-manifest-512x512.png", // ✅ your large PWA image
+        url: "/web-app-manifest-512x512.png",
         width: 1200,
         height: 630,
         alt: "Father’s Media",
@@ -68,15 +73,11 @@ export const metadata: Metadata = {
       "Modern social media and marketing agency for ambitious brands.",
     images: ["/web-app-manifest-192x192.png"],
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "https://fathersmedia.in",
-  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: "https://fathersmedia.in" },
 };
 
+/* ===== ROOT LAYOUT ===== */
 export default function RootLayout({
   children,
 }: {
@@ -85,7 +86,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`
+          ${dmSans.variable} 
+          ${geistSans.variable} 
+          ${geistMono.variable} 
+          font-sans 
+          antialiased 
+          bg-[var(--background)] 
+          text-[var(--foreground)]
+        `}
       >
         <div className="min-h-screen flex flex-col">
           <Navbar />
