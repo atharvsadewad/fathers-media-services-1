@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion"; // AnimatePresence is back!
+import { useState, useRef, useEffect, UIEvent } from "react"; // UIEvent for scroll, useRef for section
 import {
   FaCode,
   FaGlobe,
@@ -13,7 +13,7 @@ import {
   FaVideo,
 } from "react-icons/fa";
 
-// Data
+// Data (services array remains the same)
 const services = [
   {
     id: "01",
@@ -67,14 +67,113 @@ const services = [
   },
 ];
 
-// Removed useScrollLock, IntersectionObserver, and all related scroll-locking logic.
+// Animation variants for the individual cards
+const cardVariants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    y: direction > 0 ? 50 : -50, // Comes from bottom if scrolling down, from top if scrolling up
+    scale: 0.9,
+  }),
+  center: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      y: { type: "spring", stiffness: 300, damping: 20 },
+      opacity: { duration: 0.2 },
+      scale: { duration: 0.2 }
+    }
+  },
+  exit: (direction: number) => ({
+    opacity: 0,
+    y: direction < 0 ? 50 : -50, // Goes to bottom if scrolling down, to top if scrolling up
+    scale: 0.9,
+    transition: {
+      y: { type: "spring", stiffness: 300, damping: 20 },
+      opacity: { duration: 0.2 },
+      scale: { duration: 0.2 }
+    }
+  })
+};
 
 export default function Home() {
-  const [activeIndex, setActiveIndex] = useState(0); 
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(0); // 1 for next, -1 for previous
+
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isScrollingRef = useRef(false);
+
+  // Handle scroll for the WHAT WE DO section container
+  // This will manage the card transitions based on vertical scroll
+  const handleSectionScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    if (isScrollingRef.current) return; // Prevent new scroll events while animation is active
+
+    const target = e.currentTarget;
+    const scrollThreshold = 100; // Pixels to scroll to trigger a card change
+
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+
+    scrollTimeoutRef.current = setTimeout(() => {
+      const scrollDelta = target.scrollTop; // How much it scrolled from the top of the current card's "anchor"
+
+      if (scrollDelta > scrollThreshold) {
+        // Scrolling Down
+        if (activeIndex < services.length - 1) {
+          isScrollingRef.current = true;
+          setDirection(1);
+          setActiveIndex(prev => prev + 1);
+        }
+      } else if (scrollDelta < -scrollThreshold) { // This part might need adjustment if using natural scroll.
+                                                  // For now, let's simplify for explicit step scrolling.
+        // Scrolling Up (requires a more controlled scroll logic, e.g., using wheel events or buttons)
+        if (activeIndex > 0) {
+          isScrollingRef.current = true;
+          setDirection(-1);
+          setActiveIndex(prev => prev - 1);
+        }
+      }
+
+      // Reset scroll position after determining new active index
+      // This is crucial for a step-by-step carousel effect
+      if (target) {
+        target.scrollTop = 0; // Reset scroll to top after a 'step' animation
+      }
+      
+      // Allow new scrolls after animation duration + a small buffer
+      setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 700); // Match or exceed animation duration
+    }, 150); // Debounce scroll events
+  };
+
+  // Re-thinking the scroll behavior: For this exact "one card in, one card out" animation,
+  // it's often better to use explicit buttons or capture wheel events in a debounced way,
+  // rather than relying on `onScroll` on a div that also has internal scroll height.
+  // Let's modify handleSectionScroll to be triggered by programmatic "next" and "prev" actions.
+
+  const goToNextCard = () => {
+    if (isScrollingRef.current || activeIndex === services.length - 1) return;
+    isScrollingRef.current = true;
+    setDirection(1);
+    setActiveIndex(prev => prev + 1);
+    setTimeout(() => isScrollingRef.current = false, 700); // Allow new interaction after animation
+  };
+
+  const goToPrevCard = () => {
+    if (isScrollingRef.current || activeIndex === 0) return;
+    isScrollingRef.current = true;
+    setDirection(-1);
+    setActiveIndex(prev => prev - 1);
+    setTimeout(() => isScrollingRef.current = false, 700); // Allow new interaction after animation
+  };
+
 
   return (
     <div>
-      {/* HERO SECTION */}
+      {/* HERO SECTION (unchanged) */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -99,7 +198,7 @@ export default function Home() {
         </motion.div>
       </section>
       
-      {/* TAGLINE */}
+      {/* TAGLINE (unchanged) */}
       <section className="section-padding text-center">
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -142,12 +241,12 @@ export default function Home() {
         </div>
       </section>
       
-      {/* WHAT WE DO - GRID LAYOUT (FIXED with Indexing) */}
+      {/* WHAT WE DO - VERTICAL CAROUSEL (Revised) */}
       <section
         id="services"
-        className="section-padding relative overflow-hidden font-['DM_Sans']"
+        className="section-padding relative overflow-hidden font-['DM_Sans'] min-h-screen flex items-center justify-center" // Ensure section is tall enough
       >
-        <div className="container-responsive text-left">
+        <div className="container-responsive text-center">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -161,44 +260,80 @@ export default function Home() {
             Turning ideas into impact.
           </p>
 
-          <div
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12"
-          >
-            {services.map((s, i) => (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{
-                  duration: 0.6,
-                  delay: i * 0.1, // Staggered delay for cascade effect
-                  ease: "easeOut",
-                }}
-                viewport={{ once: true, amount: 0.4 }}
-                whileHover={{ scale: 1.03, y: -5 }}
-                // Square Card Styling
-                className="p-6 flex flex-col items-center text-center rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg hover:shadow-2xl transition-all duration-300 aspect-square"
-              >
-                {/* INDEXING LINE */}
-                <p className="text-xl font-mono font-bold text-yellow-500/80 mb-1">
-                    {s.id}
-                </p>
-                
-                <div className="mb-4">{s.icon}</div>
-                
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                  {s.title}
-                </h3>
-                <p className="text-sm text-gray-700 dark:text-gray-300">
-                  {s.desc}
-                </p>
-              </motion.div>
-            ))}
+          <div className="relative w-full max-w-lg mx-auto h-[450px] flex items-center justify-center">
+             {/* Navigation Buttons */}
+            <button
+              onClick={goToPrevCard}
+              disabled={activeIndex === 0}
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-yellow-500/80 hover:bg-yellow-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              &#9650; {/* Up arrow */}
+            </button>
+            <button
+              onClick={goToNextCard}
+              disabled={activeIndex === services.length - 1}
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-yellow-500/80 hover:bg-yellow-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              &#9660; {/* Down arrow */}
+            </button>
+
+            {/* Card display area */}
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+                <AnimatePresence initial={false} custom={direction}>
+                    <motion.div
+                        key={services[activeIndex].id} // Key ensures AnimatePresence detects changes
+                        custom={direction}
+                        variants={cardVariants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        // Square Card Styling
+                        className="absolute p-8 flex flex-col justify-center items-center rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg w-full h-full aspect-square" // w-full h-full to fill parent
+                    >
+                        {/* INDEXING LINE */}
+                        <p className="text-2xl font-mono font-bold text-yellow-500/80 mb-4">
+                            {services[activeIndex].id}
+                        </p>
+                        
+                        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 w-full justify-center">
+                            {/* Text Content (Left) */}
+                            <div className="flex-1 text-center md:text-left">
+                                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                                    {services[activeIndex].title}
+                                </h3>
+                                <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                                    {services[activeIndex].desc}
+                                </p>
+                            </div>
+                            {/* Icon (Right) */}
+                            <div className="flex-shrink-0 text-7xl md:text-8xl flex items-center justify-center md:w-1/4">
+                                {services[activeIndex].icon}
+                            </div>
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+            {/* Dots navigation - Optional */}
+            <div className="absolute bottom-4 flex gap-2">
+                {services.map((_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => {
+                          if(idx > activeIndex) setDirection(1);
+                          else if (idx < activeIndex) setDirection(-1);
+                          setActiveIndex(idx);
+                        }}
+                        className={`h-3 w-3 rounded-full ${
+                            idx === activeIndex ? "bg-yellow-500" : "bg-gray-300 dark:bg-gray-600"
+                        }`}
+                    />
+                ))}
+            </div>
           </div>
         </div>
       </section>
       
-      {/* PLANS */}
+      {/* PLANS (unchanged) */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">
@@ -272,7 +407,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* WHY CHOOSE US */}
+      {/* WHY CHOOSE US (unchanged) */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">
@@ -332,7 +467,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* PORTFOLIO */}
+      {/* PORTFOLIO (unchanged) */}
       <section className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">
@@ -375,7 +510,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* CONTACT SECTION */}
+      {/* CONTACT SECTION (unchanged) */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">
