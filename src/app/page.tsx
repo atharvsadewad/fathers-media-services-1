@@ -1,7 +1,7 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion"; // AnimatePresence is back!
-import { useState, useRef, useEffect, UIEvent } from "react"; // UIEvent for scroll, useRef for section
+import { motion, AnimatePresence, Variants } from "framer-motion"; // Import Variants type
+import { useState } from "react";
 import {
   FaCode,
   FaGlobe,
@@ -15,6 +15,7 @@ import {
 
 // Data (services array remains the same)
 const services = [
+  // ... (Your services array here) ...
   {
     id: "01",
     title: "Website Development",
@@ -67,18 +68,20 @@ const services = [
   },
 ];
 
-// Animation variants for the individual cards
-const cardVariants = {
+// Animation variants for the individual cards (FIXED TYPE ERROR HERE)
+const cardVariants: Variants = {
   enter: (direction: number) => ({
     opacity: 0,
-    y: direction > 0 ? 50 : -50, // Comes from bottom if scrolling down, from top if scrolling up
+    // Note: Framer Motion infers 'spring' or 'tween' based on transition object if not specified
+    y: direction > 0 ? 50 : -50,
     scale: 0.9,
   }),
   center: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: {
+    // Use a top-level transition object to satisfy the Variants type
+    transition: { 
       y: { type: "spring", stiffness: 300, damping: 20 },
       opacity: { duration: 0.2 },
       scale: { duration: 0.2 }
@@ -86,9 +89,10 @@ const cardVariants = {
   },
   exit: (direction: number) => ({
     opacity: 0,
-    y: direction < 0 ? 50 : -50, // Goes to bottom if scrolling down, to top if scrolling up
+    y: direction < 0 ? 50 : -50,
     scale: 0.9,
-    transition: {
+    // Use a top-level transition object here too
+    transition: { 
       y: { type: "spring", stiffness: 300, damping: 20 },
       opacity: { duration: 0.2 },
       scale: { duration: 0.2 }
@@ -98,68 +102,17 @@ const cardVariants = {
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [direction, setDirection] = useState(0); // 1 for next, -1 for previous
+  const [direction, setDirection] = useState(0); 
 
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const isScrollingRef = useRef(false);
 
-  // Handle scroll for the WHAT WE DO section container
-  // This will manage the card transitions based on vertical scroll
-  const handleSectionScroll = (e: React.UIEvent<HTMLDivElement>) => {
-    if (isScrollingRef.current) return; // Prevent new scroll events while animation is active
-
-    const target = e.currentTarget;
-    const scrollThreshold = 100; // Pixels to scroll to trigger a card change
-
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-
-    scrollTimeoutRef.current = setTimeout(() => {
-      const scrollDelta = target.scrollTop; // How much it scrolled from the top of the current card's "anchor"
-
-      if (scrollDelta > scrollThreshold) {
-        // Scrolling Down
-        if (activeIndex < services.length - 1) {
-          isScrollingRef.current = true;
-          setDirection(1);
-          setActiveIndex(prev => prev + 1);
-        }
-      } else if (scrollDelta < -scrollThreshold) { // This part might need adjustment if using natural scroll.
-                                                  // For now, let's simplify for explicit step scrolling.
-        // Scrolling Up (requires a more controlled scroll logic, e.g., using wheel events or buttons)
-        if (activeIndex > 0) {
-          isScrollingRef.current = true;
-          setDirection(-1);
-          setActiveIndex(prev => prev - 1);
-        }
-      }
-
-      // Reset scroll position after determining new active index
-      // This is crucial for a step-by-step carousel effect
-      if (target) {
-        target.scrollTop = 0; // Reset scroll to top after a 'step' animation
-      }
-      
-      // Allow new scrolls after animation duration + a small buffer
-      setTimeout(() => {
-        isScrollingRef.current = false;
-      }, 700); // Match or exceed animation duration
-    }, 150); // Debounce scroll events
-  };
-
-  // Re-thinking the scroll behavior: For this exact "one card in, one card out" animation,
-  // it's often better to use explicit buttons or capture wheel events in a debounced way,
-  // rather than relying on `onScroll` on a div that also has internal scroll height.
-  // Let's modify handleSectionScroll to be triggered by programmatic "next" and "prev" actions.
-
+  // Programmatic navigation functions (simulating scroll up/down)
   const goToNextCard = () => {
     if (isScrollingRef.current || activeIndex === services.length - 1) return;
     isScrollingRef.current = true;
     setDirection(1);
     setActiveIndex(prev => prev + 1);
-    setTimeout(() => isScrollingRef.current = false, 700); // Allow new interaction after animation
+    setTimeout(() => isScrollingRef.current = false, 700); 
   };
 
   const goToPrevCard = () => {
@@ -167,7 +120,7 @@ export default function Home() {
     isScrollingRef.current = true;
     setDirection(-1);
     setActiveIndex(prev => prev - 1);
-    setTimeout(() => isScrollingRef.current = false, 700); // Allow new interaction after animation
+    setTimeout(() => isScrollingRef.current = false, 700); 
   };
 
 
@@ -244,7 +197,7 @@ export default function Home() {
       {/* WHAT WE DO - VERTICAL CAROUSEL (Revised) */}
       <section
         id="services"
-        className="section-padding relative overflow-hidden font-['DM_Sans'] min-h-screen flex items-center justify-center" // Ensure section is tall enough
+        className="section-padding relative overflow-hidden font-['DM_Sans'] min-h-screen flex items-center justify-center"
       >
         <div className="container-responsive text-center">
           <motion.h2
@@ -281,7 +234,7 @@ export default function Home() {
             <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
                 <AnimatePresence initial={false} custom={direction}>
                     <motion.div
-                        key={services[activeIndex].id} // Key ensures AnimatePresence detects changes
+                        key={services[activeIndex].id} 
                         custom={direction}
                         variants={cardVariants}
                         initial="enter"
