@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, AnimatePresence, Variants } from "framer-motion";
-// FIX APPLIED HERE: Add useRef
 import { useState, useRef } from "react";
 import {
   FaCode,
@@ -14,7 +13,7 @@ import {
   FaVideo,
 } from "react-icons/fa";
 
-// Data (services array remains the same)
+// Data
 const services = [
   {
     id: "01",
@@ -72,14 +71,15 @@ const services = [
 const cardVariants: Variants = {
   enter: (direction: number) => ({
     opacity: 0,
+    x: 0, // Ensure no horizontal movement
     y: direction > 0 ? 50 : -50,
     scale: 0.9,
   }),
   center: {
     opacity: 1,
+    x: 0, // Ensure no horizontal movement
     y: 0,
     scale: 1,
-    // Use a top-level transition object to satisfy the Variants type
     transition: { 
       y: { type: "spring", stiffness: 300, damping: 20 },
       opacity: { duration: 0.2 },
@@ -88,9 +88,9 @@ const cardVariants: Variants = {
   },
   exit: (direction: number) => ({
     opacity: 0,
+    x: 0, // Ensure no horizontal movement
     y: direction < 0 ? 50 : -50,
     scale: 0.9,
-    // Use a top-level transition object here too
     transition: { 
       y: { type: "spring", stiffness: 300, damping: 20 },
       opacity: { duration: 0.2 },
@@ -102,15 +102,15 @@ const cardVariants: Variants = {
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0); 
-
   const isScrollingRef = useRef(false);
 
-  // Programmatic navigation functions (simulating scroll up/down)
+  // Programmatic navigation functions (triggered by buttons)
   const goToNextCard = () => {
     if (isScrollingRef.current || activeIndex === services.length - 1) return;
     isScrollingRef.current = true;
     setDirection(1);
     setActiveIndex(prev => prev + 1);
+    // Timeout to re-enable interaction after animation finishes
     setTimeout(() => isScrollingRef.current = false, 700); 
   };
 
@@ -119,6 +119,7 @@ export default function Home() {
     isScrollingRef.current = true;
     setDirection(-1);
     setActiveIndex(prev => prev - 1);
+    // Timeout to re-enable interaction after animation finishes
     setTimeout(() => isScrollingRef.current = false, 700); 
   };
 
@@ -193,7 +194,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* WHAT WE DO - VERTICAL CAROUSEL */}
+      {/* WHAT WE DO - VERTICAL CAROUSEL (FIXED) */}
       <section
         id="services"
         className="section-padding relative overflow-hidden font-['DM_Sans'] min-h-screen flex items-center justify-center"
@@ -212,25 +213,27 @@ export default function Home() {
             Turning ideas into impact.
           </p>
 
+          {/* Carousel Container */}
           <div className="relative w-full max-w-lg mx-auto h-[450px] flex items-center justify-center">
-             {/* Navigation Buttons */}
+             
+            {/* Navigation Buttons (Vertical Scroll Look) */}
             <button
               onClick={goToPrevCard}
               disabled={activeIndex === 0}
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-yellow-500/80 hover:bg-yellow-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="absolute left-1/2 top-0 -translate-x-1/2 p-2 bg-yellow-500/80 hover:bg-yellow-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors z-20"
             >
               &#9650; {/* Up arrow */}
             </button>
             <button
               onClick={goToNextCard}
               disabled={activeIndex === services.length - 1}
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-2 bg-yellow-500/80 hover:bg-yellow-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="absolute left-1/2 bottom-0 -translate-x-1/2 p-2 bg-yellow-500/80 hover:bg-yellow-600 text-white rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors z-20"
             >
               &#9660; {/* Down arrow */}
             </button>
 
-            {/* Card display area */}
-            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+            {/* Card display area - Constrained container for the square card */}
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden max-w-md mx-auto">
                 <AnimatePresence initial={false} custom={direction}>
                     <motion.div
                         key={services[activeIndex].id} 
@@ -239,18 +242,19 @@ export default function Home() {
                         initial="enter"
                         animate="center"
                         exit="exit"
-                        // Square Card Styling
-                        className="absolute p-8 flex flex-col justify-center items-center rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg w-full h-full aspect-square" // w-full h-full to fill parent
+                        // Square Card Styling - Fixed size and aspect ratio
+                        className="absolute p-8 flex flex-col justify-between rounded-3xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-900/60 backdrop-blur-lg w-full h-full aspect-square text-left"
                     >
-                        {/* INDEXING LINE */}
-                        <p className="text-2xl font-mono font-bold text-yellow-500/80 mb-4">
+                        {/* Indexing Line */}
+                        <p className="text-2xl font-mono font-bold text-yellow-500/80">
                             {services[activeIndex].id}
                         </p>
                         
-                        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 w-full justify-center">
+                        {/* Main Content Area: Text (Left) and Icon (Right) */}
+                        <div className="flex items-start gap-6 w-full mt-4">
                             {/* Text Content (Left) */}
-                            <div className="flex-1 text-center md:text-left">
-                                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-3">
+                            <div className="flex-1">
+                                <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                                     {services[activeIndex].title}
                                 </h3>
                                 <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -258,15 +262,17 @@ export default function Home() {
                                 </p>
                             </div>
                             {/* Icon (Right) */}
-                            <div className="flex-shrink-0 text-7xl md:text-8xl flex items-center justify-center md:w-1/4">
+                            <div className="flex-shrink-0 text-7xl flex items-center justify-center pt-2">
                                 {services[activeIndex].icon}
                             </div>
                         </div>
+                        {/* Spacer to keep content organized */}
+                        <div />
                     </motion.div>
                 </AnimatePresence>
             </div>
-            {/* Dots navigation - Optional */}
-            <div className="absolute bottom-4 flex gap-2">
+            {/* Dots navigation */}
+            <div className="absolute top-1/2 right-4 transform -translate-y-1/2 flex flex-col gap-2 z-10">
                 {services.map((_, idx) => (
                     <button
                         key={idx}
@@ -275,7 +281,7 @@ export default function Home() {
                           else if (idx < activeIndex) setDirection(-1);
                           setActiveIndex(idx);
                         }}
-                        className={`h-3 w-3 rounded-full ${
+                        className={`h-3 w-3 rounded-full transition-colors ${
                             idx === activeIndex ? "bg-yellow-500" : "bg-gray-300 dark:bg-gray-600"
                         }`}
                     />
