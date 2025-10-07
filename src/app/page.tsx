@@ -2,19 +2,24 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+// Added useState and useRef back, as they are often needed for dynamic UI elements
+import { useState, useRef } from "react"; 
 import { FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, FaUsers, FaPaintBrush, FaVideo } from "react-icons/fa";
 
+// Data
+const services = [
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+];
+
 export default function Home() {
-  const services = [
-    { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
-    { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
-    { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
-    { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
-    { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
-    { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
-    { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
-    { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
-  ];
+  const [submitMessage, setSubmitMessage] = useState({ text: '', type: '' });
 
   return (
     <div>
@@ -65,26 +70,42 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT WE DO */}
+      {/* WHAT WE DO (FIXED: Indexed, Square, Vertical Cards) */}
       <section id="services" className="section-padding relative overflow-hidden">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
 
-          <div className="mt-12 space-y-16">
+          <div className="mt-12 space-y-8 max-w-4xl mx-auto"> 
             {services.map((s, i) => (
               <motion.div
-                key={s.title}
-                initial={{ opacity: 0, y: 60, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: false, amount: 0.6 }}
+                key={s.id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.7, delay: i * 0.1, ease: "easeOut" }}
-                className="card flex flex-col md:flex-row items-center gap-8 p-8 rounded-xl shadow-lg"
+                whileHover={{ scale: 1.01, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
+                // Card styling for a compact, vertical square look
+                className="p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-all duration-300 flex flex-col w-full mx-auto"
+                style={{ height: 'auto', minHeight: '180px' }} // Adjusted height for compactness
               >
-                <div className="text-5xl text-yellow-500">{s.icon}</div>
-                <div className="text-left">
-                  <h3 className="font-semibold text-2xl text-gray-900 dark:text-white">{s.title}</h3>
-                  <p className="mt-3 text-gray-600 dark:text-gray-300">{s.desc}</p>
+                {/* Index Line */}
+                <p className="text-xl font-mono font-bold text-yellow-500/80 text-left mb-2">
+                    {s.id}
+                </p>
+
+                {/* Content: Text (Left) and Icon (Right) */}
+                <div className="flex items-start gap-6 w-full text-left">
+                  {/* Text Content (Left, takes up most space) */}
+                  <div className="flex-1">
+                    <h3 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white mb-2">{s.title}</h3>
+                    <p className="text-base text-gray-700 dark:text-gray-300">{s.desc}</p>
+                  </div>
+
+                  {/* Icon (Right, fixed size) */}
+                  <div className="flex-shrink-0 text-5xl md:text-6xl flex items-center justify-center pt-1">
+                    {s.icon}
+                  </div>
                 </div>
               </motion.div>
             ))}
@@ -127,16 +148,16 @@ export default function Home() {
       </section>
 
       {/* WHY CHOOSE US */}
-      <section className="section-padding">
+      <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Why Choose Us</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">The Father’s Media Advantage.</p>
 
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {[
-              { title: "Proven Results", desc: "Track record of scaling SMBs and brands." },
-              { title: "Full-Funnel Approach", desc: "From strategy to creative to paid growth." },
-              { title: "Transparent Reporting", desc: "Clear insights and collaborative process." },
+              { title: "Proven Results", desc: "Track record of scaling SMBs and brands with measurable outcomes." },
+              { title: "Full-Funnel Approach", desc: "From strategy to creative to paid growth — we handle it all." },
+              { title: "Transparent Reporting", desc: "We believe in clarity — expect transparent reports and real progress." },
               { title: "Custom Plans", desc: "You can get Customised plans as per your needs." },
             ].map((item, i) => (
               <motion.div
@@ -145,7 +166,7 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 viewport={{ once: false, amount: 0.5 }}
-                whileHover={{ scale: 1.05, y: -5 }}
+                whileHover={{ scale: 1.03, y: -2 }}
                 className="card p-6"
               >
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{item.title}</h3>
@@ -183,7 +204,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT */}
+      {/* CONTACT (FIXED: UI Message Display) */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
@@ -192,39 +213,64 @@ export default function Home() {
           </p>
 
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }} viewport={{ amount: 0.5 }} className="mt-8 flex flex-col sm:flex-row justify-center gap-6">
-            <a href="#contact-form" className="btn-primary">Contact Us</a>
+            <a href="#contact-form-section" className="btn-primary">Contact Us</a>
             <a href="#services" className="btn-outline">Explore Services</a>
           </motion.div>
 
-          <div id="contact-form" className="mt-10 max-w-xl mx-auto text-left">
-      <form
-  onSubmit={async (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
+          <div id="contact-form-section" className="mt-10 max-w-xl mx-auto text-left">
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault();
+                setSubmitMessage({ text: 'Sending...', type: 'info' });
 
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      body: formData,
-    });
+                const form = e.currentTarget;
+                const formData = new FormData(form);
 
-    if (res.ok) {
-      alert("✅ Your message has been sent successfully!");
-      form.reset();
-    } else {
-      alert("❌ Failed to send message. Please try again.");
-    }
-  }}
-  className="space-y-4"
->
-  <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-  <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-  <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
-  <button type="submit" className="btn-primary w-full">Send Message</button>
-        </form>
-         </div>
+                try {
+                  const res = await fetch("/api/contact", {
+                    method: "POST",
+                    body: formData,
+                  });
+
+                  if (res.ok) {
+                    setSubmitMessage({ text: "✅ Your message has been sent successfully! We'll be in touch soon.", type: 'success' });
+                    form.reset();
+                  } else {
+                    const errorText = await res.text();
+                    setSubmitMessage({ text: `❌ Failed to send message: ${errorText || 'Server error.'}`, type: 'error' });
+                  }
+                } catch (error) {
+                    setSubmitMessage({ text: `❌ Failed to connect to server. Please check your connection.`, type: 'error' });
+                }
+              }}
+              className="space-y-4"
+            >
+              <input type="text" name="name" placeholder="Your Name" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <input type="email" name="email" placeholder="Your Email" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
+              <button type="submit" className="btn-primary w-full">Send Message</button>
+              
+              {/* Message Display */}
+              {submitMessage.text && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  transition={{ duration: 0.3 }}
+                  className={`p-3 rounded-lg text-center text-sm ${
+                    submitMessage.type === 'success' 
+                      ? 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300' 
+                      : submitMessage.type === 'error'
+                      ? 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300'
+                      : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300'
+                  }`}
+                >
+                  {submitMessage.text}
+                </motion.div>
+              )}
+            </form>
+          </div>
         </div>
       </section>
     </div>
   );
-} 
+}
