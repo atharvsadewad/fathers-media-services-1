@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-// Added useState and useRef back, as they are often needed for dynamic UI elements
-import { useState, useRef } from "react"; 
-import { FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, FaUsers, FaPaintBrush, FaVideo } from "react-icons/fa";
+import { useState } from "react"; 
+import { FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, FaUsers, FaPaintBrush, FaVideo, FaLightbulb, FaCheckCircle, FaUsersCog } from "react-icons/fa";
 
 // Data
 const services = [
@@ -16,6 +15,30 @@ const services = [
   { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
   { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
   { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+];
+
+// Enhanced data for Why Choose Us section
+const whyChooseUsData = [
+    { 
+        title: "Proven Results", 
+        desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", 
+        icon: <FaChartLine className="text-yellow-500 text-4xl" /> 
+    },
+    { 
+        title: "Full-Funnel Approach", 
+        desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", 
+        icon: <FaLightbulb className="text-yellow-500 text-4xl" /> 
+    },
+    { 
+        title: "Transparent Reporting", 
+        desc: "We believe in clarity. Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", 
+        icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> 
+    },
+    { 
+        title: "Client-Centric Customization", 
+        desc: "Every business is unique. We ditch generic packages for fully customized plans tailored precisely to your niche and objectives.", 
+        icon: <FaUsersCog className="text-yellow-500 text-4xl" /> 
+    },
 ];
 
 export default function Home() {
@@ -44,8 +67,8 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* TAGLINE */}
-      <section className="section-padding text-center">
+      {/* TAGLINE (ENHANCED: Added background color for visual break) */}
+      <section className="section-padding text-center bg-gray-50 dark:bg-gray-900">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -70,7 +93,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT WE DO (FIXED: Indexed, Square, Vertical Cards) */}
+      {/* WHAT WE DO (Animation Restored) */}
       <section id="services" className="section-padding relative overflow-hidden">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
@@ -80,14 +103,14 @@ export default function Home() {
             {services.map((s, i) => (
               <motion.div
                 key={s.id}
-                initial={{ opacity: 0, y: 40 }}
+                // FIXED: Simplified initial state for reliable trigger
+                initial={{ opacity: 0, y: 50 }} 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.7, delay: i * 0.1, ease: "easeOut" }}
+                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }} // Added stagger delay
                 whileHover={{ scale: 1.01, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
-                // Card styling for a compact, vertical square look
                 className="p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-all duration-300 flex flex-col w-full mx-auto"
-                style={{ height: 'auto', minHeight: '180px' }} // Adjusted height for compactness
+                style={{ height: 'auto', minHeight: '180px' }}
               >
                 {/* Index Line */}
                 <p className="text-xl font-mono font-bold text-yellow-500/80 text-left mb-2">
@@ -96,13 +119,13 @@ export default function Home() {
 
                 {/* Content: Text (Left) and Icon (Right) */}
                 <div className="flex items-start gap-6 w-full text-left">
-                  {/* Text Content (Left, takes up most space) */}
+                  {/* Text Content (Left) */}
                   <div className="flex-1">
                     <h3 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white mb-2">{s.title}</h3>
                     <p className="text-base text-gray-700 dark:text-gray-300">{s.desc}</p>
                   </div>
 
-                  {/* Icon (Right, fixed size) */}
+                  {/* Icon (Right) */}
                   <div className="flex-shrink-0 text-5xl md:text-6xl flex items-center justify-center pt-1">
                     {s.icon}
                   </div>
@@ -122,8 +145,8 @@ export default function Home() {
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
               { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
-              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions(2 Ads)"] },
-              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions(4 Ads)"] },
+              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions (2 Ads)"] },
+              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions (4 Ads)"] },
             ].map((plan, i) => (
               <motion.div 
                 key={plan.name} 
@@ -147,30 +170,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHY CHOOSE US */}
+      {/* WHY CHOOSE US (ENHANCED: Wider 2-Column layout with richer content) */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Why Choose Us</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">The Father’s Media Advantage.</p>
 
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { title: "Proven Results", desc: "Track record of scaling SMBs and brands with measurable outcomes." },
-              { title: "Full-Funnel Approach", desc: "From strategy to creative to paid growth — we handle it all." },
-              { title: "Transparent Reporting", desc: "We believe in clarity — expect transparent reports and real progress." },
-              { title: "Custom Plans", desc: "You can get Customised plans as per your needs." },
-            ].map((item, i) => (
+          {/* 2-column grid to create wider blocks */}
+          <div className="mt-12 grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 max-w-5xl mx-auto">
+            {whyChooseUsData.map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }} // Alternating side entrance
+                whileInView={{ opacity: 1, x: 0 }}
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 viewport={{ once: false, amount: 0.5 }}
-                whileHover={{ scale: 1.03, y: -2 }}
-                className="card p-6"
+                whileHover={{ scale: 1.01 }}
+                className="p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-all duration-300 flex items-start gap-6 text-left"
               >
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{item.title}</h3>
-                <p className="mt-2 text-gray-600 dark:text-gray-300">{item.desc}</p>
+                <div className="flex-shrink-0 mt-1">{item.icon}</div>
+                <div>
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+                    <p className="text-base text-gray-600 dark:text-gray-300">{item.desc}</p>
+                </div>
               </motion.div>
             ))}
           </div>
@@ -204,7 +226,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACT (FIXED: UI Message Display) */}
+      {/* CONTACT (UI Message Display) */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
