@@ -77,31 +77,27 @@ export default function Home() {
 
       {/* TAGLINE */}
       <section className="section-padding text-center bg-gray-50 dark:bg-gray-900">
-        <motion.h2
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
+        <motion.h2 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-4xl sm:text-6xl font-extrabold text-gray-900 dark:text-white mb-12"
         >
           Your Brand, <span className="text-yellow-500">Our Strategy.</span>
         </motion.h2>
 
-        <div className="max-w-4xl mx-auto text-left">
-          {[
-            "At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.",
-            "By combining design, content, and data-driven insights, we craft digital experiences that truly connect.",
-            "Our mission is simple: to grow your brand, engage your audience, and deliver results that last.",
-          ].map((text, i) => (
-            <motion.p
-              key={i}
-              initial={{ opacity: 0.3 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: i * 0.3 }}
-              className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4"
-            >
-              {text}
-            </motion.p>
-          ))}
+        <div className="max-w-4xl mx-auto text-left w-full overflow-hidden">
+          <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white break-words"> 
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.3 }}>
+              At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
+            </motion.span>{" "}
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.6 }}>
+              By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
+            </motion.span>{" "}
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.9 }}>
+              Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
+            </motion.span>
+          </p>
         </div>
       </section>
 
