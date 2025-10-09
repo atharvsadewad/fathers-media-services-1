@@ -2,10 +2,13 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useState } from "react"; 
-import { FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, FaUsers, FaPaintBrush, FaVideo, FaLightbulb, FaCheckCircle, FaUsersCog } from "react-icons/fa";
+import { useState } from "react";
+import { 
+  FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, 
+  FaUsers, FaPaintBrush, FaVideo, FaLightbulb, 
+  FaCheckCircle, FaUsersCog 
+} from "react-icons/fa";
 
-// Data
 const services = [
   { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
   { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
@@ -17,68 +20,46 @@ const services = [
   { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
 ];
 
-// Enhanced data for Why Choose Us section
 const whyChooseUsData = [
-    { 
-        title: "Proven Results", 
-        desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", 
-        icon: <FaChartLine className="text-yellow-500 text-4xl" /> 
-    },
-    { 
-        title: "Full-Funnel Approach", 
-        desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", 
-        icon: <FaLightbulb className="text-yellow-500 text-4xl" /> 
-    },
-    { 
-        title: "Transparent Reporting", 
-        desc: "We believe in clarity. Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", 
-        icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> 
-    },
-    { 
-        title: "Client-Centric Customization", 
-        desc: "Every business is unique. We ditch generic packages for fully customized plans tailored precisely to your niche and objectives.", 
-        icon: <FaUsersCog className="text-yellow-500 text-4xl" /> 
-    },
+  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", icon: <FaChartLine className="text-yellow-500 text-4xl" /> },
+  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", icon: <FaLightbulb className="text-yellow-500 text-4xl" /> },
+  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> },
+  { title: "Client-Centric Customization", desc: "We ditch generic packages for fully customized plans tailored to your niche and objectives.", icon: <FaUsersCog className="text-yellow-500 text-4xl" /> },
 ];
 
 export default function Home() {
-  const [submitMessage, setSubmitMessage] = useState({ text: '', type: '' });
+  const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
 
   return (
-    <div>
-      
-{/* ✅ SEO STRUCTURED DATA (JSON-LD) */}
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "Father’s Media",
-      url: "https://fathersmedia.in",
-      logo: "https://fathersmedia.in/web-app-manifest-512x512.png",
-      sameAs: [
-        "https://www.linkedin.com/company/fathersmedia/",
-        "https://www.instagram.com/fathersmedia/",
-        "https://x.com/fathersmedia",
-      ],
-      description:
-        "Father’s Media is a creative social-media and marketing agency that helps brands grow through design, content, SEO, and paid advertising.",
-      contactPoint: {
-        "@type": "ContactPoint",
-        email: "fathersmediaservices@gmail.com",
-        contactType: "Customer Support",
-      },
-    }),
-  }}
-/>
+    <div className="font-[var(--font-dm-sans)]">
+
+      {/* ✅ JSON-LD SEO STRUCTURED DATA */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Father’s Media",
+            url: "https://fathersmedia.in",
+            logo: "https://fathersmedia.in/web-app-manifest-512x512.png",
+            sameAs: [
+              "https://www.linkedin.com/company/fathersmedia/",
+              "https://www.instagram.com/fathersmedia/",
+              "https://x.com/fathersmedia",
+            ],
+            description:
+              "Father’s Media is a creative social-media and marketing agency that helps brands grow through design, content, SEO, and paid advertising.",
+          }),
+        }}
+      />
 
       {/* HERO */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }} 
-          animate={{ opacity: 1, y: 0 }} 
-          transition={{ duration: 0.8, ease: "easeOut" }} 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
           className="container-responsive text-center"
         >
           <h1 className="text-4xl sm:text-6xl font-extrabold text-black dark:text-white">
@@ -94,75 +75,63 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* TAGLINE (FIXED: Mobile Overflow) */}
+      {/* TAGLINE */}
       <section className="section-padding text-center bg-gray-50 dark:bg-gray-900">
-        <motion.h2 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+        <motion.h2
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
           className="text-4xl sm:text-6xl font-extrabold text-gray-900 dark:text-white mb-12"
         >
           Your Brand, <span className="text-yellow-500">Our Strategy.</span>
         </motion.h2>
 
-        <div className="max-w-4xl mx-auto text-left w-full overflow-hidden">
-          <p className="text-2xl sm:text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white break-words"> 
-            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.3 }}>
-              At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.
-            </motion.span>{" "}
-            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.6 }}>
-              By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
-            </motion.span>{" "}
-            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.9 }}>
-              Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
-            </motion.span>
-          </p>
+        <div className="max-w-4xl mx-auto text-left">
+          {[
+            "At Father’s Media, we understand how vital creativity and strategy are in building strong brands online.",
+            "By combining design, content, and data-driven insights, we craft digital experiences that truly connect.",
+            "Our mission is simple: to grow your brand, engage your audience, and deliver results that last.",
+          ].map((text, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0.3 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: i * 0.3 }}
+              className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-4"
+            >
+              {text}
+            </motion.p>
+          ))}
         </div>
       </section>
 
-      {/* WHAT WE DO (FIXED: Repetitive Animation) */}
+      {/* WHAT WE DO */}
       <section id="services" className="section-padding relative overflow-hidden">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
 
-          <div className="mt-12 space-y-8 max-w-4xl mx-auto"> 
+          <div className="mt-12 space-y-8 max-w-4xl mx-auto">
             {services.map((s, i) => (
               <motion.div
                 key={s.id}
-                initial={{ opacity: 0, y: 50 }} 
+                initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                // FIX APPLIED: Set once: false and lower amount for repeatable animation
-                viewport={{ once: false, amount: 0.1 }}
-                transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }} 
-                whileHover={{ scale: 1.01, boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)' }}
-                className="p-6 md:p-8 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-all duration-300 flex flex-col w-full mx-auto"
-                style={{ height: 'auto', minHeight: '180px' }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                viewport={{ once: false, amount: 0.3 }}
+                className="p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex justify-between items-center"
               >
-                {/* Index Line */}
-                <p className="text-xl font-mono font-bold text-yellow-500/80 text-left mb-2">
-                    {s.id}
-                </p>
-
-                {/* Content: Text (Left) and Icon (Right) */}
-                <div className="flex items-start gap-6 w-full text-left">
-                  {/* Text Content (Left) */}
-                  <div className="flex-1">
-                    <h3 className="font-bold text-xl md:text-2xl text-gray-900 dark:text-white mb-2">{s.title}</h3>
-                    <p className="text-base text-gray-700 dark:text-gray-300">{s.desc}</p>
-                  </div>
-
-                  {/* Icon (Right) */}
-                  <div className="flex-shrink-0 text-5xl md:text-6xl flex items-center justify-center pt-1">
-                    {s.icon}
-                  </div>
+                <div className="text-left flex-1">
+                  <h3 className="text-2xl font-bold mb-2">{s.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300">{s.desc}</p>
                 </div>
+                <div className="ml-6">{s.icon}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-
+      
       {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
