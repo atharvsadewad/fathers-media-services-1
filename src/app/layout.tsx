@@ -21,24 +21,59 @@ const dmSans = DM_Sans({
   weight: ["400", "500", "700"],
 });
 
-/* ===== SITE METADATA ===== */
+/* ===== SEO OPTIMIZED METADATA ===== */
 export const metadata: Metadata = {
   metadataBase: new URL("https://fathersmedia.in"),
   title: {
-    default: "Father’s Media",
+    default: "Father’s Media | Best Digital Marketing & Branding Agency in Pune",
     template: "%s | Father’s Media",
   },
   description:
-    "Father’s Media is a modern social media and marketing agency helping brands grow through strategy, content, paid ads, and influencers.",
+    "Father’s Media is a digital marketing and branding agency in Pune offering social media management, SEO, website development, and paid ads to help your business grow online.",
   keywords: [
-    "Social Media Agency",
-    "Marketing Agency",
-    "Branding",
-    "Influencer Marketing",
-    "Paid Ads",
-    "Content Creation",
+    "digital marketing agency Pune",
+    "branding agency India",
+    "social media marketing",
+    "SEO services",
+    "web development company",
+    "content creation agency",
+    "influencer marketing",
+    "paid ads agency",
+    "media agency Pune",
+    "marketing strategy firm",
     "Father’s Media",
   ],
+  authors: [{ name: "Father’s Media", url: "https://fathersmedia.in" }],
+  openGraph: {
+    title: "Father’s Media – Building Brands Online",
+    description:
+      "Leading marketing agency in Pune — offering SEO, branding, social media management, and paid ads for startups and businesses.",
+    url: "https://fathersmedia.in",
+    siteName: "Father’s Media",
+    images: [
+      {
+        url: "/web-app-manifest-512x512.png",
+        width: 1200,
+        height: 630,
+        alt: "Father’s Media Branding",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Father’s Media – Digital Marketing & Branding Experts",
+    description:
+      "Grow your brand online with Father’s Media — social media, SEO, content, and paid ads experts.",
+    images: ["/web-app-manifest-192x192.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  alternates: { canonical: "https://fathersmedia.in" },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -49,32 +84,6 @@ export const metadata: Metadata = {
     shortcut: ["/favicon.ico"],
     other: [{ rel: "manifest", url: "/site.webmanifest" }],
   },
-  openGraph: {
-    title: "Father’s Media – Building Brands Online",
-    description:
-      "Father’s Media helps businesses grow with social media management, branding, content, paid ads, and influencer marketing.",
-    url: "https://fathersmedia.in",
-    siteName: "Father’s Media",
-    images: [
-      {
-        url: "/web-app-manifest-512x512.png",
-        width: 1200,
-        height: 630,
-        alt: "Father’s Media",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Father’s Media – Building Brands Online",
-    description:
-      "Modern social media and marketing agency for ambitious brands.",
-    images: ["/web-app-manifest-192x192.png"],
-  },
-  robots: { index: true, follow: true },
-  alternates: { canonical: "https://fathersmedia.in" },
 };
 
 /* ===== ROOT LAYOUT ===== */
@@ -87,13 +96,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`
-          ${dmSans.variable} 
-          ${geistSans.variable} 
-          ${geistMono.variable} 
-          font-sans 
-          antialiased 
-          bg-[var(--background)] 
-          text-[var(--foreground)]
+          ${dmSans.variable}
+          ${geistSans.variable}
+          ${geistMono.variable}
+          font-sans antialiased
+          bg-[var(--background)] text-[var(--foreground)]
         `}
       >
         <div className="min-h-screen flex flex-col">
@@ -101,6 +108,36 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
         </div>
+
+        {/* ===== LOCAL BUSINESS SCHEMA (JSON-LD) ===== */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              name: "Father’s Media",
+              image: "https://fathersmedia.in/web-app-manifest-512x512.png",
+              "@id": "https://fathersmedia.in",
+              url: "https://fathersmedia.in",
+              telephone: "+91 91562059735",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Pune, Maharashtra",
+                addressLocality: "Pune",
+                postalCode: "411001",
+                addressCountry: "IN",
+              },
+              openingHours: "Mo-Sa 09:00-19:00",
+              sameAs: [
+                "https://www.instagram.com/fathers_media",
+                "https://www.linkedin.com/company/fathersmedia",
+              ],
+              description:
+                "Father’s Media is a top digital marketing and branding agency in Pune specializing in social media management, SEO, paid ads, and content creation.",
+            }),
+          }}
+        />
       </body>
     </html>
   );
