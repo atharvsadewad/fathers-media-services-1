@@ -1,12 +1,16 @@
-import type { MetadataRoute } from "next";
+// ✅ src/app/robots.ts
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = "https://fathersmedia.example.com";
   return {
-    rules: [{ userAgent: "*", allow: "/" }],
-    sitemap: `${base}/sitemap.xml`,
+    rules: [
+      {
+        userAgent: "*",
+        allow: ["/"],
+        disallow: ["/api/", "/admin/"],
+      },
+    ],
+    sitemap: "https://fathersmedia.in/sitemap.xml",
+    host: "https://fathersmedia.in",
   };
 }
-
-
-
