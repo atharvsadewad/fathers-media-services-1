@@ -46,6 +46,33 @@ export default function Home() {
 
   return (
     <div>
+      
+{/* ✅ SEO STRUCTURED DATA (JSON-LD) */}
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Father’s Media",
+      url: "https://fathersmedia.in",
+      logo: "https://fathersmedia.in/web-app-manifest-512x512.png",
+      sameAs: [
+        "https://www.linkedin.com/company/fathersmedia/",
+        "https://www.instagram.com/fathersmedia/",
+        "https://x.com/fathersmedia",
+      ],
+      description:
+        "Father’s Media is a creative social-media and marketing agency that helps brands grow through design, content, SEO, and paid advertising.",
+      contactPoint: {
+        "@type": "ContactPoint",
+        email: "fathersmediaservices@gmail.com",
+        contactType: "Customer Support",
+      },
+    }),
+  }}
+/>
+
       {/* HERO */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
         <motion.div 
@@ -92,18 +119,7 @@ export default function Home() {
           </p>
         </div>
       </section>
-    
-      <section className="text-center mt-16 max-w-4xl mx-auto text-gray-700 dark:text-gray-300">
-  <h2 className="text-2xl font-semibold mb-4">About Father’s Media</h2>
-  <p>
-    Father’s Media is a <strong>digital marketing and branding agency in Pune</strong>
-    helping businesses grow through <strong>social media management, SEO optimization, website development</strong>,
-    and <strong>paid promotions</strong>. Our mission is to craft digital strategies that
-    connect brands with their audience and deliver measurable results.
-  </p>
-</section>
 
-      
       {/* WHAT WE DO (FIXED: Repetitive Animation) */}
       <section id="services" className="section-padding relative overflow-hidden">
         <div className="container-responsive text-center">
