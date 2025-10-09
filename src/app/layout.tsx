@@ -120,7 +120,7 @@ export default function RootLayout({
               image: "https://fathersmedia.in/web-app-manifest-512x512.png",
               "@id": "https://fathersmedia.in",
               url: "https://fathersmedia.in",
-              telephone: "+91 91562059735",
+              telephone: "+91 9112059735",
               address: {
                 "@type": "PostalAddress",
                 streetAddress: "Pune, Maharashtra",
