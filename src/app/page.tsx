@@ -21,8 +21,13 @@ const clients = [
     url: "https://pawaninfradeveloper.in"
   },
   {
-    name: "Private Work",
-    logo: "/clients/pvt.png",
+    name: "Voter Data Management web Tool",
+    logo: "/clients/vm.png",
+    url: "https://pvt.in"
+  },
+  {
+    name: "Governance & Public-Services Tool",
+    logo: "/clients/w-16.png",
     url: "https://pvt.in"
   }
 ];
