@@ -9,6 +9,24 @@ import {
   FaCheckCircle, FaUsersCog 
 } from "react-icons/fa";
 
+const clients = [
+  {
+    name: "Glowing Guide Lab",
+    logo: "/clients/glowing-guide.png",
+    url: "https://glowingguide.com" 
+  },
+  {
+    name: "Jay Bhavani Realtors",
+    logo: "/clients/jaybhavani.png",
+    url: "https://jaybhavanirealtors.in"
+  },
+  {
+    name: "Saffron Outlet",
+    logo: "/clients/saffron.png",
+    url: "https://saffronoutlet.in"
+  },
+];
+
 const services = [
   { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
   { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
@@ -190,6 +208,54 @@ export default function Home() {
         </div>
       </section>
 
+      {/* OUR CLIENTS */}
+<section className="section-padding bg-white dark:bg-gray-900">
+  <div className="container-responsive text-center">
+    <motion.h2
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="section-title text-gray-900 dark:text-white"
+    >
+      Our Clients
+    </motion.h2>
+
+    <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
+      Brands that trusted us with their growth.
+    </p>
+  </div>
+
+  {/* Scrolling Logos */}
+  <div className="relative overflow-hidden mt-10">
+    <div className="flex gap-14 animate-scroll-x px-8 opacity-90 hover:opacity-100 transition-all">
+      {clients.concat(clients).map((client, i) => (
+        <motion.a
+          key={i}
+          href={client.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: i * 0.1 }}
+          className="flex-shrink-0 flex flex-col items-center group"
+        >
+          <div className="w-32 h-32 bg-white dark:bg-gray-800 rounded-2xl shadow-md flex items-center justify-center p-4 border border-gray-200 dark:border-gray-700 group-hover:scale-105 transition">
+            <img
+              src={client.logo}
+              alt={client.name}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <p className="mt-3 text-gray-800 dark:text-gray-300 text-sm font-medium group-hover:text-yellow-500 transition">
+            {client.name}
+          </p>
+        </motion.a>
+      ))}
+    </div>
+  </div>
+</section>
+
+      
       {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
