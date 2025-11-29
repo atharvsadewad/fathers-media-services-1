@@ -31,6 +31,7 @@ const clients = [
     url: "https://pvt.in"
   }
 ];
+
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -75,6 +76,7 @@ const CustomCursor = () => {
     </>
   );
 };
+
 const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; speed?: number }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -161,6 +163,7 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     </div>
   );
 };
+
 const services = [
   { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
   { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
@@ -183,8 +186,8 @@ export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
 
   return (
-    <div className="font-[var(--font-dm-sans)]">
-
+    <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-hidden">
+      
       {/* ✅ JSON-LD SEO STRUCTURED DATA */}
       <script
         type="application/ld+json"
@@ -205,9 +208,8 @@ export default function Home() {
           }),
         }}
       />
-      return (
-    <div className="min-h-screen relative overflow-hidden">
-      <CustomCursor />  {/* <--- ADD THIS HERE */}
+
+      <CustomCursor /> 
       
       {/* Header, Hero, etc... */}
 
@@ -349,69 +351,69 @@ export default function Home() {
       </section>
 
        {/* ================= PREMIUM++ CLIENTS SECTION ================= */}
-<section className="section-padding relative">
-  
-  {/* Background Aura */}
-  <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-gray-800/20"></div>
-  
-  <div className="container-responsive text-center">
-    <motion.h2
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white"
-    >
-      Our Clients
-    </motion.h2>
+    <section className="section-padding relative">
+      
+      {/* Background Aura */}
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-gray-800/20"></div>
+      
+      <div className="container-responsive text-center">
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white"
+        >
+          Our Clients
+        </motion.h2>
 
-    <motion.p
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.1, duration: 0.6 }}
-      className="section-subtitle mt-3 text-gray-600 dark:text-gray-300"
-    >
-      Brands that trust us to build, scale, and elevate their digital presence.
-    </motion.p>
-  </div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.6 }}
+          className="section-subtitle mt-3 text-gray-600 dark:text-gray-300"
+        >
+          Brands that trust us to build, scale, and elevate their digital presence.
+        </motion.p>
+      </div>
 
-  <div className="mt-14 max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 place-items-center">
-    {clients.map((client, i) => (
-      <motion.a
-        key={i}
-        href={client.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="relative flex flex-col items-center group justify-center"
-        initial={{ opacity: 0, scale: 0.8, y: 20 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ delay: i * 0.15, duration: 0.6, ease: 'easeOut' }}
-        viewport={{ once: true, amount: 0.3 }}
-        whileHover={{ scale: 1.07 }}
-      >
-        {/* Glow ring */}
-        <div className="absolute inset-0 rounded-2xl scale-110 opacity-0 group-hover:opacity-30 blur-xl 
-                        transition-all duration-500 bg-yellow-500"></div>
+      <div className="mt-14 max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 place-items-center">
+        {clients.map((client, i) => (
+          <motion.a
+            key={i}
+            href={client.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative flex flex-col items-center group justify-center"
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: i * 0.15, duration: 0.6, ease: 'easeOut' }}
+            viewport={{ once: true, amount: 0.3 }}
+            whileHover={{ scale: 1.07 }}
+          >
+            {/* Glow ring */}
+            <div className="absolute inset-0 rounded-2xl scale-110 opacity-0 group-hover:opacity-30 blur-xl 
+                            transition-all duration-500 bg-yellow-500"></div>
 
-        {/* Card */}
-        <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-white/70 dark:bg-gray-800/70 
-                        backdrop-blur-xl shadow-lg border border-gray-200/40 dark:border-gray-700/40 
-                        overflow-hidden flex items-center justify-center
-                        group-hover:shadow-yellow-500/40 transition-all duration-300">
-          <img
-            src={client.logo}
-            alt={client.name}
-            className="w-20 h-20 object-contain opacity-90 group-hover:opacity-100 transition"
-          />
-        </div>
+            {/* Card */}
+            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-white/70 dark:bg-gray-800/70 
+                            backdrop-blur-xl shadow-lg border border-gray-200/40 dark:border-gray-700/40 
+                            overflow-hidden flex items-center justify-center
+                            group-hover:shadow-yellow-500/40 transition-all duration-300">
+              <img
+                src={client.logo}
+                alt={client.name}
+                className="w-20 h-20 object-contain opacity-90 group-hover:opacity-100 transition"
+              />
+            </div>
 
-        {/* Name */}
-        <p className="client-name mt-4 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-yellow-500 transition-all">
-          {client.name}
-        </p>
-      </motion.a>
-    ))}
-  </div>
-</section>
+            {/* Name */}
+            <p className="client-name mt-4 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-yellow-500 transition-all">
+              {client.name}
+            </p>
+          </motion.a>
+        ))}
+      </div>
+    </section>
 
 
       {/* PORTFOLIO / SHOWCASING CREATIVITY */}
