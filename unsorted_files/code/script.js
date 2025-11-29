@@ -1,1 +1,0 @@
-This is a dummy file named script.js
