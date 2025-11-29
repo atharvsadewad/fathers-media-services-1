@@ -208,52 +208,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* OUR CLIENTS */}
-<section className="section-padding bg-white dark:bg-gray-900">
+      {/* ================= CLIENTS SECTION ================= */}
+<section className="section-padding bg-white/40 dark:bg-gray-900/40 backdrop-blur-sm">
   <div className="container-responsive text-center">
-    <motion.h2
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="section-title text-gray-900 dark:text-white"
-    >
+    <h2 className="section-title text-gray-900 dark:text-white">
       Our Clients
-    </motion.h2>
-
+    </h2>
     <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
-      Brands that trusted us with their growth.
+      Brands that trusted us with their digital presence.
     </p>
   </div>
 
-  {/* Scrolling Logos */}
-  <div className="relative overflow-hidden mt-10">
-    <div className="flex gap-14 animate-scroll-x px-8 opacity-90 hover:opacity-100 transition-all">
-      {clients.concat(clients).map((client, i) => (
-        <motion.a
+  {/* Marquee Animation */}
+  <div className="overflow-hidden mt-12">
+    <motion.div
+      className="flex gap-12 items-center"
+      animate={{
+        x: ["0%", "-100%"]
+      }}
+      transition={{
+        duration: 18,
+        ease: "linear",
+        repeat: Infinity
+      }}
+    >
+      {[...clients, ...clients].map((client, i) => (
+        <a
           key={i}
           href={client.url}
           target="_blank"
           rel="noopener noreferrer"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: i * 0.1 }}
-          className="flex-shrink-0 flex flex-col items-center group"
+          className="flex flex-col items-center cursor-pointer group"
         >
-          <div className="w-32 h-32 bg-white dark:bg-gray-800 rounded-2xl shadow-md flex items-center justify-center p-4 border border-gray-200 dark:border-gray-700 group-hover:scale-105 transition">
+          <div className="w-28 h-28 rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md group-hover:scale-105 transition">
             <img
               src={client.logo}
               alt={client.name}
-              className="w-full h-full object-contain"
+              className="w-full h-full object-contain p-4"
             />
           </div>
-          <p className="mt-3 text-gray-800 dark:text-gray-300 text-sm font-medium group-hover:text-yellow-500 transition">
+          <p className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-yellow-500 transition">
             {client.name}
           </p>
-        </motion.a>
+        </a>
       ))}
-    </div>
+    </motion.div>
   </div>
 </section>
+
 
       
       {/* PORTFOLIO */}
