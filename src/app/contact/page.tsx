@@ -23,7 +23,7 @@ export default function ContactPage() {
               WhatsApp: <a className="text-blue-600" href="https://wa.me/9112059735" target="_blank" rel="noreferrer">Message us</a>
             </p>
             <p>
-              Email: <a className="text-blue-600" href="mailto:contact@fathersmedia.com">contact@fathersmedia.com</a>
+              Email: <a className="text-blue-600" href="mailto:fathersmediaservices@gmail.com">fathersmediaservices@gmail.com</a>
             </p>
           </div>
         </div>
@@ -34,6 +34,7 @@ export default function ContactPage() {
     </div>
   );
 }
+
 
 
 
