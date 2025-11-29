@@ -4,10 +4,12 @@ html {
 
 @import "tailwindcss";
 
+/* Font variable */
 :root {
   --font-dm-sans: 'DM Sans', sans-serif;
 }
 
+/* GLOBAL FONT */
 body {
   font-family: var(--font-dm-sans);
 }
@@ -19,33 +21,28 @@ body {
   --gold: #d4af37;
   --font-sans: 'Inter', sans-serif;
   --font-mono: 'Menlo', monospace;
-  --bg-image: url('/background.jpg'); /* 🔑 Add your image here */
+
+  /* ❌ Remove light-mode background */
+  --bg-image: none;
 }
 
+/* ===== DARK MODE ===== */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ffffff;
-    --bg-image: url('/background-dark.jpg'); /* optional: darker version of image */
-  }
 
-  body {
-    background: var(--background) var(--bg-image) no-repeat center center fixed;
-    background-size: cover;
-    color: var(--foreground);
-  }
-
-  h1, h2, h3, h4, h5, h6, p, span, li, a {
-    color: var(--foreground) !important;
+    /* ✅ Dark mode only background */
+    --bg-image: url('/background-dark.jpg');
   }
 
   .card {
-    background: rgba(31, 41, 55, 0.9);
+    background: rgba(31, 41, 55, 0.85);
     border-color: rgba(55, 65, 81, 0.7);
   }
 }
 
-/* ====== BASE LAYOUT ====== */
+/* ===== BASE LAYOUT ===== */
 html, body {
   height: 100%;
 }
@@ -54,10 +51,10 @@ body {
   background: var(--background) var(--bg-image) no-repeat center center fixed;
   background-size: cover;
   color: var(--foreground);
-  font-family: var(--font-sans);
   position: relative;
   overflow-x: hidden;
   z-index: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* ====== GOLDEN CURSOR SPOTLIGHT ====== */
@@ -72,22 +69,21 @@ body::before {
   border-radius: 50%;
   pointer-events: none;
   transform: translate(-50%, -50%);
-  z-index: 1; /* put it above bg but below content */
+  z-index: 1;
   transition: top 0.15s ease, left 0.15s ease;
 }
 
-/* ====== UTILITIES ====== */
+/* ===== UTILITIES ===== */
 .container-responsive {
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
   position: relative;
-  z-index: 2; /* above spotlight */
+  z-index: 2;
 }
 
 .section-padding {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-block: 4rem;
 }
 
 .section-title {
@@ -115,10 +111,6 @@ body::before {
 .card:hover {
   transform: translateY(-6px);
   box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-}
-.dark .card {
-  background: rgba(31, 41, 55, 0.85);
-  border-color: rgba(55, 65, 81, 0.7);
 }
 
 /* ====== BUTTONS ====== */
@@ -162,15 +154,20 @@ body::before {
   color: #111111;
 }
 
-/* ====== PORTFOLIO SCROLL ====== */
+/* ====== PORTFOLIO & CLIENTS SCROLL ====== */
 @keyframes scroll-x {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
+/* smoother, slower */
 .animate-scroll-x {
   display: flex;
-  animation: scroll-x 9s linear infinite;
+  animation: scroll-x 18s linear infinite;
+}
+
+.animate-scroll-x:hover {
+  animation-play-state: paused;
 }
 
 @media (max-width: 768px) {
@@ -184,8 +181,4 @@ body::before {
   .animate-scroll-x > div {
     scroll-snap-align: start;
   }
-}
-
-.animate-scroll-x.pause {
-  animation-play-state: paused;
 }
