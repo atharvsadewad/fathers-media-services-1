@@ -156,7 +156,8 @@ export default function Home() {
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300 opacity-90">
-
+            Enquire to get a custom quote.
+          </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
               { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
