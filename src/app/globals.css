@@ -1,8 +1,8 @@
+@import "tailwindcss";
+
 html {
   scroll-behavior: smooth;
 }
-
-@import "tailwindcss";
 
 /* Font variable */
 :root {
@@ -19,17 +19,15 @@ body {
   --background: #ffffff;
   --foreground: #111827;
   --gold: #d4af37;
-
   /* No background image in light mode */
   --bg-image: none;
 }
 
-/* ===== DARK MODE ===== */
+/* ===== DARK MODE VARIABLES ===== */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ffffff;
-
     /* Dark background image */
     --bg-image: url('/background-dark.jpg');
   }
@@ -94,7 +92,7 @@ body::before {
 }
 
 /* ========================================================= */
-/* ======================  FIXED CARDS  ===================== */
+/* ======================  CARD STYLES  ==================== */
 /* ========================================================= */
 
 .card {
@@ -112,16 +110,39 @@ body::before {
   box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
 }
 
-/* 🔥 DARK MODE FIX — fully visible cards */
+/* FIXED: Dark Mode Card Styles 
+   Separated into Class-based and Media-based to prevent syntax errors 
+*/
+
+/* 1. If 'dark' class is present on HTML */
+html.dark .card,
 .dark .card {
-  background: rgba(30, 30, 30, 0.72);           /* Soft dark glass */
-  border: 1px solid rgba(255, 255, 255, 0.08);  /* Soft white border */
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);    /* Visible shadow */
+  background: rgba(30, 30, 30, 0.85) !important;    /* Dark glass */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55) !important;
 }
 
 .dark .card:hover {
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65) !important;
 }
+
+/* 2. If System is set to Dark Mode (and no class overrides it) */
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: rgba(30, 30, 30, 0.85) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55) !important;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65) !important;
+  }
+
+  /* Safety: Force text colors inside card if Tailwind lags */
+  .card h3 { color: #ffffff !important; }
+  .card li, .card span, .card p { color: #d1d5db !important; }
+}
+
 
 /* ====== BUTTONS ====== */
 .btn-primary {
@@ -155,6 +176,8 @@ body::before {
   background: #111111;
   color: #ffffff;
 }
+
+/* Button Dark Mode Overrides */
 .dark .btn-outline {
   border-color: #e5e7eb;
   color: #e5e7eb;
@@ -202,18 +225,4 @@ body::before {
   line-height: 1.2;
   word-wrap: break-word;
   white-space: normal;
-}
-/* Fail-safe dark card styles — covers both class-based and system dark-mode */
-html.dark .card,
-.dark .card,
-@media (prefers-color-scheme: dark) {
-  .card {
-    background: rgba(30, 30, 30, 0.72) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55) !important;
-  }
-
-  .card:hover {
-    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65) !important;
-  }
 }
