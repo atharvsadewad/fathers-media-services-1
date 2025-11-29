@@ -11,19 +11,19 @@ import {
 
 const clients = [
   {
-    name: "Glowing Guide Lab",
-    logo: "/clients/glowing-guide.png",
-    url: "https://glowingguide.com" 
+    name: "Chamber",
+    logo: "/clients/chamber.png",
+    url: "https://chamber-frontend-i2lc.vercel.app/" 
   },
   {
-    name: "Jay Bhavani Realtors",
-    logo: "/clients/jaybhavani.png",
-    url: "https://jaybhavanirealtors.in"
+    name: "Pawan Infra Developer",
+    logo: "/clients/PId logo 6.png",
+    url: "https://pawaninfradeveloper.in"
   },
   {
-    name: "Saffron Outlet",
-    logo: "/clients/saffron.png",
-    url: "https://saffronoutlet.in"
+    name: "Private Work",
+    logo: "/clients/pvt.png",
+    url: "https://pvt.in"
   },
 ];
 
