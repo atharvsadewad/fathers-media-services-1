@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useState } from "react";
 import { 
   FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, 
   FaUsers, FaPaintBrush, FaVideo, FaLightbulb, 
