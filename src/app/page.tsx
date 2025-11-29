@@ -31,7 +31,92 @@ const clients = [
     url: "https://pvt.in"
   }
 ];
+const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; speed?: number }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
+  // 1. Auto-Scroll Logic
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    let animationFrameId: number;
+
+    const step = () => {
+      // Only scroll if not paused and not dragging
+      if (!isPaused && !isDragging) {
+        container.scrollLeft += speed;
+        
+        // Infinite Loop Logic: If we scrolled halfway, reset to 0 (requires duplicated content)
+        // Note: For a true infinite loop, we usually double the content. 
+        // If it hits the end, we simply reset. 
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+           container.scrollLeft = 0; 
+        }
+      }
+      animationFrameId = requestAnimationFrame(step);
+    };
+
+    animationFrameId = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isPaused, isDragging, speed]);
+
+  // 2. Click & Drag Logic
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setIsPaused(true);
+    if(scrollRef.current) {
+      setStartX(e.pageX - scrollRef.current.offsetLeft);
+      setScrollLeft(scrollRef.current.scrollLeft);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // *2 determines drag speed
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  // 3. Duplicate Children for Infinite Effect
+  // We render the children multiple times so the scroll has room to reset seamlessly
+  const content = (
+    <>
+      {children}
+      {children} 
+      {children}
+    </>
+  );
+
+  return (
+    <div
+      ref={scrollRef}
+      className="flex gap-6 overflow-x-auto no-scrollbar w-full px-4"
+      onMouseDown={handleMouseDown}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onTouchStart={() => setIsPaused(true)} // Pause on mobile touch
+      onTouchEnd={() => setIsPaused(false)}
+    >
+      {content}
+    </div>
+  );
+};
 const services = [
   { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
   { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
@@ -279,7 +364,8 @@ export default function Home() {
   </div>
 </section>
 
-      {/* PORTFOLIO */}
+
+      {/* PORTFOLIO / SHOWCASING CREATIVITY */}
       <section className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Showcasing Creativity</h2>
@@ -288,24 +374,30 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="relative overflow-hidden mt-12" onMouseEnter={(e) => e.currentTarget.classList.add("pause")} onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}>
-          <div className="flex animate-scroll-x gap-6 px-4">
-            {["/portfolio/w1.png","/portfolio/w2.png","/portfolio/w3.png","/portfolio/w4.png","/portfolio/w5.png","/portfolio/w6.png","/portfolio/w7.png","/portfolio/chamber-screenshot.png"].map((src, i) => (
+        {/* SCROLL CONTAINER */}
+        <div className="mt-12 relative w-full">
+          <ScrollContainer speed={1.5}> {/* Adjust speed here (higher = faster) */}
+            {/* We duplicate the array 3 times to ensure smooth infinite scrolling */}
+            {[
+              "/portfolio/w1.png", "/portfolio/w2.png", "/portfolio/w3.png", "/portfolio/w4.png", 
+              "/portfolio/w5.png", "/portfolio/w6.png", "/portfolio/w7.png", "/portfolio/chamber-screenshot.png"
+            ].map((src, i) => (
               <motion.div
                 key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, amount: 0.4 }}
-                transition={{ duration: 0.6, delay: i * 0.15, ease: "easeOut" }}
-                className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.5 }}
+                className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 select-none pointer-events-none" 
+                // pointer-events-none prevents the image from being 'dragged' as a file, allowing the container to slide
               >
-                <img src={src} alt={`Portfolio ${i + 1}`} className="w-full h-full object-cover" />
+                <img src={src} alt={`Portfolio ${i}`} className="w-full h-full object-cover" />
               </motion.div>
             ))}
-          </div>
+          </ScrollContainer>
         </div>
       </section>
-
+      
       {/* CONTACT (UI Message Display) */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
