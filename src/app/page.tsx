@@ -31,6 +31,50 @@ const clients = [
     url: "https://pvt.in"
   }
 ];
+const CustomCursor = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const updateMousePosition = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+      
+      // Optional: Check if hovering over a clickable element to expand cursor
+      const target = e.target as HTMLElement;
+      setIsHovering(
+        target.tagName === 'A' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('a') !== null || 
+        target.closest('button') !== null
+      );
+    };
+
+    window.addEventListener("mousemove", updateMousePosition);
+    return () => window.removeEventListener("mousemove", updateMousePosition);
+  }, []);
+
+  return (
+    <>
+      {/* 1. The Dot (Fixed to mouse) */}
+      <motion.div
+        className="fixed top-0 left-0 w-2 h-2 bg-[#d4af37] rounded-full pointer-events-none z-[9999]"
+        animate={{ x: mousePosition.x - 4, y: mousePosition.y - 4 }}
+        transition={{ type: "tween", ease: "linear", duration: 0 }}
+      />
+      
+      {/* 2. The Ring (Follows with delay) */}
+      <motion.div
+        className="fixed top-0 left-0 w-8 h-8 border border-[#d4af37] rounded-full pointer-events-none z-[9998]"
+        animate={{ 
+          x: mousePosition.x - 16, 
+          y: mousePosition.y - 16,
+          scale: isHovering ? 1.5 : 1
+        }}
+        transition={{ type: "spring", stiffness: 250, damping: 20 }}
+      />
+    </>
+  );
+};
 const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; speed?: number }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -161,6 +205,11 @@ export default function Home() {
           }),
         }}
       />
+      return (
+    <div className="min-h-screen relative overflow-hidden">
+      <CustomCursor />  {/* <--- ADD THIS HERE */}
+      
+      {/* Header, Hero, etc... */}
 
       {/* HERO */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
