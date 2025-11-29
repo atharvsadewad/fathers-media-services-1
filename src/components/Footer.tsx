@@ -69,7 +69,7 @@ export default function Footer() {
           <ul className="mt-2 space-y-3 text-sm">
             <li className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
               <Mail size={16} />
-              <a href="mailto:contact@fathersmedia.in">contact@fathersmedia.in</a>
+              <a href="mailto:fathersmediaservices@gmail.com">fathersmediaservices@gmail.com</a>
             </li>
             <li>
               <a href="https://wa.me/9112059735" target="_blank" rel="noreferrer"
@@ -91,4 +91,5 @@ export default function Footer() {
     </footer>
   );
 }
+
 
