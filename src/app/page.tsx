@@ -208,41 +208,64 @@ export default function Home() {
         </div>
       </section>
 
-     {/* ================= CLIENTS SECTION ================= */}
-<section className="section-padding bg-white/40 dark:bg-gray-900/40 backdrop-blur-sm">
+       {/* ================= PREMIUM++ CLIENTS SECTION ================= */}
+<section className="section-padding relative">
+  
+  {/* Background Aura */}
+  <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-gray-800/20"></div>
+  
   <div className="container-responsive text-center">
-    <h2 className="section-title text-gray-900 dark:text-white">
+    <motion.h2
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white"
+    >
       Our Clients
-    </h2>
-    <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
-      Trusted by growing brands and businesses.
-    </p>
+    </motion.h2>
+
+    <motion.p
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.1, duration: 0.6 }}
+      className="section-subtitle mt-3 text-gray-600 dark:text-gray-300"
+    >
+      Brands that trust us to build, scale, and elevate their digital presence.
+    </motion.p>
   </div>
 
-  <div className="mt-12 max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10 place-items-center">
+  <div className="mt-14 max-w-6xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-12 place-items-center">
     {clients.map((client, i) => (
       <motion.a
         key={i}
         href={client.url}
         target="_blank"
         rel="noopener noreferrer"
-        initial={{ opacity: 0, scale: 0.85 }}
-        whileInView={{ opacity: 1, scale: 1 }}
+        className="relative flex flex-col items-center group justify-center"
+        initial={{ opacity: 0, scale: 0.8, y: 20 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ delay: i * 0.15, duration: 0.6, ease: 'easeOut' }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.4, delay: i * 0.1 }}
-        className="flex flex-col items-center group cursor-pointer"
+        whileHover={{ scale: 1.07 }}
       >
-        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md 
-                        group-hover:scale-105 transition-all">
+        {/* Glow ring */}
+        <div className="absolute inset-0 rounded-2xl scale-110 opacity-0 group-hover:opacity-30 blur-xl 
+                        transition-all duration-500 bg-yellow-500"></div>
+
+        {/* Card */}
+        <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-white/70 dark:bg-gray-800/70 
+                        backdrop-blur-xl shadow-lg border border-gray-200/40 dark:border-gray-700/40 
+                        overflow-hidden flex items-center justify-center
+                        group-hover:shadow-yellow-500/40 transition-all duration-300">
           <img
             src={client.logo}
             alt={client.name}
-            className="w-full h-full object-contain p-3"
+            className="w-20 h-20 object-contain opacity-90 group-hover:opacity-100 transition"
           />
         </div>
 
-        <p className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300 
-                      group-hover:text-yellow-500 transition">
+        {/* Name */}
+        <p className="mt-4 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-yellow-500 transition-all">
           {client.name}
         </p>
       </motion.a>
@@ -250,9 +273,6 @@ export default function Home() {
   </div>
 </section>
 
-
-
-      
       {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
