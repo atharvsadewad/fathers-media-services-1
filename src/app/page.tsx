@@ -24,7 +24,7 @@ const clients = [
     name: "Private Work",
     logo: "/clients/pvt.png",
     url: "https://pvt.in"
-  },
+  }
 ];
 
 const services = [
