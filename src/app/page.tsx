@@ -270,7 +270,7 @@ export default function Home() {
         </div>
 
         {/* Name */}
-        <p className="mt-4 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-yellow-500 transition-all">
+        <p className="client-name mt-4 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-yellow-500 transition-all">
           {client.name}
         </p>
       </motion.a>
