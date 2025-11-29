@@ -203,3 +203,17 @@ body::before {
   word-wrap: break-word;
   white-space: normal;
 }
+/* Fail-safe dark card styles — covers both class-based and system dark-mode */
+html.dark .card,
+.dark .card,
+@media (prefers-color-scheme: dark) {
+  .card {
+    background: rgba(30, 30, 30, 0.72) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55) !important;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65) !important;
+  }
+}
