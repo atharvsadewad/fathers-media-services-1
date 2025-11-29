@@ -208,53 +208,48 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= CLIENTS SECTION ================= */}
+     {/* ================= CLIENTS SECTION ================= */}
 <section className="section-padding bg-white/40 dark:bg-gray-900/40 backdrop-blur-sm">
   <div className="container-responsive text-center">
     <h2 className="section-title text-gray-900 dark:text-white">
       Our Clients
     </h2>
     <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">
-      Brands that trusted us with their digital presence.
+      Trusted by growing brands and businesses.
     </p>
   </div>
 
-  {/* Marquee Animation */}
-  <div className="overflow-hidden mt-12 marquee-mask">
-    <motion.div
-      className="flex gap-12 items-center"
-      animate={{
-        x: ["0%", "-100%"]
-      }}
-      transition={{
-        duration: 18,
-        ease: "linear",
-        repeat: Infinity
-      }}
-    >
-      {[...clients, ...clients].map((client, i) => (
-        <a
-          key={i}
-          href={client.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex flex-col items-center cursor-pointer group"
-        >
-          <div className="w-28 h-28 rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md group-hover:scale-105 transition">
-            <img
-              src={client.logo}
-              alt={client.name}
-              className="w-full h-full object-contain p-4"
-            />
-          </div>
-          <p className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-yellow-500 transition">
-            {client.name}
-          </p>
-        </a>
-      ))}
-    </motion.div>
+  <div className="mt-12 max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-10 place-items-center">
+    {clients.map((client, i) => (
+      <motion.a
+        key={i}
+        href={client.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        initial={{ opacity: 0, scale: 0.85 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.4, delay: i * 0.1 }}
+        className="flex flex-col items-center group cursor-pointer"
+      >
+        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md 
+                        group-hover:scale-105 transition-all">
+          <img
+            src={client.logo}
+            alt={client.name}
+            className="w-full h-full object-contain p-3"
+          />
+        </div>
+
+        <p className="mt-3 text-sm font-medium text-gray-700 dark:text-gray-300 
+                      group-hover:text-yellow-500 transition">
+          {client.name}
+        </p>
+      </motion.a>
+    ))}
   </div>
 </section>
+
 
 
       
