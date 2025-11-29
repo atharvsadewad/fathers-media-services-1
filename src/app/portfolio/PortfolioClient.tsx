@@ -5,11 +5,13 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const images = [
-  "/portfolio/work1.png",
-  "/portfolio/work2.png",
-  "/portfolio/work3.png",
-  "/portfolio/work4.png",
-  "/portfolio/work5.png",
+  "/portfolio/w1.png",
+  "/portfolio/w2.png",
+  "/portfolio/w3.png",
+  "/portfolio/w4.png",
+  "/portfolio/w5.png",
+  "/portfolio/w6.png",
+  "/portfolio/w7.png",
   "/portfolio/chamber-screenshot.png",
 ];
 
