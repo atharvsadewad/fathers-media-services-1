@@ -155,7 +155,7 @@ export default function Home() {
       <section id="plans" className="section-padding">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
-          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300">Enquire to get a custom quote.</p>
+          <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300 opacity-90">
 
           <div className="mt-8 grid gap-6 md:grid-cols-3">
             {[
