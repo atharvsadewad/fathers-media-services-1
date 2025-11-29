@@ -220,7 +220,7 @@ export default function Home() {
   </div>
 
   {/* Marquee Animation */}
-  <div className="overflow-hidden mt-12">
+  <div className="overflow-hidden mt-12 marquee-mask">
     <motion.div
       className="flex gap-12 items-center"
       animate={{
