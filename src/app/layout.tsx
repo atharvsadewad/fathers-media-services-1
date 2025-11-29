@@ -25,7 +25,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://fathersmedia.in"),
   title: {
-    default: "Father’s Media | Best Digital Marketing & Branding Agency in Pune",
+    default: "Father’s Media | Digital Marketing, Branding & Web Development Agency in Pune",
     template: "%s | Father’s Media",
   },
   description:
