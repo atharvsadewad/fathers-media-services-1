@@ -289,7 +289,7 @@ export default function Home() {
 
         <div className="relative overflow-hidden mt-12" onMouseEnter={(e) => e.currentTarget.classList.add("pause")} onMouseLeave={(e) => e.currentTarget.classList.remove("pause")}>
           <div className="flex animate-scroll-x gap-6 px-4">
-            {["/portfolio/work1.png","/portfolio/work2.png","/portfolio/work3.png","/portfolio/work4.png","/portfolio/work5.png","/portfolio/chamber-screenshot.png"].map((src, i) => (
+            {["/portfolio/w1.png","/portfolio/w2.png","/portfolio/w3.png","/portfolio/w4.png","/portfolio/w5.png","/portfolio/w6.png","/portfolio/w7.png","/portfolio/chamber-screenshot.png"].map((src, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
