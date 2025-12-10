@@ -91,11 +91,11 @@ const CustomCursor = () => {
 };
 
 // --- STACK CARD COMPONENT ---
-// This handles the sticky behavior for individual cards
+// FIXED: Changed 'description' to 'desc' to match data source
 const Card = ({ 
   i, 
   title, 
-  description, 
+  desc, 
   icon, 
   color, 
   progress, 
@@ -104,7 +104,7 @@ const Card = ({
 }: { 
   i: number; 
   title: string; 
-  description: string; 
+  desc: string; 
   icon: any; 
   color: string;
   progress: MotionValue<number>; 
@@ -137,7 +137,7 @@ const Card = ({
               {title}
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 z-10">
-              {description}
+              {desc}
             </p>
             <div className="mt-4 z-10">
               <a href="#contact" className="inline-flex items-center gap-2 text-yellow-600 font-semibold hover:gap-4 transition-all">
@@ -403,14 +403,48 @@ export default function Home() {
         <form onSubmit={async (e) => {
             e.preventDefault();
             setSubmitMessage({ text: 'Sending...', type: 'info' });
-            // Add your fetch logic here
-            setSubmitMessage({ text: "✅ Message sent!", type: 'success' });
+            
+            const form = e.currentTarget;
+            const formData = new FormData(form);
+
+            try {
+              const res = await fetch("/api/contact", {
+                method: "POST",
+                body: formData,
+              });
+
+              if (res.ok) {
+                setSubmitMessage({ text: "✅ Your message has been sent successfully! We'll be in touch soon.", type: 'success' });
+                form.reset();
+              } else {
+                const errorText = await res.text();
+                setSubmitMessage({ text: `❌ Failed to send message: ${errorText || 'Server error.'}`, type: 'error' });
+              }
+            } catch (error) {
+                setSubmitMessage({ text: `❌ Failed to connect to server. Please check your connection.`, type: 'error' });
+            }
         }} className="space-y-4">
-          <input type="text" placeholder="Name" className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#111] focus:outline-none focus:ring-2 focus:ring-yellow-500" required />
-          <input type="email" placeholder="Email" className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#111] focus:outline-none focus:ring-2 focus:ring-yellow-500" required />
-          <textarea rows={4} placeholder="Tell us about your project" className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#111] focus:outline-none focus:ring-2 focus:ring-yellow-500" required />
+          <input type="text" name="name" placeholder="Name" className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#111] focus:outline-none focus:ring-2 focus:ring-yellow-500" required />
+          <input type="email" name="email" placeholder="Email" className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#111] focus:outline-none focus:ring-2 focus:ring-yellow-500" required />
+          <textarea name="message" rows={4} placeholder="Tell us about your project" className="w-full p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-[#111] focus:outline-none focus:ring-2 focus:ring-yellow-500" required />
           <button type="submit" className="w-full py-4 bg-yellow-500 font-bold rounded-xl hover:bg-yellow-400 transition-colors text-black">Send Message</button>
-          {submitMessage.text && <p className="mt-4 font-medium text-green-600">{submitMessage.text}</p>}
+          
+           {submitMessage.text && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              transition={{ duration: 0.3 }}
+              className={`p-3 rounded-lg text-center text-sm ${
+                submitMessage.type === 'success' 
+                  ? 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300' 
+                  : submitMessage.type === 'error'
+                  ? 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300'
+                  : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-300'
+              }`}
+            >
+              {submitMessage.text}
+            </motion.div>
+          )}
         </form>
       </section>
 
