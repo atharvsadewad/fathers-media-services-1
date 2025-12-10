@@ -260,68 +260,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT WE DO 🚀 Hybrid Premium */}
-<section id="services" className="relative bg-white dark:bg-black min-h-[700vh]">
+      {/* WHAT WE DO HYBRID SCROLL SECTION */}
+<section id="services" className="relative py-32 bg-white dark:bg-black">
 
-  {/* LEFT STICKY TITLE BLOCK */}
-  <div className="sticky top-32 pl-12 w-[40%] h-fit">
-    <h2 className="text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
-      What <br /> We Do
+  <div className="text-center mb-20">
+    <h2 className="text-5xl font-bold text-gray-900 dark:text-white">
+      What We Do
     </h2>
-
-    <p className="mt-6 text-xl text-gray-600 dark:text-gray-300 max-w-[350px]">
-      Strategic design, branding, digital growth & modern web experiences—
-      executed with precision & creativity.
+    <p className="text-gray-600 dark:text-gray-300 text-lg">
+      Turning ideas into powerful brand experiences.
     </p>
   </div>
 
-  {/* RIGHT DISPLAY AREA */}
-  <div className="absolute right-0 top-0 w-[60%] h-full">
+  <div className="sticky top-32 h-[480px] flex justify-center items-center">
+    {services.map((s, i) => {
+      const progress = scrollY - i * 1.2;
 
-    {services.map((service, index) => (
-      <motion.div
-        key={service.id}
-        className="h-screen flex justify-center items-center snap-center"
-        initial={{ opacity: 0, scale: 0.6, filter: "blur(10px)" }}
-        whileInView={{
-          opacity: 1,
-          scale: 1,
-          filter: "blur(0px)",
-        }}
-        exit={{ opacity: 0 }}
-        transition={{
-          duration: 0.7,
-          ease: "easeOut",
-          delay: index * 0.08,
-        }}
-        viewport={{ once: false, amount: 0.8 }}
-      >
-        <div className="relative w-[90%] h-[430px] rounded-3xl 
-          shadow-xl border border-gray-200 dark:border-gray-700
-          px-12 py-10 bg-white dark:bg-gray-900
-          flex flex-col justify-center overflow-hidden">
-          
-          {/* ID */}
-          <p className="text-yellow-500 text-lg font-bold">{service.id}</p>
-          
-          {/* TITLE */}
-          <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            {service.title}
+      return (
+        <motion.div
+          key={s.id}
+          style={{ zIndex: services.length - i }}
+          className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] bg-white dark:bg-gray-900 shadow-2xl 
+          border border-gray-200 dark:border-gray-700 flex flex-col gap-6 transition-all"
+          initial={{ opacity: 0, y: 80, scale: 0.93 }}
+          animate={{
+            opacity: progress > -0.4 ? 1 : 0,
+            y: progress > 0 ? -progress * 140 : 0,
+            scale: progress > 0 ? 1 - progress * 0.1 : 1
+          }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+        >
+          <span className="text-yellow-500 font-bold text-lg">{s.id}</span>
+
+          <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+            {s.title}
           </h3>
 
-          {/* DESCRIPTION */}
-          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-[450px] leading-relaxed">
-            {service.desc}
+          <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+            {s.desc}
           </p>
 
-          {/* ICON */}
-          <div className="absolute bottom-10 right-10 text-7xl opacity-80">
-            {service.icon}
+          <div className="absolute bottom-10 right-8 text-6xl opacity-90">
+            {s.icon}
           </div>
-        </div>
-      </motion.div>
-    ))}
+        </motion.div>
+      );
+    })}
   </div>
+
+  {/* Spacer only of needed exact scroll */}
+  <div className="h-[600px]" /> 
 
 </section>
 
