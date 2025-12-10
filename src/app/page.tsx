@@ -1,40 +1,41 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, 
   FaUsers, FaPaintBrush, FaVideo, FaLightbulb, 
-  FaCheckCircle, FaUsersCog 
+  FaCheckCircle, FaUsersCog, FaArrowRight 
 } from "react-icons/fa";
 
 // --- DATA ---
 const clients = [
   { name: "Chamber", logo: "/clients/chamber.png", url: "https://chamber-frontend-i2lc.vercel.app/" },
   { name: "Pawan Infra Developer", logo: "/clients/PId logo 6.png", url: "https://pawaninfradeveloper.in" },
-  { name: "Voter Data Management web Tool", logo: "/clients/vm.png", url: "https://pvt.in" },
-  { name: "Governance & Public-Services Tool", logo: "/clients/w-16.png", url: "https://pvt.in" }
+  { name: "Voter Data Management", logo: "/clients/vm.png", url: "https://pvt.in" },
+  { name: "Governance Tool", logo: "/clients/w-16.png", url: "https://pvt.in" }
 ];
 
 const services = [
-  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-7xl text-yellow-500" /> },
-  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-7xl text-yellow-500" /> },
-  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-7xl text-yellow-500" /> },
-  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-7xl text-yellow-500" /> },
-  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-7xl text-yellow-500" /> },
-  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-7xl text-yellow-500" /> },
-  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-7xl text-yellow-500" /> },
-  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-7xl text-yellow-500" /> },
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn /> },
 ];
 
 const whyChooseUsData = [
-  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", icon: <FaChartLine className="text-yellow-500 text-4xl" /> },
-  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", icon: <FaLightbulb className="text-yellow-500 text-4xl" /> },
-  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> },
-  { title: "Client-Centric Customization", desc: "We ditch generic packages for fully customized plans tailored to your niche and objectives.", icon: <FaUsersCog className="text-yellow-500 text-4xl" /> },
+  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes.", icon: <FaChartLine className="text-yellow-500 text-3xl" /> },
+  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns.", icon: <FaLightbulb className="text-yellow-500 text-3xl" /> },
+  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins.", icon: <FaCheckCircle className="text-yellow-500 text-3xl" /> },
+  { title: "Client-Centric", desc: "We ditch generic packages for fully customized plans.", icon: <FaUsersCog className="text-yellow-500 text-3xl" /> },
 ];
 
 // --- HELPER COMPONENTS ---
+
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -112,96 +113,14 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
   );
 };
 
-// --- SINGLE SERVICE CARD COMPONENT ---
-// This card receives the scroll progress and decides whether to be visible or not
-const ServiceCard = ({ data, index, total, scrollYProgress }: { data: any, index: number, total: number, scrollYProgress: MotionValue<number> }) => {
-  // Calculate when THIS card should be active
-  // Example: If total 8 cards, each card gets a slice of the scroll (e.g., 0.0 to 0.125)
-  const stepSize = 1 / total;
-  const start = index * stepSize;
-  const end = start + stepSize;
-
-  // ANIMATION LOGIC:
-  // 1. Opacity: Fades in quickly when its turn starts.
-  //    EXCEPTION: The first card (index 0) is ALWAYS visible initially (opacity 1) so there is NO blank space.
-  const opacity = useTransform(
-    scrollYProgress, 
-    [start - 0.05, start, end], 
-    index === 0 ? [1, 1, 0] : [0, 1, 0] // Card 0 starts visible, others fade in
-  );
-
-  // 2. Y Position: Slides up slightly as it appears
-  const y = useTransform(
-    scrollYProgress,
-    [start - 0.1, start],
-    [50, 0]
-  );
-  
-  // 3. Scale: Scales down slightly when it's about to disappear (Leo9 effect)
-  const scale = useTransform(
-    scrollYProgress,
-    [start, end],
-    [1, 0.9]
-  );
-
-  // Only render if we are roughly in the active window (optimization)
-  // We use a CSS class to hide it when completely out of range to prevent clicking invisible items
-  const isVisible = useTransform(scrollYProgress, (val) => val >= start - 0.1 && val <= end + 0.1);
-  const [display, setDisplay] = useState("none");
-  
-  // React to visibility changes to toggle display:none
-  useEffect(() => {
-     return isVisible.onChange((v) => {
-        setDisplay(v || index === 0 ? "flex" : "none"); 
-     });
-  }, [isVisible, index]);
-
-  return (
-    <motion.div
-      style={{ 
-        opacity: index === 0 ? 1 : opacity, // Force card 0 to be visible always
-        scale,
-        y: index === 0 ? 0 : y, // Card 0 doesn't slide up, it just sits there
-        zIndex: index,
-        display: index === 0 ? "flex" : display // Ensure card 0 is always flex
-      }}
-      className="absolute inset-0 mx-auto my-auto w-[90%] md:w-[1000px] h-[60vh] md:h-[500px] flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
-    >
-      <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-8 z-10 text-left">
-        <span className="text-9xl font-black text-gray-100 dark:text-gray-700 absolute -top-10 -left-10 z-0 opacity-40 select-none">
-            {index + 1 < 10 ? `0${index + 1}` : index + 1}
-        </span>
-        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white relative z-10 leading-tight">
-          {data.title}
-        </h2>
-        <p className="text-xl text-gray-600 dark:text-gray-300 relative z-10 leading-relaxed">
-          {data.desc}
-        </p>
-      </div>
-
-      <div className="w-full md:w-[45%] h-64 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"></div>
-          <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500 scale-125">
-              {data.icon}
-          </div>
-      </div>
-    </motion.div>
-  );
-};
-
 
 // --- MAIN PAGE ---
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
   
-  // We create a container that is tall (300vh) to allow scrolling.
-  // The 'targetRef' tracks how far we have scrolled through this tall container.
-  const targetRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start start", "end end"],
-  });
+  // State for the Accordion
+  const [activeService, setActiveService] = useState<number | null>(0); // Default to first open
 
   return (
     <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-x-hidden">
@@ -246,37 +165,85 @@ export default function Home() {
             </motion.span>{" "}
             <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.6 }}>
               By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
-            </motion.span>{" "}
-            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.9 }}>
-              Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
             </motion.span>
           </p>
         </div>
       </section>
 
-      {/* --- FIXED: What We Do (Leo9 Style Pinned Scroll) --- */}
-      {/* 1. The Track: This div creates the height we scroll through (300vh) */}
-      <section ref={targetRef} id="services" className="relative h-[300vh] bg-gray-100 dark:bg-black">
-        
-        {/* 2. The Pin: This div STICKS to the screen while you scroll the track */}
-        <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
+      {/* --- NEW STYLE: "HOVER ACCORDION" --- */}
+      {/* No sticky logic. No scroll math. Just pure, clean interaction. */}
+      <section id="services" className="py-24 bg-gray-100 dark:bg-black px-4">
+        <div className="container-responsive max-w-7xl mx-auto">
           
-          <div className="text-center mb-8 absolute top-10 md:top-20 z-50 w-full">
+          <div className="text-center mb-16">
              <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
              <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
           </div>
 
-          {/* 3. The Stage: Holds all the cards in one place */}
-          <div className="relative w-full h-full flex items-center justify-center">
-             {services.map((service, i) => (
-                <ServiceCard 
-                  key={service.id} 
-                  data={service} 
-                  index={i} 
-                  total={services.length} 
-                  scrollYProgress={scrollYProgress} 
-                />
-             ))}
+          <div className="flex flex-col gap-4">
+            {services.map((service, index) => (
+              <motion.div
+                key={service.id}
+                onMouseEnter={() => setActiveService(index)}
+                initial={false}
+                animate={{
+                  height: activeService === index ? "auto" : "80px", // Expand/Collapse
+                  backgroundColor: activeService === index ? "rgba(255,255,255,0.05)" : "transparent",
+                }}
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className={`relative overflow-hidden rounded-2xl border transition-colors duration-300
+                  ${activeService === index 
+                    ? "border-yellow-500/50 bg-white dark:bg-[#111] shadow-2xl" 
+                    : "border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-[#050505] hover:border-gray-300 dark:hover:border-gray-700"
+                  }
+                `}
+              >
+                <div className="flex items-center justify-between p-6 cursor-pointer">
+                  {/* Left: ID & Title */}
+                  <div className="flex items-center gap-6 md:gap-10">
+                    <span className={`text-xl font-mono transition-colors duration-300 ${activeService === index ? "text-yellow-500" : "text-gray-400"}`}>
+                      {service.id}
+                    </span>
+                    <h3 className={`text-2xl md:text-4xl font-bold transition-colors duration-300 ${activeService === index ? "text-black dark:text-white" : "text-gray-500 dark:text-gray-500"}`}>
+                      {service.title}
+                    </h3>
+                  </div>
+
+                  {/* Right: Icon (Small when closed, hidden when open to move it elsewhere) */}
+                  <div className={`text-2xl text-gray-400 transition-transform duration-300 ${activeService === index ? "rotate-90 opacity-0" : "rotate-0 opacity-100"}`}>
+                    <FaArrowRight />
+                  </div>
+                </div>
+
+                {/* Expanded Content */}
+                <AnimatePresence>
+                  {activeService === index && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                      className="px-6 pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-8 items-start"
+                    >
+                      {/* Description */}
+                      <div className="flex-1">
+                        <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+                          {service.desc}
+                        </p>
+                        <a href="#contact" className="mt-6 inline-flex items-center gap-2 text-yellow-600 font-semibold hover:gap-3 transition-all">
+                          Get Started <FaArrowRight className="text-sm" />
+                        </a>
+                      </div>
+
+                      {/* Big Icon Visual */}
+                      <div className="hidden md:flex w-48 h-32 bg-yellow-500/10 rounded-2xl items-center justify-center text-6xl text-yellow-500">
+                        {service.icon}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
           </div>
 
         </div>
