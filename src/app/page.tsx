@@ -9,6 +9,8 @@ import {
   FaCheckCircle, FaUsersCog 
 } from "react-icons/fa";
 
+// --- DATA CONSTANTS ---
+
 const clients = [
   {
     name: "Chamber",
@@ -32,6 +34,32 @@ const clients = [
   }
 ];
 
+const services = [
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+];
+
+const whyChooseUsData = [
+  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", icon: <FaChartLine className="text-yellow-500 text-4xl" /> },
+  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", icon: <FaLightbulb className="text-yellow-500 text-4xl" /> },
+  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> },
+  { title: "Client-Centric Customization", desc: "We ditch generic packages for fully customized plans tailored to your niche and objectives.", icon: <FaUsersCog className="text-yellow-500 text-4xl" /> },
+];
+
+const plans = [
+    { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
+    { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions(2 Ads)"] },
+    { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions(4 Ads)"] },
+];
+
+// --- HELPER COMPONENTS ---
+
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -40,7 +68,6 @@ const CustomCursor = () => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
       
-      // Optional: Check if hovering over a clickable element to expand cursor
       const target = e.target as HTMLElement;
       setIsHovering(
         target.tagName === 'A' || 
@@ -56,14 +83,11 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* 1. The Dot (Fixed to mouse) */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 bg-[#d4af37] rounded-full pointer-events-none z-[9999]"
         animate={{ x: mousePosition.x - 4, y: mousePosition.y - 4 }}
         transition={{ type: "tween", ease: "linear", duration: 0 }}
       />
-      
-      {/* 2. The Ring (Follows with delay) */}
       <motion.div
         className="fixed top-0 left-0 w-8 h-8 border border-[#d4af37] rounded-full pointer-events-none z-[9998]"
         animate={{ 
@@ -84,7 +108,6 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
-  // 1. Auto-Scroll Logic
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
@@ -92,13 +115,9 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     let animationFrameId: number;
 
     const step = () => {
-      // Only scroll if not paused and not dragging
       if (!isPaused && !isDragging) {
         container.scrollLeft += speed;
         
-        // Infinite Loop Logic: If we scrolled halfway, reset to 0 (requires duplicated content)
-        // Note: For a true infinite loop, we usually double the content. 
-        // If it hits the end, we simply reset. 
         if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
            container.scrollLeft = 0; 
         }
@@ -110,7 +129,6 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     return () => cancelAnimationFrame(animationFrameId);
   }, [isPaused, isDragging, speed]);
 
-  // 2. Click & Drag Logic
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true);
     setIsPaused(true);
@@ -134,12 +152,10 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // *2 determines drag speed
+    const walk = (x - startX) * 2;
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  // 3. Duplicate Children for Infinite Effect
-  // We render the children multiple times so the scroll has room to reset seamlessly
   const content = (
     <>
       {children}
@@ -156,54 +172,40 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
       onMouseLeave={handleMouseLeave}
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
-      onTouchStart={() => setIsPaused(true)} // Pause on mobile touch
+      onTouchStart={() => setIsPaused(true)}
       onTouchEnd={() => setIsPaused(false)}
     >
       {content}
     </div>
   );
 };
-const [scrollY, setScrollY] = useState(0);
 
-useEffect(() => {
-  const handleScroll = () => {
-    const sectionOffset = document
-      .getElementById("services")
-      ?.offsetTop || 0;
-
-    const scrollValue = (window.scrollY - sectionOffset) / 200;
-    setScrollY(scrollValue);
-  };
-
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, []);
-
-const services = [
-  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
-  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
-  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
-  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
-  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
-  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
-  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
-  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
-];
-
-const whyChooseUsData = [
-  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", icon: <FaChartLine className="text-yellow-500 text-4xl" /> },
-  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", icon: <FaLightbulb className="text-yellow-500 text-4xl" /> },
-  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> },
-  { title: "Client-Centric Customization", desc: "We ditch generic packages for fully customized plans tailored to your niche and objectives.", icon: <FaUsersCog className="text-yellow-500 text-4xl" /> },
-];
+// --- MAIN COMPONENT ---
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
+  const [scrollY, setScrollY] = useState(0);
+
+  // Scroll listener logic moved INSIDE the component
+  useEffect(() => {
+    const handleScroll = () => {
+      const sectionOffset = document
+        .getElementById("services")
+        ?.offsetTop || 0;
+
+      // Only start calculating when close to the section to improve performance
+      const scrollValue = (window.scrollY - sectionOffset) / 200;
+      setScrollY(scrollValue);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-hidden">
       
-      {/* ✅ JSON-LD SEO STRUCTURED DATA */}
+      {/* JSON-LD SEO STRUCTURED DATA */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -226,8 +228,6 @@ export default function Home() {
 
       <CustomCursor /> 
       
-      {/* Header, Hero, etc... */}
-
       {/* HERO */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
         <motion.div
@@ -276,58 +276,54 @@ export default function Home() {
       </section>
 
       {/* WHAT WE DO PREMIUM */}
-<section id="services" className="relative h-[900vh] bg-white dark:bg-black">
+      <section id="services" className="relative h-[900vh] bg-white dark:bg-black">
+        {/* Sticky Wrapper */}
+        <div className="sticky top-20 h-screen flex flex-col items-center justify-center">
 
-  {/* Sticky Wrapper */}
-  <div className="sticky top-20 h-screen flex flex-col items-center justify-center">
-
-    <h2 className="text-5xl font-bold text-gray-900 dark:text-white text-center mb-3">
-      What We Do
-    </h2>
-    <p className="text-gray-600 dark:text-gray-300 text-lg text-center mb-16">
-      Turning ideas into powerful brand experiences.
-    </p>
-
-    <div className="relative w-full flex justify-center items-center h-[480px]">
-      {services.map((s, i) => (
-        <motion.div
-          key={s.id}
-          style={{ zIndex: services.length - i }}
-          className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] bg-white dark:bg-gray-900 shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col gap-6"
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          viewport={{ once: false }}
-          transition={{ duration: 0.6 }}
-          animate={{
-            opacity: [
-              1 - (Math.max(0, scrollY - i * 2)) * 0.6,
-            ],
-            y: (scrollY - i) * -120,
-            scale: 1 - (Math.max(0, scrollY - i * 1.4) * 0.15),
-          }}
-        >
-          <span className="text-yellow-500 font-bold text-lg">{s.id}</span>
-
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
-            {s.title}
-          </h3>
-
-          <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
-            {s.desc}
+          <h2 className="text-5xl font-bold text-gray-900 dark:text-white text-center mb-3">
+            What We Do
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 text-lg text-center mb-16">
+            Turning ideas into powerful brand experiences.
           </p>
 
-          <div className="absolute bottom-10 right-8 text-6xl opacity-90">
-            {s.icon}
+          <div className="relative w-full flex justify-center items-center h-[480px]">
+            {services.map((s, i) => (
+              <motion.div
+                key={s.id}
+                style={{ zIndex: services.length - i }}
+                className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] bg-white dark:bg-gray-900 shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col gap-6"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                viewport={{ once: false }}
+                transition={{ duration: 0.6 }}
+                animate={{
+                  opacity: [
+                    1 - (Math.max(0, scrollY - i * 2)) * 0.6,
+                  ],
+                  y: (scrollY - i) * -120,
+                  scale: 1 - (Math.max(0, scrollY - i * 1.4) * 0.15),
+                }}
+              >
+                <span className="text-yellow-500 font-bold text-lg">{s.id}</span>
+
+                <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+                  {s.title}
+                </h3>
+
+                <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+                  {s.desc}
+                </p>
+
+                <div className="absolute bottom-10 right-8 text-6xl opacity-90">
+                  {s.icon}
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </motion.div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
-
+        </div>
+      </section>
 
       {/* PLANS */}
       <section id="plans" className="section-padding">
@@ -337,11 +333,7 @@ export default function Home() {
             Enquire to get a custom quote.
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {[
-              { name: "Basic", features: ["Strategy Consulting", "Digital Marketing & Management ", "Content Writing", "Photo & Video Shoot", "Editing", "Graphic Posts", "4 Reels 8 Post 8 Stories/M", "Google Business Listing" ] },
-              { name: "Standard", features: ["Includes Basic", "Brand Building - Complete", "8 Reels 12 Posts 12 Stories/M ", "Paid Promotions(2 Ads)"] },
-              { name: "Premium", features: ["Includes Standard", "Multi-platform Media Handling", "12 Reels 16 Posts 16 Stories/M", "Website Development", "SEO", "Paid Promotions(4 Ads)"] },
-            ].map((plan, i) => (
+            {plans.map((plan, i) => (
               <motion.div 
                 key={plan.name} 
                 initial={{ opacity: 0, y: 50 }}
@@ -457,7 +449,6 @@ export default function Home() {
       </div>
     </section>
 
-
       {/* PORTFOLIO / SHOWCASING CREATIVITY */}
       <section className="section-padding">
         <div className="container-responsive text-center">
@@ -469,8 +460,7 @@ export default function Home() {
 
         {/* SCROLL CONTAINER */}
         <div className="mt-12 relative w-full">
-          <ScrollContainer speed={1.5}> {/* Adjust speed here (higher = faster) */}
-            {/* We duplicate the array 3 times to ensure smooth infinite scrolling */}
+          <ScrollContainer speed={1.5}>
             {[
               "/portfolio/w1.png", "/portfolio/w2.png", "/portfolio/w3.png", "/portfolio/w4.png", 
               "/portfolio/w5.png", "/portfolio/w6.png", "/portfolio/w7.png", "/portfolio/chamber-screenshot.png"
@@ -482,7 +472,6 @@ export default function Home() {
                 viewport={{ once: false }}
                 transition={{ duration: 0.5 }}
                 className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 select-none pointer-events-none" 
-                // pointer-events-none prevents the image from being 'dragged' as a file, allowing the container to slide
               >
                 <img src={src} alt={`Portfolio ${i}`} className="w-full h-full object-cover" />
               </motion.div>
