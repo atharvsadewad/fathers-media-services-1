@@ -9,29 +9,15 @@ import {
   FaCheckCircle, FaUsersCog 
 } from "react-icons/fa";
 
+/* ================= CLIENT LIST ================== */
 const clients = [
-  {
-    name: "Chamber",
-    logo: "/clients/chamber.png",
-    url: "https://chamber-frontend-i2lc.vercel.app/" 
-  },
-  {
-    name: "Pawan Infra Developer",
-    logo: "/clients/PId logo 6.png",
-    url: "https://pawaninfradeveloper.in"
-  },
-  {
-    name: "Voter Data Management web Tool",
-    logo: "/clients/vm.png",
-    url: "https://pvt.in"
-  },
-  {
-    name: "Governance & Public-Services Tool",
-    logo: "/clients/w-16.png",
-    url: "https://pvt.in"
-  }
+  { name: "Chamber", logo: "/clients/chamber.png", url: "https://chamber-frontend-i2lc.vercel.app/" },
+  { name: "Pawan Infra Developer", logo: "/clients/PId logo 6.png", url: "https://pawaninfradeveloper.in" },
+  { name: "Voter Data Management web Tool", logo: "/clients/vm.png", url: "https://pvt.in" },
+  { name: "Governance & Public-Services Tool", logo: "/clients/w-16.png", url: "https://pvt.in" },
 ];
 
+/* ================= CUSTOM CURSOR ================= */
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -39,14 +25,10 @@ const CustomCursor = () => {
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      // Optional: Check if hovering over a clickable element to expand cursor
+
       const target = e.target as HTMLElement;
       setIsHovering(
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' || 
-        target.closest('a') !== null || 
-        target.closest('button') !== null
+        !!target.closest("a") || !!target.closest("button")
       );
     };
 
@@ -56,114 +38,62 @@ const CustomCursor = () => {
 
   return (
     <>
-      {/* 1. The Dot (Fixed to mouse) */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 bg-[#d4af37] rounded-full pointer-events-none z-[9999]"
         animate={{ x: mousePosition.x - 4, y: mousePosition.y - 4 }}
-        transition={{ type: "tween", ease: "linear", duration: 0 }}
+        transition={{ duration: 0 }}
       />
-      
-      {/* 2. The Ring (Follows with delay) */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border border-[#d4af37] rounded-full pointer-events-none z-[9998]"
-        animate={{ 
-          x: mousePosition.x - 16, 
+        className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#d4af37] pointer-events-none z-[9998]"
+        animate={{
+          x: mousePosition.x - 16,
           y: mousePosition.y - 16,
           scale: isHovering ? 1.5 : 1
         }}
-        transition={{ type: "spring", stiffness: 250, damping: 20 }}
+        transition={{ type: "spring", stiffness: 200, damping: 18 }}
       />
     </>
   );
 };
 
-const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; speed?: number }) => {
+/* ================= PORTFOLIO SCROLLER ================= */
+const ScrollContainer = ({ children, speed = 1 }: any) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
+  const [isPaused, setPaused] = useState(false);
 
-  // 1. Auto-Scroll Logic
   useEffect(() => {
+    if (typeof window === "undefined") return;
     const container = scrollRef.current;
     if (!container) return;
 
-    let animationFrameId: number;
+    let frame: number;
 
-    const step = () => {
-      // Only scroll if not paused and not dragging
-      if (!isPaused && !isDragging) {
+    const animate = () => {
+      if (!isPaused) {
         container.scrollLeft += speed;
-        
-        // Infinite Loop Logic: If we scrolled halfway, reset to 0 (requires duplicated content)
-        // Note: For a true infinite loop, we usually double the content. 
-        // If it hits the end, we simply reset. 
-        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
-           container.scrollLeft = 0; 
-        }
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth)
+          container.scrollLeft = 0;
       }
-      animationFrameId = requestAnimationFrame(step);
+      frame = requestAnimationFrame(animate);
     };
 
-    animationFrameId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isPaused, isDragging, speed]);
-
-  // 2. Click & Drag Logic
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setIsPaused(true);
-    if(scrollRef.current) {
-      setStartX(e.pageX - scrollRef.current.offsetLeft);
-      setScrollLeft(scrollRef.current.scrollLeft);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-    setIsPaused(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-    setIsPaused(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // *2 determines drag speed
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  // 3. Duplicate Children for Infinite Effect
-  // We render the children multiple times so the scroll has room to reset seamlessly
-  const content = (
-    <>
-      {children}
-      {children} 
-      {children}
-    </>
-  );
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [isPaused, speed]);
 
   return (
     <div
       ref={scrollRef}
-      className="flex gap-6 overflow-x-auto no-scrollbar w-full px-4"
-      onMouseDown={handleMouseDown}
-      onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onTouchStart={() => setIsPaused(true)} // Pause on mobile touch
-      onTouchEnd={() => setIsPaused(false)}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      className="flex overflow-x-auto gap-6 no-scrollbar cursor-grab active:cursor-grabbing px-4"
     >
-      {content}
+      {children}{children}{children}
     </div>
   );
 };
 
+/* ================= SERVICES ================= */
 const services = [
   { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
   { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
@@ -175,66 +105,42 @@ const services = [
   { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
 ];
 
-const whyChooseUsData = [
-  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", icon: <FaChartLine className="text-yellow-500 text-4xl" /> },
-  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", icon: <FaLightbulb className="text-yellow-500 text-4xl" /> },
-  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> },
-  { title: "Client-Centric Customization", desc: "We ditch generic packages for fully customized plans tailored to your niche and objectives.", icon: <FaUsersCog className="text-yellow-500 text-4xl" /> },
+/* ================= WHY CHOOSE ================= */
+const whyChooseUs = [
+  { title: "Proven Results", desc: "We grow brands with measurable outcomes.", icon: <FaChartLine className="text-yellow-500 text-4xl" /> },
+  { title: "Full-Funnel Approach", desc: "From strategy to paid growth execution.", icon: <FaLightbulb className="text-yellow-500 text-4xl" /> },
+  { title: "Transparent Reporting", desc: "Monthly insights and ROI tracking.", icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> },
+  { title: "Client-Centric Plans", desc: "We tailor strategies uniquely per brand.", icon: <FaUsersCog className="text-yellow-500 text-4xl" /> },
 ];
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
+  const [scrollY, setScrollY] = useState(0);
+
+  /* ================= SAFE SCROLL ================= */
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const listen = () => setScrollY(window.scrollY / 350);
+    window.addEventListener("scroll", listen);
+    return () => window.removeEventListener("scroll", listen);
+  }, []);
 
   return (
-    <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-hidden">
-      
-      {/* ✅ JSON-LD SEO STRUCTURED DATA */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Father’s Media",
-            url: "https://fathersmedia.in",
-            logo: "https://fathersmedia.in/web-app-manifest-512x512.png",
-            sameAs: [
-              "https://www.linkedin.com/company/fathersmedia/",
-              "https://www.instagram.com/fathersmedia/",
-              "https://x.com/fathersmedia",
-            ],
-            description:
-              "Father’s Media is a creative social-media and marketing agency that helps brands grow through design, content, SEO, and paid advertising.",
-          }),
-        }}
-      />
+    <div className="relative min-h-screen font-[var(--font-dm-sans)]">
 
-      <CustomCursor /> 
-      
-      {/* Header, Hero, etc... */}
+      <CustomCursor />
 
       {/* HERO */}
-      <section className="relative h-[85vh] flex items-center overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="container-responsive text-center"
-        >
-          <h1 className="text-4xl sm:text-6xl font-extrabold text-black dark:text-white">
+      <section className="relative h-[85vh] flex items-center">
+        <div className="container-responsive text-center">
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
+            className="text-5xl font-extrabold dark:text-white text-black">
             Father’s Media — Building Brands Online
-          </h1>
-          <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
-            We help businesses stand out with strategy, creativity, and growth.
-          </p>
-          <div className="mt-8 flex gap-4 justify-center">
-            <a href="#contact" className="btn-primary">Let’s Work Together</a>
-            <a href="#services" className="btn-outline">Our Services</a>
-          </div>
-        </motion.div>
+          </motion.h1>
+        </div>
       </section>
 
-      {/* TAGLINE */}
+            {/* TAGLINE */}
       <section className="section-padding text-center bg-gray-50 dark:bg-gray-900">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
@@ -260,60 +166,47 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT WE DO HYBRID SCROLL SECTION */}
-<section id="services" className="relative py-32 bg-white dark:bg-black">
+      {/* WHAT WE DO PREMIUM FIXED STACK */}
+      <section id="services" className="relative bg-white dark:bg-black py-32">
 
-  <div className="text-center mb-20">
-    <h2 className="text-5xl font-bold text-gray-900 dark:text-white">
-      What We Do
-    </h2>
-    <p className="text-gray-600 dark:text-gray-300 text-lg">
-      Turning ideas into powerful brand experiences.
-    </p>
-  </div>
+        <h2 className="text-5xl text-center font-bold dark:text-white text-black mb-20">
+          What We Do
+        </h2>
 
-  <div className="sticky top-32 h-[480px] flex justify-center items-center">
-    {services.map((s, i) => {
-      const progress = scrollY - i * 1.2;
+        {/* Sticky animation wrapper */}
+        <div className="sticky top-24 h-[480px] flex justify-center items-center">
 
-      return (
-        <motion.div
-          key={s.id}
-          style={{ zIndex: services.length - i }}
-          className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] bg-white dark:bg-gray-900 shadow-2xl 
-          border border-gray-200 dark:border-gray-700 flex flex-col gap-6 transition-all"
-          initial={{ opacity: 0, y: 80, scale: 0.93 }}
-          animate={{
-            opacity: progress > -0.4 ? 1 : 0,
-            y: progress > 0 ? -progress * 140 : 0,
-            scale: progress > 0 ? 1 - progress * 0.1 : 1
-          }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-        >
-          <span className="text-yellow-500 font-bold text-lg">{s.id}</span>
+          {/* SSR Protected */}
+          {typeof window !== "undefined" &&
+            services.map((s, i) => {
+              const progress = scrollY - i * 1.3;
 
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
-            {s.title}
-          </h3>
+              return (
+                <motion.div
+                  key={s.id}
+                  style={{ zIndex: services.length - i }}
+                  className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] 
+                    bg-white dark:bg-gray-900 shadow-2xl border dark:border-gray-700 flex flex-col gap-4"
+                  animate={{
+                    opacity: progress > -0.4 ? 1 : 0,
+                    y: progress > 0 ? -progress * 140 : 0,
+                    scale: progress > 0 ? 1 - progress * 0.1 : 1
+                  }}
+                  transition={{ duration: 0.45 }}
+                >
+                  <span className="text-yellow-500 font-bold">{s.id}</span>
+                  <h3 className="text-3xl font-extrabold dark:text-white text-black">{s.title}</h3>
+                  <p className="text-lg dark:text-gray-300 text-gray-600">{s.desc}</p>
+                  <div className="absolute bottom-10 right-8 text-6xl">{s.icon}</div>
+                </motion.div>
+              );
+            })}
+        </div>
 
-          <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
-            {s.desc}
-          </p>
+        {/* Spacer until last card truly disappears */}
+        <div className="h-[550px]" />
+      </section>
 
-          <div className="absolute bottom-10 right-8 text-6xl opacity-90">
-            {s.icon}
-          </div>
-        </motion.div>
-      );
-    })}
-  </div>
-
-  {/* Spacer only of needed exact scroll */}
-  <div className="h-[600px]" /> 
-
-</section>
-
-      
       {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
