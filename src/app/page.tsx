@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { 
@@ -17,14 +18,14 @@ const clients = [
 ];
 
 const services = [
-  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
-  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
-  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
-  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
-  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
-  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
-  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
-  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-7xl text-yellow-500" /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-7xl text-yellow-500" /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-7xl text-yellow-500" /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-7xl text-yellow-500" /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-7xl text-yellow-500" /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-7xl text-yellow-500" /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-7xl text-yellow-500" /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-7xl text-yellow-500" /> },
 ];
 
 const whyChooseUsData = [
@@ -142,58 +143,76 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
   );
 };
 
-// --- NEW STACKING CARD COMPONENT (LEO9 Style) ---
-const Card = ({ i, title, desc, icon, progress, range, targetScale }: { 
-    i: number; title: string; desc: string; icon: any; 
-    progress: MotionValue<number>; range: [number, number]; targetScale: number; 
+// --- STACKING CARD COMPONENT ---
+const Card = ({ 
+  i, 
+  title, 
+  desc, 
+  icon, 
+  progress, 
+  range, 
+  targetScale 
+}: { 
+  i: number; 
+  title: string; 
+  desc: string; 
+  icon: any; 
+  progress: MotionValue<number>; 
+  range: [number, number]; 
+  targetScale: number; 
 }) => {
   const container = useRef(null);
+  
+  // Controls animation scale based on scroll position relative to THIS card
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ['start end', 'start start']
   });
 
-  const imageScale = useTransform(scrollYProgress, [0, 1], [2, 1]);
   const scale = useTransform(progress, range, [1, targetScale]);
   
   return (
+    // 'sticky top-0' is crucial here. It makes the card stick to the top of the container.
     <div ref={container} className="h-screen flex items-center justify-center sticky top-0">
       <motion.div 
-        style={{ scale, top: `calc(-5vh + ${i * 25}px)` }} 
-        className="flex flex-col relative h-[450px] w-[90%] md:w-[1000px] rounded-3xl p-10 origin-top shadow-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 overflow-hidden"
+        style={{ 
+          scale, 
+          // Stagger the top position slightly so they don't perfectly overlap, creating a "stack" look
+          top: `calc(-5vh + ${i * 25}px)` 
+        }} 
+        className="relative flex flex-col md:flex-row items-center justify-between w-[90%] max-w-5xl h-[60vh] md:h-[500px] p-8 md:p-12 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden origin-top"
       >
-        <div className="flex h-full flex-col md:flex-row gap-12 items-center justify-between">
-          
-          <div className="w-full md:w-[55%] flex flex-col justify-center gap-6 text-left">
-            <span className="text-8xl font-black text-gray-100 dark:text-gray-700 absolute -top-6 -left-6 z-0 opacity-50 select-none">
-              {i + 1 < 10 ? `0${i + 1}` : i + 1}
-            </span>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white z-10">
-              {title}
-            </h2>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 z-10 leading-relaxed">
-              {desc}
-            </p>
-          </div>
+        {/* Left: Text Content */}
+        <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-6 z-10">
+          <span className="text-9xl font-black text-gray-100 dark:text-gray-700 absolute -top-10 -left-10 z-0 opacity-40 select-none">
+             {i + 1 < 10 ? `0${i + 1}` : i + 1}
+          </span>
+          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white relative z-10">
+            {title}
+          </h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300 relative z-10">
+            {desc}
+          </p>
+        </div>
 
-          <div className="w-full md:w-[40%] h-full rounded-2xl flex items-center justify-center relative overflow-hidden bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-700">
-             <motion.div style={{ scale: imageScale }} className="relative z-10">
-                {icon}
-             </motion.div>
-          </div>
+        {/* Right: Icon/Visual */}
+        <div className="w-full md:w-1/3 h-48 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-2xl"></div>
+            <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500">
+               {icon}
+            </div>
         </div>
       </motion.div>
     </div>
   );
 };
 
-
 // --- MAIN PAGE ---
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
   
-  // Ref for the sticky container
+  // Controls the main scroll tracking for the stack
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
@@ -225,7 +244,7 @@ export default function Home() {
 
       <CustomCursor /> 
       
-      {/* HERO (Unchanged) */}
+      {/* HERO */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -246,7 +265,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* TAGLINE (Unchanged) */}
+      {/* TAGLINE */}
       <section className="section-padding text-center bg-gray-50 dark:bg-gray-900">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
@@ -272,17 +291,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- REPLACED: WHAT WE DO (Leo9 Stacking Style) --- */}
-      <div ref={container} id="services" className="relative w-full bg-gray-100 dark:bg-black pt-20">
+      {/* --- NEW FIXED STACKING SECTION --- */}
+      <div ref={container} id="services" className="relative w-full bg-gray-100 dark:bg-black">
         
-        {/* Section Header */}
-        <div className="text-center mb-10 sticky top-10 z-0">
+        {/* Static Header that scrolls normally until it hits the stack area */}
+        <div className="text-center pt-24 pb-12">
            <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
            <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
         </div>
 
-        <div className="pb-[20vh]">
+        {/* The mapping container */}
+        <div className="flex flex-col items-center">
           {services.map((service, i) => {
+            // Calculate scale: The further down the list, the less it scales initially
             const targetScale = 1 - ((services.length - i) * 0.05);
             return (
               <Card 
@@ -290,7 +311,7 @@ export default function Home() {
                 i={i} 
                 {...service} 
                 progress={scrollYProgress} 
-                range={[i * 0.1, 1]} 
+                range={[i * (1 / services.length), 1]} 
                 targetScale={targetScale} 
               />
             );
@@ -298,8 +319,8 @@ export default function Home() {
         </div>
       </div>
       
-      {/* PLANS (Unchanged) */}
-      <section id="plans" className="section-padding bg-white dark:bg-[#0a0a0a]">
+      {/* PLANS */}
+      <section id="plans" className="section-padding bg-white dark:bg-[#0a0a0a] relative z-20">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300 opacity-90">
@@ -333,7 +354,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHY CHOOSE US (Unchanged) */}
+      {/* WHY CHOOSE US */}
       <section className="section-padding bg-gray-50 dark:bg-gray-900">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Why Choose Us</h2>
@@ -361,7 +382,7 @@ export default function Home() {
         </div>
       </section>
 
-       {/* PREMIUM++ CLIENTS SECTION (Unchanged) */}
+       {/* PREMIUM++ CLIENTS SECTION */}
     <section className="section-padding relative">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-gray-800/20"></div>
       
@@ -414,7 +435,7 @@ export default function Home() {
     </section>
 
 
-      {/* PORTFOLIO (Unchanged) */}
+      {/* PORTFOLIO */}
       <section className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Showcasing Creativity</h2>
@@ -444,7 +465,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* CONTACT (Unchanged) */}
+      {/* CONTACT */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
