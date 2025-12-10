@@ -163,6 +163,21 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     </div>
   );
 };
+const [scrollY, setScrollY] = useState(0);
+
+useEffect(() => {
+  const handleScroll = () => {
+    const sectionOffset = document
+      .getElementById("services")
+      ?.offsetTop || 0;
+
+    const scrollValue = (window.scrollY - sectionOffset) / 200;
+    setScrollY(scrollValue);
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
 const services = [
   { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
@@ -260,68 +275,59 @@ export default function Home() {
         </div>
       </section>
 
-   {/* WHAT WE DO (PREMIUM STACK SCROLL) */}
-<section id="services" className="relative min-h-[550vh] py-32 bg-white dark:bg-black">
-  <div className="sticky top-28 flex flex-col items-center justify-start">
-    <h2 className="text-5xl font-bold text-center text-gray-900 dark:text-white mb-4">
+      {/* WHAT WE DO PREMIUM */}
+<section id="services" className="relative h-[900vh] bg-white dark:bg-black">
+
+  {/* Sticky Wrapper */}
+  <div className="sticky top-20 h-screen flex flex-col items-center justify-center">
+
+    <h2 className="text-5xl font-bold text-gray-900 dark:text-white text-center mb-3">
       What We Do
     </h2>
-    <p className="text-lg text-gray-600 dark:text-gray-300 text-center max-w-lg mb-20">
+    <p className="text-gray-600 dark:text-gray-300 text-lg text-center mb-16">
       Turning ideas into powerful brand experiences.
     </p>
 
-    {/* STACK CARDS */}
-    <div className="relative h-[60vh] w-full flex justify-center items-center">
-      {services.map((service, index) => (
+    <div className="relative w-full flex justify-center items-center h-[480px]">
+      {services.map((s, i) => (
         <motion.div
-          key={service.id}
-          initial={{ opacity: 0, scale: 0.95, y: 60 }}
-          whileInView={{
-            opacity: 1,
-            scale: 1,
-            y: 0,
-          }}
+          key={s.id}
+          style={{ zIndex: services.length - i }}
+          className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] bg-white dark:bg-gray-900 shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col gap-6"
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
           viewport={{ once: false }}
-          transition={{
-            duration: 0.6,
-            delay: index * 0.12,
-            ease: "easeOut",
-          }}
-          className={`
-            absolute w-[420px] min-h-[420px] 
-            bg-white dark:bg-gray-900 
-            rounded-[32px] shadow-xl border 
-            border-gray-200 dark:border-gray-800 
-            px-10 py-12 flex flex-col gap-6
-            transition-all duration-500
-            animate-service-card
-          `}
-          style={{
-            zIndex: 100 - index, // ensures stacking order
+          transition={{ duration: 0.6 }}
+          animate={{
+            opacity: [
+              1 - (Math.max(0, scrollY - i * 2)) * 0.6,
+            ],
+            y: (scrollY - i) * -120,
+            scale: 1 - (Math.max(0, scrollY - i * 1.4) * 0.15),
           }}
         >
-          {/* Service Index */}
-          <span className="text-lg font-mono font-semibold text-yellow-500/90">
-            {service.id}
-          </span>
+          <span className="text-yellow-500 font-bold text-lg">{s.id}</span>
 
-          {/* Title & Desc */}
-          <h3 className="text-3xl font-bold text-gray-900 dark:text-white leading-tight">
-            {service.title}
+          <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+            {s.title}
           </h3>
-          <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed pr-4">
-            {service.desc}
+
+          <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+            {s.desc}
           </p>
 
-          {/* Icon on Right */}
-          <div className="absolute right-8 bottom-8 opacity-90">
-            {service.icon}
+          <div className="absolute bottom-10 right-8 text-6xl opacity-90">
+            {s.icon}
           </div>
         </motion.div>
       ))}
     </div>
   </div>
 </section>
+
+
+
 
       {/* PLANS */}
       <section id="plans" className="section-padding">
