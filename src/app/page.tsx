@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { 
   FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, 
   FaUsers, FaPaintBrush, FaVideo, FaLightbulb, 
@@ -112,13 +112,91 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
   );
 };
 
+// --- SINGLE SERVICE CARD COMPONENT ---
+// This card receives the scroll progress and decides whether to be visible or not
+const ServiceCard = ({ data, index, total, scrollYProgress }: { data: any, index: number, total: number, scrollYProgress: MotionValue<number> }) => {
+  // Calculate when THIS card should be active
+  // Example: If total 8 cards, each card gets a slice of the scroll (e.g., 0.0 to 0.125)
+  const stepSize = 1 / total;
+  const start = index * stepSize;
+  const end = start + stepSize;
+
+  // ANIMATION LOGIC:
+  // 1. Opacity: Fades in quickly when its turn starts.
+  //    EXCEPTION: The first card (index 0) is ALWAYS visible initially (opacity 1) so there is NO blank space.
+  const opacity = useTransform(
+    scrollYProgress, 
+    [start - 0.05, start, end], 
+    index === 0 ? [1, 1, 0] : [0, 1, 0] // Card 0 starts visible, others fade in
+  );
+
+  // 2. Y Position: Slides up slightly as it appears
+  const y = useTransform(
+    scrollYProgress,
+    [start - 0.1, start],
+    [50, 0]
+  );
+  
+  // 3. Scale: Scales down slightly when it's about to disappear (Leo9 effect)
+  const scale = useTransform(
+    scrollYProgress,
+    [start, end],
+    [1, 0.9]
+  );
+
+  // Only render if we are roughly in the active window (optimization)
+  // We use a CSS class to hide it when completely out of range to prevent clicking invisible items
+  const isVisible = useTransform(scrollYProgress, (val) => val >= start - 0.1 && val <= end + 0.1);
+  const [display, setDisplay] = useState("none");
+  
+  // React to visibility changes to toggle display:none
+  useEffect(() => {
+     return isVisible.onChange((v) => {
+        setDisplay(v || index === 0 ? "flex" : "none"); 
+     });
+  }, [isVisible, index]);
+
+  return (
+    <motion.div
+      style={{ 
+        opacity: index === 0 ? 1 : opacity, // Force card 0 to be visible always
+        scale,
+        y: index === 0 ? 0 : y, // Card 0 doesn't slide up, it just sits there
+        zIndex: index,
+        display: index === 0 ? "flex" : display // Ensure card 0 is always flex
+      }}
+      className="absolute inset-0 mx-auto my-auto w-[90%] md:w-[1000px] h-[60vh] md:h-[500px] flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+    >
+      <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-8 z-10 text-left">
+        <span className="text-9xl font-black text-gray-100 dark:text-gray-700 absolute -top-10 -left-10 z-0 opacity-40 select-none">
+            {index + 1 < 10 ? `0${index + 1}` : index + 1}
+        </span>
+        <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white relative z-10 leading-tight">
+          {data.title}
+        </h2>
+        <p className="text-xl text-gray-600 dark:text-gray-300 relative z-10 leading-relaxed">
+          {data.desc}
+        </p>
+      </div>
+
+      <div className="w-full md:w-[45%] h-64 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
+          <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"></div>
+          <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500 scale-125">
+              {data.icon}
+          </div>
+      </div>
+    </motion.div>
+  );
+};
+
 
 // --- MAIN PAGE ---
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
   
-  // Ref for the pinned section
+  // We create a container that is tall (300vh) to allow scrolling.
+  // The 'targetRef' tracks how far we have scrolled through this tall container.
   const targetRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -176,61 +254,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- "DECK OF CARDS" SECTION (Fixes the Void Issue) --- */}
-      {/* 1. We create a 400vh tall section so you have plenty of room to scroll */}
-      <section ref={targetRef} id="services" className="relative h-[400vh] bg-gray-100 dark:bg-black">
+      {/* --- FIXED: What We Do (Leo9 Style Pinned Scroll) --- */}
+      {/* 1. The Track: This div creates the height we scroll through (300vh) */}
+      <section ref={targetRef} id="services" className="relative h-[300vh] bg-gray-100 dark:bg-black">
         
-        {/* 2. This inner div sticks to the top of the screen */}
+        {/* 2. The Pin: This div STICKS to the screen while you scroll the track */}
         <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
           
-          <div className="text-center mb-8 relative z-20">
+          <div className="text-center mb-8 absolute top-10 md:top-20 z-50 w-full">
              <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
              <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
           </div>
 
-          {/* 3. The Deck: All cards are stacked exactly on top of each other */}
-          <div className="relative w-[90%] max-w-5xl h-[60vh] md:h-[500px]">
-            {services.map((service, i) => {
-              // Logic: We calculate when THIS specific card should appear based on scroll
-              // Each card gets a 'slice' of the 400vh scroll height.
-              const rangeStart = i * (1 / services.length);
-              const rangeEnd = rangeStart + (1 / services.length);
-              
-              // Only animate Opacity and Scale. 
-              // Opacity: 0 -> 1 when it's this card's turn
-              // Scale: 1 -> 0.95 when the NEXT card starts covering it
-              const opacity = useTransform(scrollYProgress, [rangeStart - 0.1, rangeStart, rangeEnd], [0, 1, 1]);
-              const scale = useTransform(scrollYProgress, [rangeStart, rangeEnd], [1, 0.95]);
-              // Z-Index ensures the later cards are visually "on top"
-              const zIndex = i;
-
-              return (
-                <motion.div
-                  key={service.id}
-                  style={{ opacity, scale, zIndex }}
-                  className="absolute inset-0 flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
-                >
-                  <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-8 z-10 text-left">
-                    <span className="text-9xl font-black text-gray-100 dark:text-gray-700 absolute -top-10 -left-10 z-0 opacity-40 select-none">
-                       {i + 1 < 10 ? `0${i + 1}` : i + 1}
-                    </span>
-                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white relative z-10 leading-tight">
-                      {service.title}
-                    </h2>
-                    <p className="text-xl text-gray-600 dark:text-gray-300 relative z-10 leading-relaxed">
-                      {service.desc}
-                    </p>
-                  </div>
-
-                  <div className="w-full md:w-[45%] h-64 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
-                      <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"></div>
-                      <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500 scale-125">
-                         {service.icon}
-                      </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+          {/* 3. The Stage: Holds all the cards in one place */}
+          <div className="relative w-full h-full flex items-center justify-center">
+             {services.map((service, i) => (
+                <ServiceCard 
+                  key={service.id} 
+                  data={service} 
+                  index={i} 
+                  total={services.length} 
+                  scrollYProgress={scrollYProgress} 
+                />
+             ))}
           </div>
 
         </div>
