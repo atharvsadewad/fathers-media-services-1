@@ -60,26 +60,36 @@ const plans = [
 
 // --- HELPER COMPONENTS ---
 
-const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+const [scrollPos, setScrollPos] = useState(0);
 
-  useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-      
-      const target = e.target as HTMLElement;
-      setIsHovering(
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' || 
-        target.closest('a') !== null || 
-        target.closest('button') !== null
-      );
-    };
+const stepPerCard = 150; // scroll distance per card
 
-    window.addEventListener("mousemove", updateMousePosition);
-    return () => window.removeEventListener("mousemove", updateMousePosition);
-  }, []);
+useEffect(() => {
+  const handleScroll = () => {
+    const section = document.getElementById("services");
+    if (!section) return;
+
+    const sectionTop = section.offsetTop;
+    const rawScroll = window.scrollY - sectionTop;
+
+    setScrollPos(Math.max(rawScroll, 0));
+  };
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
+
+function getAnimation(scrollValue: number, cardIndex: number) {
+  const delayPoint = cardIndex * stepPerCard;
+  const opacityDistance = Math.max(0, scrollValue - delayPoint);
+
+  return {
+    opacity: Math.max(1 - opacityDistance / stepPerCard, 0),
+    y: opacityDistance * -1.2,
+    scale: 1 - opacityDistance / (stepPerCard * 4),
+  };
+}
+
 
   return (
     <>
@@ -275,55 +285,55 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT WE DO PREMIUM */}
-      <section id="services" className="relative h-[900vh] bg-white dark:bg-black">
-        {/* Sticky Wrapper */}
-        <div className="sticky top-20 h-screen flex flex-col items-center justify-center">
+      {/* WHAT WE DO PREMIUM FIXED VERSION */}
+<section id="services" className="relative bg-white dark:bg-black">
+  
+  <h2 className="text-5xl font-bold text-center text-gray-900 dark:text-white pt-20">
+    What We Do
+  </h2>
+  <p className="text-center text-gray-600 dark:text-gray-300 text-lg mb-16">
+    Turning ideas into powerful brand experiences.
+  </p>
 
-          <h2 className="text-5xl font-bold text-gray-900 dark:text-white text-center mb-3">
-            What We Do
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-lg text-center mb-16">
-            Turning ideas into powerful brand experiences.
-          </p>
+  {/* Outer Scroll Wrapper */}
+  <div className="relative h-[600vh]">
+    
+    {/* Sticky container */}
+    <div className="sticky top-28 h-screen flex justify-center items-center">
+      
+      <div className="relative w-full flex justify-center items-center">
+        
+        {services.map((s, index) => (
+          <motion.div
+            key={s.id}
+            className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] bg-white dark:bg-gray-900 shadow-2xl 
+            border border-gray-200 dark:border-gray-700 flex flex-col gap-6"
+            style={{ zIndex: services.length - index }}
+            animate={getAnimation(scrollPos, index)}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <span className="text-yellow-500 font-bold text-lg">{s.id}</span>
 
-          <div className="relative w-full flex justify-center items-center h-[480px]">
-            {services.map((s, i) => (
-              <motion.div
-                key={s.id}
-                style={{ zIndex: services.length - i }}
-                className="absolute w-[420px] min-h-[420px] p-10 rounded-[30px] bg-white dark:bg-gray-900 shadow-2xl border border-gray-200 dark:border-gray-700 flex flex-col gap-6"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.6 }}
-                animate={{
-                  opacity: [
-                    1 - (Math.max(0, scrollY - i * 2)) * 0.6,
-                  ],
-                  y: (scrollY - i) * -120,
-                  scale: 1 - (Math.max(0, scrollY - i * 1.4) * 0.15),
-                }}
-              >
-                <span className="text-yellow-500 font-bold text-lg">{s.id}</span>
+            <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+              {s.title}
+            </h3>
 
-                <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
-                  {s.title}
-                </h3>
+            <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
+              {s.desc}
+            </p>
 
-                <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed">
-                  {s.desc}
-                </p>
+            <div className="absolute bottom-10 right-8 text-6xl opacity-90">
+              {s.icon}
+            </div>
 
-                <div className="absolute bottom-10 right-8 text-6xl opacity-90">
-                  {s.icon}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+          </motion.div>
+        ))}
+
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* PLANS */}
       <section id="plans" className="section-padding">
