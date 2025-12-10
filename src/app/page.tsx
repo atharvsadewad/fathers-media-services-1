@@ -260,33 +260,69 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WHAT WE DO */}
-      <section id="services" className="section-padding relative overflow-hidden">
-        <div className="container-responsive text-center">
-          <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
-          <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
+   {/* WHAT WE DO (PREMIUM STACK SCROLL) */}
+<section id="services" className="relative min-h-[550vh] py-32 bg-white dark:bg-black">
+  <div className="sticky top-28 flex flex-col items-center justify-start">
+    <h2 className="text-5xl font-bold text-center text-gray-900 dark:text-white mb-4">
+      What We Do
+    </h2>
+    <p className="text-lg text-gray-600 dark:text-gray-300 text-center max-w-lg mb-20">
+      Turning ideas into powerful brand experiences.
+    </p>
 
-          <div className="mt-12 space-y-8 max-w-4xl mx-auto">
-            {services.map((s, i) => (
-              <motion.div
-                key={s.id}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: i * 0.1 }}
-                viewport={{ once: false, amount: 0.3 }}
-                className="p-6 md:p-8 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 flex justify-between items-center"
-              >
-                <div className="text-left flex-1">
-                  <h3 className="text-2xl font-bold mb-2">{s.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300">{s.desc}</p>
-                </div>
-                <div className="ml-6">{s.icon}</div>
-              </motion.div>
-            ))}
+    {/* STACK CARDS */}
+    <div className="relative h-[60vh] w-full flex justify-center items-center">
+      {services.map((service, index) => (
+        <motion.div
+          key={service.id}
+          initial={{ opacity: 0, scale: 0.95, y: 60 }}
+          whileInView={{
+            opacity: 1,
+            scale: 1,
+            y: 0,
+          }}
+          viewport={{ once: false }}
+          transition={{
+            duration: 0.6,
+            delay: index * 0.12,
+            ease: "easeOut",
+          }}
+          className={`
+            absolute w-[420px] min-h-[420px] 
+            bg-white dark:bg-gray-900 
+            rounded-[32px] shadow-xl border 
+            border-gray-200 dark:border-gray-800 
+            px-10 py-12 flex flex-col gap-6
+            transition-all duration-500
+            animate-service-card
+          `}
+          style={{
+            zIndex: 100 - index, // ensures stacking order
+          }}
+        >
+          {/* Service Index */}
+          <span className="text-lg font-mono font-semibold text-yellow-500/90">
+            {service.id}
+          </span>
+
+          {/* Title & Desc */}
+          <h3 className="text-3xl font-bold text-gray-900 dark:text-white leading-tight">
+            {service.title}
+          </h3>
+          <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed pr-4">
+            {service.desc}
+          </p>
+
+          {/* Icon on Right */}
+          <div className="absolute right-8 bottom-8 opacity-90">
+            {service.icon}
           </div>
-        </div>
-      </section>
-      
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
       {/* PLANS */}
       <section id="plans" className="section-padding">
         <div className="container-responsive">
