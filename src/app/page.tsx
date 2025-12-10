@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { 
   FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, 
   FaUsers, FaPaintBrush, FaVideo, FaLightbulb, 
@@ -35,7 +35,6 @@ const whyChooseUsData = [
 ];
 
 // --- HELPER COMPONENTS ---
-
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -43,16 +42,11 @@ const CustomCursor = () => {
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
-      
       const target = e.target as HTMLElement;
       setIsHovering(
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' || 
-        target.closest('a') !== null || 
-        target.closest('button') !== null
+        target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') !== null || target.closest('button') !== null
       );
     };
-
     window.addEventListener("mousemove", updateMousePosition);
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, []);
@@ -66,11 +60,7 @@ const CustomCursor = () => {
       />
       <motion.div
         className="fixed top-0 left-0 w-8 h-8 border border-[#d4af37] rounded-full pointer-events-none z-[9998]"
-        animate={{ 
-          x: mousePosition.x - 16, 
-          y: mousePosition.y - 16,
-          scale: isHovering ? 1.5 : 1
-        }}
+        animate={{ x: mousePosition.x - 16, y: mousePosition.y - 16, scale: isHovering ? 1.5 : 1 }}
         transition={{ type: "spring", stiffness: 250, damping: 20 }}
       />
     </>
@@ -91,9 +81,7 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     const step = () => {
       if (!isPaused && !isDragging) {
         container.scrollLeft += speed;
-        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
-           container.scrollLeft = 0; 
-        }
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) container.scrollLeft = 0; 
       }
       animationFrameId = requestAnimationFrame(step);
     };
@@ -114,79 +102,31 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     const walk = (x - startX) * 2; 
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
-  const content = <>{children}{children}{children}</>;
   return (
     <div ref={scrollRef} className="flex gap-6 overflow-x-auto no-scrollbar w-full px-4"
       onMouseDown={handleMouseDown} onMouseLeave={handleMouseLeave} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}
       onTouchStart={() => setIsPaused(true)} onTouchEnd={() => setIsPaused(false)}
     >
-      {content}
+      {children}{children}{children}
     </div>
   );
 };
 
-// --- IMPROVED CARD COMPONENT ---
-// Uses top-24 to ensure it sticks BELOW the navbar, not hidden behind it.
-const Card = ({ i, title, desc, icon, progress, range, targetScale }: { 
-    i: number; title: string; desc: string; icon: any; 
-    progress: MotionValue<number>; range: [number, number]; targetScale: number; 
-}) => {
-  const container = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ['start end', 'start start']
-  });
-
-  const scale = useTransform(progress, range, [1, targetScale]);
-  
-  return (
-    // 'sticky top-24' ensures the card sticks BELOW your navbar (approx 6rem down)
-    <div ref={container} className="h-screen flex items-start justify-center sticky top-24 pt-10">
-      <motion.div 
-        style={{ 
-          scale, 
-          // Slight stacking offset
-          top: `calc(-5vh + ${i * 25}px)` 
-        }} 
-        // Increased height to h-[70vh] to fill the void space
-        className="relative flex flex-col md:flex-row items-center justify-between w-[95%] max-w-6xl h-[70vh] p-8 md:p-16 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden origin-top"
-      >
-        <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-8 z-10 text-left">
-          <span className="text-9xl font-black text-gray-100 dark:text-gray-700 absolute -top-10 -left-10 z-0 opacity-40 select-none">
-             {i + 1 < 10 ? `0${i + 1}` : i + 1}
-          </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white relative z-10 leading-tight">
-            {title}
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 relative z-10 leading-relaxed">
-            {desc}
-          </p>
-        </div>
-
-        <div className="w-full md:w-[45%] h-64 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"></div>
-            <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500 scale-125">
-               {icon}
-            </div>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
 
 // --- MAIN PAGE ---
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
-  const container = useRef(null);
+  
+  // Ref for the pinned section
+  const targetRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ['start start', 'end end']
+    target: targetRef,
+    offset: ["start start", "end end"],
   });
 
   return (
     <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-x-hidden">
-      
       <CustomCursor /> 
       
       {/* HERO */}
@@ -236,31 +176,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- STACKING CARDS SECTION --- */}
-      {/* Logic: sticky top-24 prevents 'void' by keeping cards visible below navbar */}
-      <div ref={container} id="services" className="relative w-full bg-gray-100 dark:bg-black pb-20">
+      {/* --- "DECK OF CARDS" SECTION (Fixes the Void Issue) --- */}
+      {/* 1. We create a 400vh tall section so you have plenty of room to scroll */}
+      <section ref={targetRef} id="services" className="relative h-[400vh] bg-gray-100 dark:bg-black">
         
-        <div className="text-center pt-24 pb-12">
-           <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
-           <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
-        </div>
+        {/* 2. This inner div sticks to the top of the screen */}
+        <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
+          
+          <div className="text-center mb-8 relative z-20">
+             <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
+             <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
+          </div>
 
-        <div className="flex flex-col items-center">
-          {services.map((service, i) => {
-            const targetScale = 1 - ((services.length - i) * 0.05);
-            return (
-              <Card 
-                key={service.id} 
-                i={i} 
-                {...service} 
-                progress={scrollYProgress} 
-                range={[i * (1 / services.length), 1]} 
-                targetScale={targetScale} 
-              />
-            );
-          })}
+          {/* 3. The Deck: All cards are stacked exactly on top of each other */}
+          <div className="relative w-[90%] max-w-5xl h-[60vh] md:h-[500px]">
+            {services.map((service, i) => {
+              // Logic: We calculate when THIS specific card should appear based on scroll
+              // Each card gets a 'slice' of the 400vh scroll height.
+              const rangeStart = i * (1 / services.length);
+              const rangeEnd = rangeStart + (1 / services.length);
+              
+              // Only animate Opacity and Scale. 
+              // Opacity: 0 -> 1 when it's this card's turn
+              // Scale: 1 -> 0.95 when the NEXT card starts covering it
+              const opacity = useTransform(scrollYProgress, [rangeStart - 0.1, rangeStart, rangeEnd], [0, 1, 1]);
+              const scale = useTransform(scrollYProgress, [rangeStart, rangeEnd], [1, 0.95]);
+              // Z-Index ensures the later cards are visually "on top"
+              const zIndex = i;
+
+              return (
+                <motion.div
+                  key={service.id}
+                  style={{ opacity, scale, zIndex }}
+                  className="absolute inset-0 flex flex-col md:flex-row items-center justify-between p-8 md:p-12 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden"
+                >
+                  <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-8 z-10 text-left">
+                    <span className="text-9xl font-black text-gray-100 dark:text-gray-700 absolute -top-10 -left-10 z-0 opacity-40 select-none">
+                       {i + 1 < 10 ? `0${i + 1}` : i + 1}
+                    </span>
+                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white relative z-10 leading-tight">
+                      {service.title}
+                    </h2>
+                    <p className="text-xl text-gray-600 dark:text-gray-300 relative z-10 leading-relaxed">
+                      {service.desc}
+                    </p>
+                  </div>
+
+                  <div className="w-full md:w-[45%] h-64 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
+                      <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"></div>
+                      <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500 scale-125">
+                         {service.icon}
+                      </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
         </div>
-      </div>
+      </section>
       
       {/* PLANS */}
       <section id="plans" className="section-padding bg-white dark:bg-[#0a0a0a] relative z-20">
