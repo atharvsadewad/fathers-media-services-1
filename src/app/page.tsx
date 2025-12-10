@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { 
@@ -88,9 +87,7 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
-
     let animationFrameId: number;
-
     const step = () => {
       if (!isPaused && !isDragging) {
         container.scrollLeft += speed;
@@ -100,23 +97,16 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
       }
       animationFrameId = requestAnimationFrame(step);
     };
-
     animationFrameId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animationFrameId);
   }, [isPaused, isDragging, speed]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setIsPaused(true);
-    if(scrollRef.current) {
-      setStartX(e.pageX - scrollRef.current.offsetLeft);
-      setScrollLeft(scrollRef.current.scrollLeft);
-    }
+    setIsDragging(true); setIsPaused(true);
+    if(scrollRef.current) { setStartX(e.pageX - scrollRef.current.offsetLeft); setScrollLeft(scrollRef.current.scrollLeft); }
   };
-
   const handleMouseLeave = () => { setIsDragging(false); setIsPaused(false); };
   const handleMouseUp = () => { setIsDragging(false); setIsPaused(false); };
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
@@ -124,46 +114,24 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
     const walk = (x - startX) * 2; 
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
-
   const content = <>{children}{children}{children}</>;
-
   return (
-    <div
-      ref={scrollRef}
-      className="flex gap-6 overflow-x-auto no-scrollbar w-full px-4"
-      onMouseDown={handleMouseDown}
-      onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseUp}
-      onMouseMove={handleMouseMove}
-      onTouchStart={() => setIsPaused(true)} 
-      onTouchEnd={() => setIsPaused(false)}
+    <div ref={scrollRef} className="flex gap-6 overflow-x-auto no-scrollbar w-full px-4"
+      onMouseDown={handleMouseDown} onMouseLeave={handleMouseLeave} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}
+      onTouchStart={() => setIsPaused(true)} onTouchEnd={() => setIsPaused(false)}
     >
       {content}
     </div>
   );
 };
 
-// --- STACKING CARD COMPONENT ---
-const Card = ({ 
-  i, 
-  title, 
-  desc, 
-  icon, 
-  progress, 
-  range, 
-  targetScale 
-}: { 
-  i: number; 
-  title: string; 
-  desc: string; 
-  icon: any; 
-  progress: MotionValue<number>; 
-  range: [number, number]; 
-  targetScale: number; 
+// --- IMPROVED CARD COMPONENT ---
+// Uses top-24 to ensure it sticks BELOW the navbar, not hidden behind it.
+const Card = ({ i, title, desc, icon, progress, range, targetScale }: { 
+    i: number; title: string; desc: string; icon: any; 
+    progress: MotionValue<number>; range: [number, number]; targetScale: number; 
 }) => {
   const container = useRef(null);
-  
-  // Controls animation scale based on scroll position relative to THIS card
   const { scrollYProgress } = useScroll({
     target: container,
     offset: ['start end', 'start start']
@@ -172,33 +140,32 @@ const Card = ({
   const scale = useTransform(progress, range, [1, targetScale]);
   
   return (
-    // 'sticky top-0' is crucial here. It makes the card stick to the top of the container.
-    <div ref={container} className="h-screen flex items-center justify-center sticky top-0">
+    // 'sticky top-24' ensures the card sticks BELOW your navbar (approx 6rem down)
+    <div ref={container} className="h-screen flex items-start justify-center sticky top-24 pt-10">
       <motion.div 
         style={{ 
           scale, 
-          // Stagger the top position slightly so they don't perfectly overlap, creating a "stack" look
+          // Slight stacking offset
           top: `calc(-5vh + ${i * 25}px)` 
         }} 
-        className="relative flex flex-col md:flex-row items-center justify-between w-[90%] max-w-5xl h-[60vh] md:h-[500px] p-8 md:p-12 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden origin-top"
+        // Increased height to h-[70vh] to fill the void space
+        className="relative flex flex-col md:flex-row items-center justify-between w-[95%] max-w-6xl h-[70vh] p-8 md:p-16 rounded-3xl bg-white dark:bg-gray-800 shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden origin-top"
       >
-        {/* Left: Text Content */}
-        <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-6 z-10">
+        <div className="flex flex-col justify-center h-full w-full md:w-1/2 gap-8 z-10 text-left">
           <span className="text-9xl font-black text-gray-100 dark:text-gray-700 absolute -top-10 -left-10 z-0 opacity-40 select-none">
              {i + 1 < 10 ? `0${i + 1}` : i + 1}
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white relative z-10">
+          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white relative z-10 leading-tight">
             {title}
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-300 relative z-10">
+          <p className="text-xl text-gray-600 dark:text-gray-300 relative z-10 leading-relaxed">
             {desc}
           </p>
         </div>
 
-        {/* Right: Icon/Visual */}
-        <div className="w-full md:w-1/3 h-48 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
-            <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-2xl"></div>
-            <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500">
+        <div className="w-full md:w-[45%] h-64 md:h-full mt-6 md:mt-0 flex items-center justify-center bg-gray-50 dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-gray-700 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-yellow-500/10 scale-0 group-hover:scale-100 transition-transform duration-500 rounded-3xl"></div>
+            <div className="relative z-10 transform group-hover:scale-110 transition-transform duration-500 scale-125">
                {icon}
             </div>
         </div>
@@ -211,8 +178,6 @@ const Card = ({
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
-  
-  // Controls the main scroll tracking for the stack
   const container = useRef(null);
   const { scrollYProgress } = useScroll({
     target: container,
@@ -222,26 +187,6 @@ export default function Home() {
   return (
     <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-x-hidden">
       
-      {/* SEO */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Father’s Media",
-            url: "https://fathersmedia.in",
-            logo: "https://fathersmedia.in/web-app-manifest-512x512.png",
-            sameAs: [
-              "https://www.linkedin.com/company/fathersmedia/",
-              "https://www.instagram.com/fathersmedia/",
-              "https://x.com/fathersmedia",
-            ],
-            description: "Father’s Media is a creative social-media and marketing agency.",
-          }),
-        }}
-      />
-
       <CustomCursor /> 
       
       {/* HERO */}
@@ -291,19 +236,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* --- NEW FIXED STACKING SECTION --- */}
-      <div ref={container} id="services" className="relative w-full bg-gray-100 dark:bg-black">
+      {/* --- STACKING CARDS SECTION --- */}
+      {/* Logic: sticky top-24 prevents 'void' by keeping cards visible below navbar */}
+      <div ref={container} id="services" className="relative w-full bg-gray-100 dark:bg-black pb-20">
         
-        {/* Static Header that scrolls normally until it hits the stack area */}
         <div className="text-center pt-24 pb-12">
            <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
            <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
         </div>
 
-        {/* The mapping container */}
         <div className="flex flex-col items-center">
           {services.map((service, i) => {
-            // Calculate scale: The further down the list, the less it scales initially
             const targetScale = 1 - ((services.length - i) * 0.05);
             return (
               <Card 
@@ -382,7 +325,7 @@ export default function Home() {
         </div>
       </section>
 
-       {/* PREMIUM++ CLIENTS SECTION */}
+       {/* CLIENTS */}
     <section className="section-padding relative">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-gray-800/20"></div>
       
@@ -433,7 +376,6 @@ export default function Home() {
         ))}
       </div>
     </section>
-
 
       {/* PORTFOLIO */}
       <section className="section-padding">
