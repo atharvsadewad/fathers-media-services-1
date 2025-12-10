@@ -1,40 +1,36 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { 
   FaCode, FaGlobe, FaSearch, FaBullhorn, FaChartLine, 
   FaUsers, FaPaintBrush, FaVideo, FaLightbulb, 
-  FaCheckCircle, FaUsersCog, FaArrowRight 
+  FaCheckCircle, FaUsersCog 
 } from "react-icons/fa";
 
-// --- DATA ---
 const clients = [
-  { name: "Chamber", logo: "/clients/chamber.png", url: "https://chamber-frontend-i2lc.vercel.app/" },
-  { name: "Pawan Infra Developer", logo: "/clients/PId logo 6.png", url: "https://pawaninfradeveloper.in" },
-  { name: "Voter Data Management", logo: "/clients/vm.png", url: "https://pvt.in" },
-  { name: "Governance Tool", logo: "/clients/w-16.png", url: "https://pvt.in" }
+  {
+    name: "Chamber",
+    logo: "/clients/chamber.png",
+    url: "https://chamber-frontend-i2lc.vercel.app/" 
+  },
+  {
+    name: "Pawan Infra Developer",
+    logo: "/clients/PId logo 6.png",
+    url: "https://pawaninfradeveloper.in"
+  },
+  {
+    name: "Voter Data Management web Tool",
+    logo: "/clients/vm.png",
+    url: "https://pvt.in"
+  },
+  {
+    name: "Governance & Public-Services Tool",
+    logo: "/clients/w-16.png",
+    url: "https://pvt.in"
+  }
 ];
-
-const services = [
-  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode /> },
-  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe /> },
-  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch /> },
-  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers /> },
-  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush /> },
-  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine /> },
-  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo /> },
-  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn /> },
-];
-
-const whyChooseUsData = [
-  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes.", icon: <FaChartLine className="text-yellow-500 text-3xl" /> },
-  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns.", icon: <FaLightbulb className="text-yellow-500 text-3xl" /> },
-  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins.", icon: <FaCheckCircle className="text-yellow-500 text-3xl" /> },
-  { title: "Client-Centric", desc: "We ditch generic packages for fully customized plans.", icon: <FaUsersCog className="text-yellow-500 text-3xl" /> },
-];
-
-// --- HELPER COMPONENTS ---
 
 const CustomCursor = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -43,25 +39,38 @@ const CustomCursor = () => {
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
+      
+      // Optional: Check if hovering over a clickable element to expand cursor
       const target = e.target as HTMLElement;
       setIsHovering(
-        target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') !== null || target.closest('button') !== null
+        target.tagName === 'A' || 
+        target.tagName === 'BUTTON' || 
+        target.closest('a') !== null || 
+        target.closest('button') !== null
       );
     };
+
     window.addEventListener("mousemove", updateMousePosition);
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, []);
 
   return (
     <>
+      {/* 1. The Dot (Fixed to mouse) */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 bg-[#d4af37] rounded-full pointer-events-none z-[9999]"
         animate={{ x: mousePosition.x - 4, y: mousePosition.y - 4 }}
         transition={{ type: "tween", ease: "linear", duration: 0 }}
       />
+      
+      {/* 2. The Ring (Follows with delay) */}
       <motion.div
         className="fixed top-0 left-0 w-8 h-8 border border-[#d4af37] rounded-full pointer-events-none z-[9998]"
-        animate={{ x: mousePosition.x - 16, y: mousePosition.y - 16, scale: isHovering ? 1.5 : 1 }}
+        animate={{ 
+          x: mousePosition.x - 16, 
+          y: mousePosition.y - 16,
+          scale: isHovering ? 1.5 : 1
+        }}
         transition={{ type: "spring", stiffness: 250, damping: 20 }}
       />
     </>
@@ -75,57 +84,135 @@ const ScrollContainer = ({ children, speed = 1 }: { children: React.ReactNode; s
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
+  // 1. Auto-Scroll Logic
   useEffect(() => {
     const container = scrollRef.current;
     if (!container) return;
+
     let animationFrameId: number;
+
     const step = () => {
+      // Only scroll if not paused and not dragging
       if (!isPaused && !isDragging) {
         container.scrollLeft += speed;
-        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) container.scrollLeft = 0; 
+        
+        // Infinite Loop Logic: If we scrolled halfway, reset to 0 (requires duplicated content)
+        // Note: For a true infinite loop, we usually double the content. 
+        // If it hits the end, we simply reset. 
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+           container.scrollLeft = 0; 
+        }
       }
       animationFrameId = requestAnimationFrame(step);
     };
+
     animationFrameId = requestAnimationFrame(step);
     return () => cancelAnimationFrame(animationFrameId);
   }, [isPaused, isDragging, speed]);
 
+  // 2. Click & Drag Logic
   const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true); setIsPaused(true);
-    if(scrollRef.current) { setStartX(e.pageX - scrollRef.current.offsetLeft); setScrollLeft(scrollRef.current.scrollLeft); }
+    setIsDragging(true);
+    setIsPaused(true);
+    if(scrollRef.current) {
+      setStartX(e.pageX - scrollRef.current.offsetLeft);
+      setScrollLeft(scrollRef.current.scrollLeft);
+    }
   };
-  const handleMouseLeave = () => { setIsDragging(false); setIsPaused(false); };
-  const handleMouseUp = () => { setIsDragging(false); setIsPaused(false); };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !scrollRef.current) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2; 
+    const walk = (x - startX) * 2; // *2 determines drag speed
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
+
+  // 3. Duplicate Children for Infinite Effect
+  // We render the children multiple times so the scroll has room to reset seamlessly
+  const content = (
+    <>
+      {children}
+      {children} 
+      {children}
+    </>
+  );
+
   return (
-    <div ref={scrollRef} className="flex gap-6 overflow-x-auto no-scrollbar w-full px-4"
-      onMouseDown={handleMouseDown} onMouseLeave={handleMouseLeave} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove}
-      onTouchStart={() => setIsPaused(true)} onTouchEnd={() => setIsPaused(false)}
+    <div
+      ref={scrollRef}
+      className="flex gap-6 overflow-x-auto no-scrollbar w-full px-4"
+      onMouseDown={handleMouseDown}
+      onMouseLeave={handleMouseLeave}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onTouchStart={() => setIsPaused(true)} // Pause on mobile touch
+      onTouchEnd={() => setIsPaused(false)}
     >
-      {children}{children}{children}
+      {content}
     </div>
   );
 };
 
+const services = [
+  { id: "01", title: "Website Development", desc: "Modern, responsive websites designed to convert visitors into customers.", icon: <FaCode className="text-6xl text-yellow-500" /> },
+  { id: "02", title: "Google Business Listing", desc: "Boost visibility and credibility with a verified Google Business profile.", icon: <FaGlobe className="text-6xl text-yellow-500" /> },
+  { id: "03", title: "SEO Optimization", desc: "Improve your search rankings with tailored SEO strategies.", icon: <FaSearch className="text-6xl text-yellow-500" /> },
+  { id: "04", title: "Social Media Management", desc: "Strategy, calendars, community management, and analytics.", icon: <FaUsers className="text-6xl text-yellow-500" /> },
+  { id: "05", title: "Branding & Strategy", desc: "Positioning, voice and cohesive visual identity.", icon: <FaPaintBrush className="text-6xl text-yellow-500" /> },
+  { id: "06", title: "Paid Ads & Promotions", desc: "ROI-focused campaigns across Meta, Google and more.", icon: <FaChartLine className="text-6xl text-yellow-500" /> },
+  { id: "07", title: "Content Creation", desc: "Reels, shoots, campaigns that convert attention into action.", icon: <FaVideo className="text-6xl text-yellow-500" /> },
+  { id: "08", title: "Influencer Marketing", desc: "Creator partnerships that drive reach and credibility.", icon: <FaBullhorn className="text-6xl text-yellow-500" /> },
+];
 
-// --- MAIN PAGE ---
+const whyChooseUsData = [
+  { title: "Proven Results", desc: "We have a track record of scaling SMBs and brands with measurable outcomes, focusing on ROI and sustainable growth.", icon: <FaChartLine className="text-yellow-500 text-4xl" /> },
+  { title: "Full-Funnel Approach", desc: "From initial strategy and creative direction to final paid growth campaigns, we handle the entire process seamlessly.", icon: <FaLightbulb className="text-yellow-500 text-4xl" /> },
+  { title: "Transparent Reporting", desc: "Expect detailed, transparent reports and collaborative check-ins to monitor real progress every step of the way.", icon: <FaCheckCircle className="text-yellow-500 text-4xl" /> },
+  { title: "Client-Centric Customization", desc: "We ditch generic packages for fully customized plans tailored to your niche and objectives.", icon: <FaUsersCog className="text-yellow-500 text-4xl" /> },
+];
 
 export default function Home() {
   const [submitMessage, setSubmitMessage] = useState({ text: "", type: "" });
-  
-  // State for the Accordion
-  const [activeService, setActiveService] = useState<number | null>(0); // Default to first open
 
   return (
-    <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-x-hidden">
+    <div className="font-[var(--font-dm-sans)] min-h-screen relative overflow-hidden">
+      
+      {/* ✅ JSON-LD SEO STRUCTURED DATA */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "Father’s Media",
+            url: "https://fathersmedia.in",
+            logo: "https://fathersmedia.in/web-app-manifest-512x512.png",
+            sameAs: [
+              "https://www.linkedin.com/company/fathersmedia/",
+              "https://www.instagram.com/fathersmedia/",
+              "https://x.com/fathersmedia",
+            ],
+            description:
+              "Father’s Media is a creative social-media and marketing agency that helps brands grow through design, content, SEO, and paid advertising.",
+          }),
+        }}
+      />
+
       <CustomCursor /> 
       
+      {/* Header, Hero, etc... */}
+
       {/* HERO */}
       <section className="relative h-[85vh] flex items-center overflow-hidden">
         <motion.div
@@ -165,92 +252,82 @@ export default function Home() {
             </motion.span>{" "}
             <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.6 }}>
               By combining design, content, and data-driven insights, we craft digital experiences that truly connect.
+            </motion.span>{" "}
+            <motion.span initial={{ opacity: 0.3 }} whileInView={{ opacity: 1 }} viewport={{ once: false, amount: 0.7 }} transition={{ duration: 0.8, delay: 0.9 }}>
+              Our mission is simple: to grow your brand, engage your audience, and deliver results that last.
             </motion.span>
           </p>
         </div>
       </section>
 
-      {/* --- NEW STYLE: "HOVER ACCORDION" --- */}
-      {/* No sticky logic. No scroll math. Just pure, clean interaction. */}
-      <section id="services" className="py-24 bg-gray-100 dark:bg-black px-4">
-        <div className="container-responsive max-w-7xl mx-auto">
+      {/* WHAT WE DO 🚀 Hybrid Premium */}
+<section id="services" className="relative bg-white dark:bg-black min-h-[700vh]">
+
+  {/* LEFT STICKY TITLE BLOCK */}
+  <div className="sticky top-32 pl-12 w-[40%] h-fit">
+    <h2 className="text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
+      What <br /> We Do
+    </h2>
+
+    <p className="mt-6 text-xl text-gray-600 dark:text-gray-300 max-w-[350px]">
+      Strategic design, branding, digital growth & modern web experiences—
+      executed with precision & creativity.
+    </p>
+  </div>
+
+  {/* RIGHT DISPLAY AREA */}
+  <div className="absolute right-0 top-0 w-[60%] h-full">
+
+    {services.map((service, index) => (
+      <motion.div
+        key={service.id}
+        className="h-screen flex justify-center items-center snap-center"
+        initial={{ opacity: 0, scale: 0.6, filter: "blur(10px)" }}
+        whileInView={{
+          opacity: 1,
+          scale: 1,
+          filter: "blur(0px)",
+        }}
+        exit={{ opacity: 0 }}
+        transition={{
+          duration: 0.7,
+          ease: "easeOut",
+          delay: index * 0.08,
+        }}
+        viewport={{ once: false, amount: 0.8 }}
+      >
+        <div className="relative w-[90%] h-[430px] rounded-3xl 
+          shadow-xl border border-gray-200 dark:border-gray-700
+          px-12 py-10 bg-white dark:bg-gray-900
+          flex flex-col justify-center overflow-hidden">
           
-          <div className="text-center mb-16">
-             <h2 className="section-title text-gray-900 dark:text-white">What We Do</h2>
-             <p className="section-subtitle mt-2 text-gray-600 dark:text-gray-300">Turning ideas into impacts.</p>
+          {/* ID */}
+          <p className="text-yellow-500 text-lg font-bold">{service.id}</p>
+          
+          {/* TITLE */}
+          <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            {service.title}
+          </h3>
+
+          {/* DESCRIPTION */}
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-[450px] leading-relaxed">
+            {service.desc}
+          </p>
+
+          {/* ICON */}
+          <div className="absolute bottom-10 right-10 text-7xl opacity-80">
+            {service.icon}
           </div>
-
-          <div className="flex flex-col gap-4">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.id}
-                onMouseEnter={() => setActiveService(index)}
-                initial={false}
-                animate={{
-                  height: activeService === index ? "auto" : "80px", // Expand/Collapse
-                  backgroundColor: activeService === index ? "rgba(255,255,255,0.05)" : "transparent",
-                }}
-                transition={{ duration: 0.4, ease: "easeInOut" }}
-                className={`relative overflow-hidden rounded-2xl border transition-colors duration-300
-                  ${activeService === index 
-                    ? "border-yellow-500/50 bg-white dark:bg-[#111] shadow-2xl" 
-                    : "border-gray-200 dark:border-gray-800 bg-white/50 dark:bg-[#050505] hover:border-gray-300 dark:hover:border-gray-700"
-                  }
-                `}
-              >
-                <div className="flex items-center justify-between p-6 cursor-pointer">
-                  {/* Left: ID & Title */}
-                  <div className="flex items-center gap-6 md:gap-10">
-                    <span className={`text-xl font-mono transition-colors duration-300 ${activeService === index ? "text-yellow-500" : "text-gray-400"}`}>
-                      {service.id}
-                    </span>
-                    <h3 className={`text-2xl md:text-4xl font-bold transition-colors duration-300 ${activeService === index ? "text-black dark:text-white" : "text-gray-500 dark:text-gray-500"}`}>
-                      {service.title}
-                    </h3>
-                  </div>
-
-                  {/* Right: Icon (Small when closed, hidden when open to move it elsewhere) */}
-                  <div className={`text-2xl text-gray-400 transition-transform duration-300 ${activeService === index ? "rotate-90 opacity-0" : "rotate-0 opacity-100"}`}>
-                    <FaArrowRight />
-                  </div>
-                </div>
-
-                {/* Expanded Content */}
-                <AnimatePresence>
-                  {activeService === index && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.3, delay: 0.1 }}
-                      className="px-6 pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-8 items-start"
-                    >
-                      {/* Description */}
-                      <div className="flex-1">
-                        <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
-                          {service.desc}
-                        </p>
-                        <a href="#contact" className="mt-6 inline-flex items-center gap-2 text-yellow-600 font-semibold hover:gap-3 transition-all">
-                          Get Started <FaArrowRight className="text-sm" />
-                        </a>
-                      </div>
-
-                      {/* Big Icon Visual */}
-                      <div className="hidden md:flex w-48 h-32 bg-yellow-500/10 rounded-2xl items-center justify-center text-6xl text-yellow-500">
-                        {service.icon}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
-          </div>
-
         </div>
-      </section>
+      </motion.div>
+    ))}
+  </div>
+
+</section>
+
       
       {/* PLANS */}
-      <section id="plans" className="section-padding bg-white dark:bg-[#0a0a0a] relative z-20">
+      <section id="plans" className="section-padding">
         <div className="container-responsive">
           <h2 className="section-title text-center text-gray-900 dark:text-white">Plans & Pricing</h2>
           <p className="section-subtitle text-center mt-2 text-gray-600 dark:text-gray-300 opacity-90">
@@ -269,7 +346,7 @@ export default function Home() {
                 transition={{ delay: i * 0.15, duration: 0.6, ease: "easeOut" }}
                 viewport={{ once: false, amount: 0.5 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="card p-6 flex flex-col border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800"
+                className="card p-6 flex flex-col"
               >
                 <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{plan.name}</h3>
                 <ul className="text-sm text-gray-600 dark:text-gray-300 flex-1 space-y-2">
@@ -312,8 +389,10 @@ export default function Home() {
         </div>
       </section>
 
-       {/* CLIENTS */}
+       {/* ================= PREMIUM++ CLIENTS SECTION ================= */}
     <section className="section-padding relative">
+      
+      {/* Background Aura */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-transparent via-white/5 to-transparent dark:via-gray-800/20"></div>
       
       <div className="container-responsive text-center">
@@ -350,12 +429,23 @@ export default function Home() {
             viewport={{ once: true, amount: 0.3 }}
             whileHover={{ scale: 1.07 }}
           >
-            <div className="absolute inset-0 rounded-2xl scale-110 opacity-0 group-hover:opacity-30 blur-xl transition-all duration-500 bg-yellow-500"></div>
+            {/* Glow ring */}
+            <div className="absolute inset-0 rounded-2xl scale-110 opacity-0 group-hover:opacity-30 blur-xl 
+                            transition-all duration-500 bg-yellow-500"></div>
 
-            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl shadow-lg border border-gray-200/40 dark:border-gray-700/40 overflow-hidden flex items-center justify-center group-hover:shadow-yellow-500/40 transition-all duration-300">
-              <img src={client.logo} alt={client.name} className="w-20 h-20 object-contain opacity-90 group-hover:opacity-100 transition" />
+            {/* Card */}
+            <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-white/70 dark:bg-gray-800/70 
+                            backdrop-blur-xl shadow-lg border border-gray-200/40 dark:border-gray-700/40 
+                            overflow-hidden flex items-center justify-center
+                            group-hover:shadow-yellow-500/40 transition-all duration-300">
+              <img
+                src={client.logo}
+                alt={client.name}
+                className="w-20 h-20 object-contain opacity-90 group-hover:opacity-100 transition"
+              />
             </div>
 
+            {/* Name */}
             <p className="client-name mt-4 text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-yellow-500 transition-all">
               {client.name}
             </p>
@@ -364,7 +454,8 @@ export default function Home() {
       </div>
     </section>
 
-      {/* PORTFOLIO */}
+
+      {/* PORTFOLIO / SHOWCASING CREATIVITY */}
       <section className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Showcasing Creativity</h2>
@@ -373,8 +464,10 @@ export default function Home() {
           </p>
         </div>
 
+        {/* SCROLL CONTAINER */}
         <div className="mt-12 relative w-full">
-          <ScrollContainer speed={1.5}> 
+          <ScrollContainer speed={1.5}> {/* Adjust speed here (higher = faster) */}
+            {/* We duplicate the array 3 times to ensure smooth infinite scrolling */}
             {[
               "/portfolio/w1.png", "/portfolio/w2.png", "/portfolio/w3.png", "/portfolio/w4.png", 
               "/portfolio/w5.png", "/portfolio/w6.png", "/portfolio/w7.png", "/portfolio/chamber-screenshot.png"
@@ -386,6 +479,7 @@ export default function Home() {
                 viewport={{ once: false }}
                 transition={{ duration: 0.5 }}
                 className="flex-shrink-0 w-72 h-48 rounded-xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 select-none pointer-events-none" 
+                // pointer-events-none prevents the image from being 'dragged' as a file, allowing the container to slide
               >
                 <img src={src} alt={`Portfolio ${i}`} className="w-full h-full object-cover" />
               </motion.div>
@@ -394,7 +488,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* CONTACT */}
+      {/* CONTACT (UI Message Display) */}
       <section id="contact" className="section-padding">
         <div className="container-responsive text-center">
           <h2 className="section-title text-gray-900 dark:text-white">Let’s Build Together</h2>
@@ -440,6 +534,7 @@ export default function Home() {
               <textarea name="message" rows={4} placeholder="Your Message" required className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700" />
               <button type="submit" className="btn-primary w-full">Send Message</button>
               
+              {/* Message Display */}
               {submitMessage.text && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
