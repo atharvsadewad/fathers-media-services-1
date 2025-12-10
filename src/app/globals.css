@@ -239,11 +239,10 @@ html.dark .card,
 .no-scrollbar:active {
   cursor: grabbing;
 }
-@keyframes service-card {
-  0% { opacity: 0; transform: translateY(80px) scale(0.93); }
-  100% { opacity: 1; transform: translateY(0px) scale(1); }
-}
 
-.animate-service-card {
-  animation: service-card 0.6s ease forwards;
+#services {
+  scroll-snap-type: y mandatory;
+}
+#services > div > div {
+  scroll-snap-align: center;
 }
