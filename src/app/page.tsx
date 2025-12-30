@@ -222,7 +222,7 @@ export default function Home() {
           className="container-responsive text-center"
         >
           <h1 className="text-4xl sm:text-6xl font-extrabold text-black dark:text-white">
-            Father’s Media — Building Brands Online
+            Father’s Media | Building Brands Online
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
             We help businesses stand out with strategy, creativity, and growth.
