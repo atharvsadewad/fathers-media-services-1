@@ -84,12 +84,13 @@ export default function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-gray-200 dark:border-gray-700">
         <div className="container-responsive py-4 text-xs text-gray-700 dark:text-gray-400 flex items-center justify-between">
-          <span>© 2025 Father’s Media. All rights reserved.</span>
+          <span>© 2026 Father’s Media. All rights reserved.</span>
           <span className="text-gray-600 dark:text-gray-400">Built by Father’s Media</span>
         </div>
       </div>
     </footer>
   );
 }
+
 
 
