@@ -1,248 +1,96 @@
 @import "tailwindcss";
 
+/* Fonts */
+:root {
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-dm-sans: "DM Sans", system-ui, sans-serif;
+  --font-dm-mono: "DM Mono", monospace;
+
+  /* LIGHT MODE */
+  --bg: #ffffff;
+  --bg-soft: #f8f7f5;
+  --text: #0c0a09;
+  --muted: #6b7280;
+
+  --accent: #f59e0b;
+
+   /* NEXT LEVEL LIGHT GLOW */
+  --glow:
+    radial-gradient(circle at 15% 20%, rgba(245,158,11,0.18), transparent 35%),
+    radial-gradient(circle at 85% 80%, rgba(245,158,11,0.12), transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(0,0,0,0.03), transparent 60%);
+}
+
+/* DARK MODE */
+.dark {
+  --bg: #0c0a09;
+  --bg-soft: #171412;
+  --text: #e7e5e4;
+  --muted: #a8a29e;
+
+  --accent: #f59e0b;
+
+  --glow: radial-gradient(circle at 20% 20%, rgba(245,158,11,0.25), transparent 40%),
+          radial-gradient(circle at 80% 80%, rgba(245,158,11,0.2), transparent 40%);
+}
+
+/* Base */
 html {
   scroll-behavior: smooth;
 }
 
-/* Font variable */
-:root {
-  --font-dm-sans: 'DM Sans', sans-serif;
-}
-
-/* GLOBAL FONT */
 body {
   font-family: var(--font-dm-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background: var(--bg);
+  color: var(--text);
+
+  background-image: var(--glow);
+  background-attachment: fixed;
+
+  letter-spacing: -0.01em;
 }
 
-/* ====== LIGHT THEME VARIABLES ====== */
-:root {
-  --background: #ffffff;
-  --foreground: #111827;
-  --gold: #d4af37;
-  /* No background image in light mode */
-  --bg-image: none;
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+  letter-spacing: -0.02em;
 }
 
-/* ===== DARK MODE VARIABLES ===== */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ffffff;
-    /* Dark background image */
-    --bg-image: url('/background-dark.jpg');
+/* Selection */
+::selection {
+  background: rgba(245, 158, 11, 0.3);
+  color: #fef9c3;
+}
+
+/* Smooth scroll */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Premium animated background */
+@keyframes ambientGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-/* ===== BASE LAYOUT ===== */
-html,
-body {
-  height: 100%;
-}
-
-body {
-  background: var(--background) var(--bg-image) no-repeat center center fixed;
-  background-size: cover;
-  color: var(--foreground);
-  position: relative;
-  overflow-x: hidden;
-  z-index: 0;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* ====== GOLDEN CURSOR SPOTLIGHT ====== */
-body::before {
-  content: "";
-  position: fixed;
-  top: var(--y, 50%);
-  left: var(--x, 50%);
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(212,175,55,0.12), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  transition: top 0.15s ease, left 0.15s ease;
-}
-
-/* ===== UTILITIES ===== */
-.container-responsive {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  position: relative;
-  z-index: 2;
-}
-
-.section-padding {
-  padding-block: 4rem;
-}
-
-.section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -0.5px;
-}
-
-.section-subtitle {
-  color: #4b5563;
-}
-.dark .section-subtitle {
-  color: #d1d5db;
-}
-
-/* ========================================================= */
-/* ======================  CARD STYLES  ==================== */
-/* ========================================================= */
-
-.card {
-  border-radius: 1rem;
-  border: 1px solid rgba(229, 231, 235, 0.45);   /* Light border */
-  background: rgba(255, 255, 255, 0.75);         /* Light mode card */
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
-}
-
-/* FIXED: Dark Mode Card Styles 
-   Separated into Class-based and Media-based to prevent syntax errors 
-*/
-
-/* 1. If 'dark' class is present on HTML */
-html.dark .card,
-.dark .card {
-  background: rgba(30, 30, 30, 0.85) !important;    /* Dark glass */
-  border: 1px solid rgba(255, 255, 255, 0.1) !important; 
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55) !important;
-}
-
-.dark .card:hover {
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65) !important;
-}
-
-/* 2. If System is set to Dark Mode (and no class overrides it) */
-@media (prefers-color-scheme: dark) {
-  .card {
-    background: rgba(30, 30, 30, 0.85) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55) !important;
-  }
-  
-  .card:hover {
-    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.65) !important;
-  }
-
-  /* Safety: Force text colors inside card if Tailwind lags */
-  .card h3 { color: #ffffff !important; }
-  .card li, .card span, .card p { color: #d1d5db !important; }
-}
-
-
-/* ====== BUTTONS ====== */
-.btn-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: #111111;
-  padding: 0.75rem 1.5rem;
-  color: #fff;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.btn-primary:hover {
-  background: #000000;
-  transform: translateY(-2px);
-}
-
-.btn-outline {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  border: 1px solid #111111;
-  padding: 0.75rem 1.5rem;
-  color: #111111;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.btn-outline:hover {
-  background: #111111;
-  color: #ffffff;
-}
-
-/* Button Dark Mode Overrides */
-.dark .btn-outline {
-  border-color: #e5e7eb;
-  color: #e5e7eb;
-}
-.dark .btn-outline:hover {
-  background: #e5e7eb;
-  color: #111111;
-}
-
-/* ====== PORTFOLIO SCROLL ====== */
-@keyframes scroll-x {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-scroll-x {
-  display: flex;
-  animation: scroll-x 18s linear infinite;
-}
-
-.animate-scroll-x:hover {
-  animation-play-state: paused;
-}
-
-@media (max-width: 768px) {
-  .animate-scroll-x {
-    animation: none;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .animate-scroll-x > div {
-    scroll-snap-align: start;
-  }
-}
-
-.marquee-mask {
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-}
-
-.client-name {
-  max-width: 140px;
-  text-align: center;
-  line-height: 1.2;
-  word-wrap: break-word;
-  white-space: normal;
-}
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-  cursor: grab; /* Shows the user they can drag it */
-}
-.no-scrollbar:active {
-  cursor: grabbing;
-}
-
-#services {
-  scroll-snap-type: y mandatory;
-}
-#services > div > div {
-  scroll-snap-align: center;
+.ambient-bg {
+  background: linear-gradient(
+    120deg,
+    rgba(245, 158, 11, 0.08),
+    transparent,
+    rgba(245, 158, 11, 0.05)
+  );
+  background-size: 200% 200%;
+  animation: ambientGlow 12s ease infinite;
 }

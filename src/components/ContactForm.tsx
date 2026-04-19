@@ -24,50 +24,54 @@ export default function ContactForm() {
       } else {
         setStatus("error");
       }
-    } catch (err) {
+    } catch {
       setStatus("error");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-5">
+
       <input
-        type="text"
-        name="name"
-        placeholder="Your Name"
         required
-        className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
+        name="name"
+        placeholder="Your name"
+        className="w-full px-4 py-3 rounded-lg bg-transparent border border-black/10 dark:border-white/20 text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:border-amber-500 transition"
       />
+
       <input
+        required
         type="email"
         name="email"
-        placeholder="Your Email"
-        required
-        className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
+        placeholder="Your email"
+        className="w-full px-4 py-3 rounded-lg bg-transparent border border-black/10 dark:border-white/20 text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:border-amber-500 transition"
       />
+
       <textarea
-        name="message"
-        rows={4}
-        placeholder="Your Message"
         required
-        className="w-full p-3 rounded-lg border dark:bg-gray-800 dark:border-gray-700"
+        name="message"
+        rows={5}
+        placeholder="Your message"
+        className="w-full px-4 py-3 rounded-lg bg-transparent border border-black/10 dark:border-white/20 text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none focus:border-amber-500 transition"
       />
+
       <button
         type="submit"
         disabled={status === "loading"}
-        className="btn-primary w-full"
+        className="w-full bg-amber-500 text-black py-3 text-sm font-semibold tracking-wide hover:bg-amber-400 transition rounded-lg"
       >
         {status === "loading" ? "Sending..." : "Send Message"}
       </button>
 
       {status === "success" && (
-        <p className="text-green-600 text-center mt-2">
-          ✅ Message sent successfully!
+        <p className="text-green-500 text-center mt-2 animate-pulse">
+          ✓ Message sent successfully
         </p>
       )}
+
       {status === "error" && (
-        <p className="text-red-600 text-center mt-2">
-          ❌ Failed to send message. Please try again.
+        <p className="text-red-500 text-center mt-2">
+          Something went wrong. Try again.
         </p>
       )}
     </form>

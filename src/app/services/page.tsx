@@ -1,135 +1,98 @@
-"use client";
+import type { Metadata } from "next";
+import Link from "next/link";
 
-import { motion } from "framer-motion";
+export const metadata: Metadata = {
+  title: "Services",
+  description: "Explore the services offered by Father’s Media.",
+};
+
+const services = [
+  {
+    title: "Brand Building",
+    desc: "We craft strong brand identities that position you as a leader in your market.",
+  },
+  {
+    title: "Social Media Management",
+    desc: "Complete handling of your social presence with content, strategy, and growth.",
+  },
+  {
+    title: "Content Creation",
+    desc: "High-quality reels, posts, and visuals that capture attention and drive engagement.",
+  },
+  {
+    title: "Website Development",
+    desc: "Modern, fast, and responsive websites designed for performance and conversions.",
+  },
+  {
+    title: "SEO & Growth",
+    desc: "Optimize your presence to rank higher and reach the right audience organically.",
+  },
+  {
+    title: "Paid Advertising",
+    desc: "Strategic ad campaigns designed to maximize ROI and scale your business.",
+  },
+];
 
 export default function ServicesPage() {
-  const services = [
-    { title: "Website Development",
-      desc: "Modern, responsive websites designed to convert visitors into customers.", 
-    },
-    { title: "Google Business Listing",
-      desc: "Boost visibility and credibility with a verified Google Business profile.",
-    },
-    { title: "SEO Optimization", 
-      desc: "Improve your search rankings with tailored SEO strategies.",
-    },
-    {
-      title: "Social Media Management",
-      desc: "Strategy, content calendars, community management, and analytics.",
-    },
-    {
-      title: "Branding & Strategy",
-      desc: "Positioning, brand voice, and cohesive visual identity.",
-    },
-    {
-      title: "Paid Ads & Promotions",
-      desc: "ROI-focused campaigns across Meta, Google, and more.",
-    },
-    {
-      title: "Content Creation",
-      desc: "Reels, shoots, and campaigns that convert attention into action.",
-    },
-    {
-      title: "Influencer Marketing",
-      desc: "Creator partnerships that drive reach and credibility.",
-    },
-  ];
-
-  const plans = [
-    {
-      name: "Basic",
-      features: [
-        "Strategy Consulting",
-        "Digital Marketing & Management",
-        "Content Writing",
-        "Photo & Video Shoot",
-        "Editing",
-        "Graphic Posts",
-        "4 Reels 8 Post 8 Stories/M",
-        "Google Business Listing",
-      ],
-    },
-    {
-      name: "Standard",
-      features: [
-        "Includes Basic Plan",
-        "Brand Building - Complete",
-        "8 Reels 12 Posts 12 Stories/M",
-        "Paid Promotions (2 Ads)"
-      ],
-    },
-    {
-      name: "Premium",
-      features: [
-        "Includes Standard Plan",
-        "Multi-Platform Media Handling",
-        "12 Reels 16 Posts 16 Stories/M",
-        "Website Development",
-        "SEO",
-        "Paid Promotions (4 Ads)",
-      ],
-    },
-  ];
-
   return (
-    <main className="container-responsive section-padding">
-      <h1 className="section-title text-center mb-12 text-gray-900 dark:text-white">
-        Our Services
-      </h1>
+    <section className="bg-[var(--bg)] text-[var(--text)]">
 
-      {/* Services Grid */}
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-16">
-        {services.map((s, i) => (
-          <motion.div
-            key={s.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.9, delay: i * 0.25, ease: "easeOut" }}
-            className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
-                       transition-transform transform hover:scale-105"
+      {/* HERO */}
+      <div className="max-w-6xl mx-auto px-6 pt-40 pb-24 text-center">
+        <p className="text-amber-500 text-xs tracking-[0.3em] uppercase mb-4">
+          Services
+        </p>
+
+        <h1 className="font-serif text-[clamp(2.8rem,6vw,5rem)] leading-tight">
+          What we do,
+          <br />
+          exceptionally well.
+        </h1>
+
+        <p className="text-[var(--muted)] mt-6 max-w-xl mx-auto">
+          We provide end-to-end digital solutions designed to elevate brands,
+          drive growth, and deliver measurable results.
+        </p>
+      </div>
+
+      {/* SERVICES GRID */}
+      <div className="max-w-6xl mx-auto px-6 pb-24 grid md:grid-cols-2 gap-8">
+
+        {services.map((service, i) => (
+          <div
+            key={i}
+            className="group p-8 border border-black/10 dark:border-white/10 bg-white/40 dark:bg-white/5 backdrop-blur-xl hover:border-amber-500/40 transition"
           >
-            <h3 className="font-semibold mb-2 text-gray-900 dark:text-white">
-              {s.title}
+            <h3 className="text-xl font-serif mb-4">
+              {service.title}
             </h3>
-            <p className="text-sm text-gray-700 dark:text-gray-300">
-              {s.desc}
+
+            <p className="text-[var(--muted)] text-sm leading-relaxed">
+              {service.desc}
             </p>
-          </motion.div>
+
+            <div className="mt-6 text-amber-500 text-xs tracking-widest uppercase opacity-0 group-hover:opacity-100 transition">
+              Learn More →
+            </div>
+          </div>
         ))}
+
       </div>
 
-      {/* Plans Section */}
-      <h2 className="section-title text-center mb-12 text-gray-900 dark:text-white">
-        Plans
-      </h2>
-      <div className="grid gap-6 md:grid-cols-3">
-        {plans.map((plan, i) => (
-          <motion.div
-            key={plan.name}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: i * 0.3, ease: "easeOut" }}
-            className="card p-6 flex flex-col bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
-                       transition-transform transform hover:scale-105"
-          >
-            <h3 className="font-semibold text-lg mb-4 text-gray-900 dark:text-white">
-              {plan.name}
-            </h3>
-            <ul className="text-sm text-gray-700 dark:text-gray-300 flex-1 space-y-2">
-              {plan.features.map((f) => (
-                <li key={f}>✔ {f}</li>
-              ))}
-            </ul>
-            <a href="/contact" className="btn-primary mt-6 text-center">
-              Enquire Now
-            </a>
-          </motion.div>
-        ))}
+      {/* CTA */}
+      <div className="text-center pb-32 px-6">
+        <h2 className="font-serif text-[clamp(2rem,4vw,3rem)]">
+          Let’s build your brand.
+        </h2>
+
+        <Link
+          href="/contact"
+          className="inline-block mt-8 bg-amber-500 text-black px-8 py-4 text-sm tracking-wide font-semibold hover:bg-amber-400 transition"
+        >
+          Get Started
+        </Link>
       </div>
-    </main>
+
+    </section>
   );
 }
-
-

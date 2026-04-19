@@ -1,7 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
   try {
@@ -11,8 +8,22 @@ export async function POST(request: Request) {
     const message = String(formData.get("message") || "");
 
     if (!name || !email || !message) {
-      return NextResponse.json({ ok: false, error: "Missing fields" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "Missing fields" },
+        { status: 400 }
+      );
     }
+
+    // 🚫 DEMO MODE (NO API KEY)
+    if (!process.env.RESEND_API_KEY) {
+      console.log("Demo submission:", { name, email, message });
+
+      return NextResponse.json({ ok: true, demo: true });
+    }
+
+    // ✅ ONLY LOAD RESEND IF KEY EXISTS
+    const { Resend } = await import("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     const data = await resend.emails.send({
       from: "fathersmediaservices <onboarding@resend.dev>",
@@ -23,9 +34,15 @@ export async function POST(request: Request) {
     });
 
     console.log("Email sent:", data);
+
     return NextResponse.json({ ok: true });
+
   } catch (error) {
     console.error("Resend Error:", error);
-    return NextResponse.json({ ok: false, error: "Failed to send email" }, { status: 500 });
+
+    return NextResponse.json(
+      { ok: false, error: "Failed to send email" },
+      { status: 500 }
+    );
   }
 }
