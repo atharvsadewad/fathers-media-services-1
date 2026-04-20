@@ -12,7 +12,7 @@ const projects = [
     link: "https://pawaninfradeveloper.in/",
   },
   {
-    title: "Krishna Portfolio",
+    title: "Client Portfolio",
     category: "Personal Branding",
     image: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?w=1200&q=80",
     slug: "krishna-portfolio",
