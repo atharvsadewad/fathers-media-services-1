@@ -113,14 +113,32 @@ export default function CTA() {
         </span>
 
         <div className="flex gap-6">
-          {["Instagram", "Facebook", "LinkedIn"].map((s) => (
-            <span
-              key={s}
-              className="text-[var(--muted)] hover:text-amber-400 text-xs uppercase cursor-pointer transition"
-            >
-              {s}
-            </span>
-          ))}
+          <a
+            href="https://www.instagram.com/fathers_media/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--muted)] hover:text-amber-400 text-xs uppercase transition"
+          >
+            Instagram
+          </a>
+
+          <a
+            href="https://www.facebook.com/fathersmedia"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--muted)] hover:text-amber-400 text-xs uppercase transition"
+          >
+            Facebook
+          </a>
+
+          <a
+            href="https://www.linkedin.com/company/fathersmedia"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--muted)] hover:text-amber-400 text-xs uppercase transition"
+          >
+            LinkedIn
+          </a>
         </div>
       </div>
     </section>
