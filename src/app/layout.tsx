@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes"; // ✅ ADD THIS
 import "./globals.css";
 import CursorGlow from "@/components/CursorGlow";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import PageWrapper from "@/components/PageWrapper";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -42,9 +43,11 @@ export default function RootLayout({
     >
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <CursorGlow />
-        <WhatsAppFloat />
-          {children}
+          <CursorGlow />
+          <WhatsAppFloat />
+          <PageWrapper>
+            {children}
+          </PageWrapper>
         </ThemeProvider>
       </body>
     </html>
