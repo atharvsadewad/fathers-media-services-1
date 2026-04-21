@@ -2,12 +2,29 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Image from "next/image";
 
 const clients = [
-  "Chamber",
-  "Pawan Infra Developer",
-  "Voter Data Management",
-  "Governance Tool",
+  {
+    name: "Chamber",
+    logo: "/clients/chamber.png",
+    link: "https://chamber-frontend-i2lc.vercel.app/",
+  },
+  {
+    name: "Pawan Infra Developer",
+    logo: "/clients/pawan.png",
+    link: "https://pawaninfradeveloper.in/",
+  },
+  {
+    name: "Voter Data Management",
+    logo: "/clients/voter.png",
+    link: "https://voterlist-webtool.vercel.app/",
+  },
+  {
+    name: "Governance Tool",
+    logo: "/clients/governance.png",
+    link: "#",
+  },
 ];
 
 export default function Clients() {
@@ -36,15 +53,24 @@ export default function Clients() {
         {/* Client Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {clients.map((client, i) => (
-            <motion.div
+            <motion.a
               key={i}
+              href={client.link}
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: i * 0.1 }}
-              className="p-6 border border-black/10 dark:border-white/10 bg-[var(--bg-soft)] backdrop-blur-sm hover:border-amber-500/40 transition"
+              className="p-6 border border-black/10 dark:border-white/10 bg-[var(--bg-soft)] backdrop-blur-sm hover:border-amber-500/40 transition flex items-center justify-center"
             >
-              <p className="text-[var(--muted)] text-sm">{client}</p>
-            </motion.div>
+              <Image
+                src={client.logo}
+                alt={client.name}
+                width={120}
+                height={40}
+                className="object-contain opacity-70 group-hover:opacity-100 dark:invert transition duration-300"
+              />
+            </motion.a>
           ))}
         </div>
       </div>
