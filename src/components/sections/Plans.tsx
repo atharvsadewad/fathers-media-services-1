@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import Link from "next/link";
 
 const plans = [
   {
@@ -84,9 +85,12 @@ export default function Plans() {
                 ))}
               </ul>
 
-              <button className="w-full bg-amber-500 text-black py-3 text-sm font-semibold hover:bg-amber-400 transition">
-                Enquire Now
-              </button>
+             <Link
+               href="/contact"
+               className="block w-full bg-amber-500 text-black py-3 text-sm font-semibold hover:bg-amber-400 transition text-center"
+               >
+               Enquire Now
+             </Link>
             </motion.div>
           ))}
         </div>
