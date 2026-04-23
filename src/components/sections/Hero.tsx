@@ -103,7 +103,7 @@ export default function Hero() {
             alt="Father's Media"
             width={42}
             height={42}
-            className="object-contain opacity-80 dark:invert"
+            className="object-contain opacity-80"
           />
 
           <p className="text-amber-500 text-xs tracking-[0.3em] uppercase">
