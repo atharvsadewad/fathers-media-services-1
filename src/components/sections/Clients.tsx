@@ -21,9 +21,9 @@ const clients = [
     link: "https://voterlist-webtool.vercel.app/",
   },
   {
-    name: "Governance Tool",
+    name: "Client Portfolio",
     logo: "/clients/governance.png",
-    link: "#",
+    link: "https://krishna-portfolio-ruby.vercel.app/",
   },
 ];
 
