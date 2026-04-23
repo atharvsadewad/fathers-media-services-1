@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { motion, useAnimation, Variants } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/image"; // ✅ added
 
 const wordVariants: Variants = {
   hidden: { y: "110%", opacity: 0 },
@@ -67,52 +67,49 @@ export default function Hero() {
         transition={{ duration: 0.7 }}
         className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-8 md:px-16 py-8"
       >
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo.png"
-            alt="Father's Media"
-            width={140}
-            height={40}
-            priority
-            className="object-contain"
-            />
-        </Link>
+        <span className="font-serif text-amber-400 text-xl">
+          Father’s Media
+        </span>
 
         <ul className="hidden md:flex gap-8 text-[var(--muted)] text-sm tracking-widest uppercase">
-          <li>
-            <Link href="/about" className="hover:text-amber-400">About</Link>
-          </li>
-          <li>
-            <Link href="/services" className="hover:text-amber-400">Services</Link>
-          </li>
-          <li>
-            <Link href="/portfolio" className="hover:text-amber-400">Portfolio</Link>
-          </li>
+          <li><Link href="/about" className="hover:text-amber-400">About</Link></li>
+          <li><Link href="/services" className="hover:text-amber-400">Services</Link></li>
+          <li><Link href="/portfolio" className="hover:text-amber-400">Portfolio</Link></li>
         </ul>
 
-       <div className="flex items-center gap-4">
-        <ThemeToggle />
-        
-        <Link href="/contact">
-        <button className="text-xs tracking-widest uppercase text-[var(--text)] border border-black/10 dark:border-white/20 hover:border-amber-500 hover:text-amber-400 px-5 py-2.5 transition">
-        Contact
-        </button>
-        </Link>
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <Link href="/contact">
+            <button className="text-xs tracking-widest uppercase text-[var(--text)] border border-black/10 dark:border-white/20 hover:border-amber-500 hover:text-amber-400 px-5 py-2.5 transition">
+              Contact
+            </button>
+          </Link>
         </div>
-        </motion.nav>
+      </motion.nav>
 
       {/* Content */}
       <div className="relative z-10 px-8 md:px-16 lg:px-24 max-w-[1400px] mx-auto w-full">
 
-        <motion.p
+        {/* ✅ LOGO + TEXT COMBO */}
+        <motion.div
           custom={0}
           variants={fadeUp}
           initial="hidden"
           animate={controls}
-          className="text-amber-500 text-xs tracking-[0.3em] uppercase mb-8"
+          className="flex items-center gap-4 mb-8"
         >
-          Premium Storytelling Studio
-        </motion.p>
+          <Image
+            src="/logo.png"
+            alt="Father's Media"
+            width={42}
+            height={42}
+            className="object-contain opacity-80 dark:invert"
+          />
+
+          <p className="text-amber-500 text-xs tracking-[0.3em] uppercase">
+            Premium Storytelling Studio
+          </p>
+        </motion.div>
 
         <h1>
           <div className="flex flex-wrap gap-x-6">
