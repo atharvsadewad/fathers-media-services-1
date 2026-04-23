@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { motion, useAnimation, Variants } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
+import Image from "next/image";
 
 const wordVariants: Variants = {
   hidden: { y: "110%", opacity: 0 },
@@ -66,9 +67,16 @@ export default function Hero() {
         transition={{ duration: 0.7 }}
         className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-8 md:px-16 py-8"
       >
-        <span className="font-serif text-amber-400 text-xl">
-          Father’s Media
-        </span>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo.png"
+            alt="Father's Media"
+            width={140}
+            height={40}
+            priority
+            className="object-contain"
+            />
+        </Link>
 
         <ul className="hidden md:flex gap-8 text-[var(--muted)] text-sm tracking-widest uppercase">
           <li>
