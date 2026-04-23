@@ -68,7 +68,7 @@ export default function Clients() {
                 alt={client.name}
                 width={120}
                 height={40}
-                className="object-contain opacity-70 group-hover:opacity-100 dark:invert transition duration-300"
+                className="object-contain opacity-70 group-hover:opacity-100 transition duration-300"
               />
             </motion.a>
           ))}
