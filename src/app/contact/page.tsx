@@ -49,6 +49,25 @@ export default function ContactPage() {
                 fathersmediaservices@gmail.com
               </a>
             </p>
+
+            {/* ADDRESS */}
+            <p className="text-[var(--muted)]">
+              Address:{" "}
+              <span className="text-[var(--text)]">
+                Warje Jakat Naka, Karvenagar, Pune, Maharashtra - 411052
+              </span>
+            </p>
+          </div>
+
+          {/* MAP (PRECISE LOCATION) */}
+          <div className="mt-10 overflow-hidden rounded-xl border border-black/10 dark:border-white/10">
+            <iframe
+              src="https://www.google.com/maps?q=18.4889586,73.8166994&z=15&output=embed"
+              width="100%"
+              height="200"
+              style={{ border: 0 }}
+              loading="lazy"
+            />
           </div>
         </div>
 
