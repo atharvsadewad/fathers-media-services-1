@@ -59,6 +59,32 @@ export default function ContactPage() {
             </p>
           </div>
 
+          <div className="mt-6 flex items-center gap-6 text-xs uppercase tracking-wide">
+  <a
+    href="https://www.instagram.com/fathers_media/"
+    target="_blank"
+    className="text-[var(--muted)] hover:text-amber-500 transition"
+  >
+    Instagram
+  </a>
+
+  <a
+    href="https://www.facebook.com/fathersmedia"
+    target="_blank"
+    className="text-[var(--muted)] hover:text-amber-500 transition"
+  >
+    Facebook
+  </a>
+
+  <a
+    href="https://www.linkedin.com/company/fathersmedia"
+    target="_blank"
+    className="text-[var(--muted)] hover:text-amber-500 transition"
+  >
+    LinkedIn
+  </a>
+</div>
+
           {/* MAP (PRECISE LOCATION) */}
           <div className="mt-10 overflow-hidden rounded-xl border border-black/10 dark:border-white/10">
             <iframe
