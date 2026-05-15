@@ -75,6 +75,8 @@ export default function Hero() {
           <li><Link href="/about" className="hover:text-amber-400">About</Link></li>
           <li><Link href="/services" className="hover:text-amber-400">Services</Link></li>
           <li><Link href="/portfolio" className="hover:text-amber-400">Portfolio</Link></li>
+          <li><Link href="/internship" className="hover:text-amber-400">Internship</Link></li>
+          <li><Link href="/verify" className="hover:text-amber-400">Verify</Link></li>
         </ul>
 
         <div className="flex items-center gap-4">
