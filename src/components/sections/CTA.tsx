@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 
 export default function CTA() {
   const ref = useRef<HTMLDivElement>(null);
@@ -63,26 +64,29 @@ export default function CTA() {
           className="flex flex-col sm:flex-row items-center justify-center gap-5"
         >
           {/* Primary */}
-          <motion.button
-            whileHover={{ scale: 1.04, y: -2 }}
-            whileTap={{ scale: 0.97 }}
-            className="group relative overflow-hidden bg-amber-500 text-black text-sm font-bold uppercase px-10 py-5"
-          >
-            <span className="relative z-10 group-hover:text-white transition">
-              Start a Project
-            </span>
-            <span className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
-          </motion.button>
+          <Link href="/contact">
+            <motion.button
+              whileHover={{ scale: 1.04, y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              className="group relative overflow-hidden bg-amber-500 text-black text-sm font-bold uppercase px-10 py-5"
+              >
+              <span className="relative z-10 group-hover:text-white transition">
+                Start a Project
+              </span>
+              <span className="absolute inset-0 bg-black translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
+            </motion.button>
+          </Link>
 
           {/* Secondary */}
-          <motion.button
-            whileHover={{ scale: 1.04, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="text-[var(--muted)] hover:text-amber-400 text-sm uppercase border border-black/10 dark:border-white/10 px-10 py-5 transition"
-          >
-            Explore Services
-          </motion.button>
-        </motion.div>
+         <Link href="/services">
+           <motion.button
+             whileHover={{ scale: 1.04, y: -2 }}
+             whileTap={{ scale: 0.98 }}
+             className="text-[var(--muted)] hover:text-amber-400 text-sm uppercase border border-black/10 dark:border-white/10 px-10 py-5 transition"
+             >
+             Explore Services
+           </motion.button>
+         </Link>
 
         {/* Stats */}
         <motion.div
@@ -92,9 +96,9 @@ export default function CTA() {
           className="mt-20 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16"
         >
           {[
-            { stat: "10+", label: "Clients Served" },
-            { stat: "50+", label: "Projects Delivered" },
-            { stat: "100+", label: "Campaigns Managed" },
+            { stat: "20+", label: "Clients Served" },
+            { stat: "20+", label: "Projects Delivered" },
+            { stat: "5+", label: "Brands Built" },
           ].map(({ stat, label }) => (
             <div key={label} className="text-center">
               <div className="font-serif text-4xl text-[var(--text)] mb-1">{stat}</div>
