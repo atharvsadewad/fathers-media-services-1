@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Services",
+  title: "Digital Marketing, SEO & Web Development Services",
   description: "Explore the services offered by Father’s Media.",
 };
 
