@@ -87,6 +87,7 @@ export default function CTA() {
              Explore Services
            </motion.button>
          </Link>
+        </motion.div>
 
         {/* Stats */}
         <motion.div
