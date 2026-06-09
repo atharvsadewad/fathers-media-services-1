@@ -72,6 +72,25 @@ export default function RootLayout({
       className={`${playfair.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body>
+          <script
+    type="application/ld+json"
+    dangerouslySetInnerHTML={{
+      __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Father's Media",
+        url: "https://fathersmedia.in",
+        logo: "https://fathersmedia.in/logo.png",
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: "Pune",
+          addressRegion: "Maharashtra",
+          addressCountry: "IN",
+        },
+      }),
+    }}
+  />
+        
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <CursorGlow />
           <WhatsAppFloat />
@@ -83,3 +102,4 @@ export default function RootLayout({
     </html>
   );
 }
+
