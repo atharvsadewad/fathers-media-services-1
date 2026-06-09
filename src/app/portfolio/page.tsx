@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import PortfolioGrid from "@/components/PortfolioGrid";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
+  title: "Portfolio & Client Projects",
   description: "Explore our work — cinematic storytelling, branding, and digital experiences.",
 };
 
