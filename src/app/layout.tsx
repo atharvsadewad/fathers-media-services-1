@@ -26,9 +26,39 @@ const dmMono = DM_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Father's Media | Digital Marketing Agency",
+  metadataBase: new URL("https://fathersmedia.in"),
+
+  title: {
+    default: "Father's Media | Digital Marketing & Branding Agency",
+    template: "%s | Father's Media",
+  },
+
   description:
-    "We craft cinematic digital experiences that captivate audiences and define brands for a generation.",
+    "Father's Media is a Pune-based digital marketing, branding, SEO, web development and content strategy agency helping businesses build brands online.",
+
+  keywords: [
+    "Digital Marketing Agency Pune",
+    "SEO Services Pune",
+    "Branding Agency Pune",
+    "Social Media Marketing",
+    "Web Development",
+    "Content Marketing",
+    "Father's Media",
+  ],
+
+  openGraph: {
+    title: "Father's Media",
+    description:
+      "Digital marketing, branding, SEO and web development services.",
+    url: "https://fathersmedia.in",
+    siteName: "Father's Media",
+    locale: "en_IN",
+    type: "website",
+  },
+
+  alternates: {
+    canonical: "https://fathersmedia.in",
+  },
 };
 
 export default function RootLayout({
