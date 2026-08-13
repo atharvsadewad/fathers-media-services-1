@@ -10,5 +10,11 @@
     "name": "John Doe",
     "domain": "SEO & Optimization",
     "status": "Verified"
+  },
+  {
+    "id": "FM-2026-235",
+    "name": "Sahil Ghodke",
+    "domain": "Web Developer Intern",
+    "status": "Verified"
   }
 ]
