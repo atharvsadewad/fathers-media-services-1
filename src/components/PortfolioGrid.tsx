@@ -19,7 +19,7 @@ const projects = [
     title: "Chamber Platform",
     category: "Legal Tech",
     image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&q=80",
-    link: "https://chamber-frontend-i2lc.vercel.app/",
+    link: "https://lawsandjudgments.in/",
   },
   {
     title: "Voter Data System",
