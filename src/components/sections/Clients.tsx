@@ -6,9 +6,9 @@ import Image from "next/image";
 
 const clients = [
   {
-    name: "Chamber",
+    name: "LawsandJudgments",
     logo: "/clients/chamber.png",
-    link: "https://chamber-frontend-i2lc.vercel.app/",
+    link: "https://lawsandjudgments.in/",
   },
   {
     name: "Pawan Infra Developer",
