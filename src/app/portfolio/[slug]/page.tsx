@@ -38,8 +38,8 @@ const projects = {
   },
 
   chamber: {
-    title: "Chamber Platform",
-    category: "Legal Tech",
+    title: "Legal Platform",
+    category: "Legal Tech/ PaaS",
     image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1800&q=80",
     problem:
       "Legal professionals struggled with accessing structured legal information efficiently.",
